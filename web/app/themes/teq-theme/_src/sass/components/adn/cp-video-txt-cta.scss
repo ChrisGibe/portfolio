@@ -1,0 +1,24 @@
+.cp-video-txt-cta {
+    .plyr--video {
+        width: 100%;
+        aspect-ratio: 4/3;
+    }
+
+    .plyr__poster {
+       background-size: cover;
+    }
+
+    // a11y : Avoid possibility for users to focus Plyr controls and iframe
+    // controls before to launch the video
+    .plyr--stopped {
+        .plyr__controls {
+            display: none;
+            visibility: hidden;
+        }
+
+        iframe {
+            display: none;
+            visibility: hidden;
+        }
+    }
+}

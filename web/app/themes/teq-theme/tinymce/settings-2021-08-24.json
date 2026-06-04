@@ -1,0 +1,18 @@
+{
+  "settings": {
+    "toolbar_1": "formatselect,bold,italic,blockquote,bullist,numlist,alignleft,aligncenter,alignright,alignjustify,link,unlink,undo,redo,wp_adv",
+    "toolbar_2": "table,underline,strikethrough,outdent,indent,charmap,emoticons,subscript,superscript,pastetext,searchreplace,removeformat",
+    "toolbar_3": "",
+    "toolbar_4": "",
+    "toolbar_classic_block": "formatselect,bold,italic,blockquote,bullist,numlist,alignleft,aligncenter,alignright,link,forecolor,backcolor,table,wp_help",
+    "toolbar_block": "core\/code,core\/image,core\/strikethrough,tadv\/mark,tadv\/removeformat",
+    "toolbar_block_side": "core\/superscript,core\/subscript,core\/underline",
+    "panels_block": "tadv\/color-panel,tadv\/background-color-panel",
+    "options": "menubar_block,merge_toolbars,advlist",
+    "plugins": "emoticons,table,searchreplace,advlist"
+  },
+  "admin_settings": {
+    "options": "table_resize_bars,table_grid,table_tab_navigation,table_advtab",
+    "disabled_editors": ""
+  }
+}

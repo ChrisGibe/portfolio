@@ -1,0 +1,86 @@
+.cp-footer-case {
+    min-height: 100vh;
+
+    .container {
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        right: 0;
+    }
+
+    .title {
+        margin-top: 3.2rem;
+        text-align: center;
+
+        @include teq-breakpoint($large) {
+            margin-top: 6.2rem;
+        }
+
+        .first-line {
+            height: 1.7rem;
+            margin-bottom: 0.5rem;
+            font-size: 2.4rem;
+            line-height: 1.2;
+        
+            @include teq-breakpoint($small) {
+                font-size: 6rem;
+                line-height: 0.8;
+                height: 5.4rem;
+            }
+        
+            @include teq-breakpoint($large) {
+                font-size: 6rem;
+                height: 6.6rem;
+                line-height: 1.2;
+            }
+        }
+
+        .second-line {
+            font-size: 3.2rem;
+            line-height: 1.2;
+            height: 2.2rem;
+            font-weight: 300;
+        
+            @include teq-breakpoint($small) {
+                font-size: 8rem;
+                line-height: 0.8;
+                height: 5.7rem;
+                font-weight: 400;
+            }
+        
+            @include teq-breakpoint($large) {
+                font-size: 9rem;
+                line-height: 0.8;
+                height: 6.1rem;
+            }
+        }
+    }
+
+    .description {
+        margin-top: 3rem;
+        text-align: center;
+        
+        @include teq-breakpoint($large) {
+            margin-top: 3.9rem;
+        }
+    }
+
+    .line {
+        width: 100vw;
+        background-color: #000;
+        height: 1px;
+        margin-top: 8rem;
+
+        @include teq-breakpoint($large) {
+            margin-top: 10rem;
+        }
+    }
+
+    .btn-tequila {
+        margin-top: 8rem;
+
+        @include teq-breakpoint($large) {
+            margin-top: 2.3rem;
+        }
+    }
+}

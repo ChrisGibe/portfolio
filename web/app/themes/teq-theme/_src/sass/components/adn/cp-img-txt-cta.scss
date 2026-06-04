@@ -1,0 +1,15 @@
+.cp-img-txt-cta {
+    .content {
+        max-width: 544px;
+    }
+
+    .illust {
+        height: 100%;
+    }
+
+    a {
+        @include teq-breakpoint(0, $small) {
+            width: 100%;
+        }
+    }
+}

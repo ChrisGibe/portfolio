@@ -1,0 +1,55 @@
+{
+    "post_type": [
+        {
+            "name": "Type de contenu",
+            "slug": "post_type",
+            "list": [
+                {
+                    "name": "Articles",
+                    "slug": "post"
+                },
+                {
+                    "name": "Pages",
+                    "slug": "page"
+                },
+                {
+                    "name": "\u00c9v\u00e9nements",
+                    "slug": "evenement"
+                },
+                {
+                    "name": "Communiqu\u00e9s de presse",
+                    "slug": "communique_de_presse"
+                },
+                {
+                    "name": "Documents",
+                    "slug": "document"
+                }
+            ]
+        }
+    ],
+    "filter_by": [
+        {
+            "name": "Trier par",
+            "slug": "filter_by",
+            "list": [
+                {
+                    "slug": "desc",
+                    "name": "d\u00e9croissant"
+                },
+                {
+                    "slug": "asc",
+                    "name": "croissant"
+                }
+            ]
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,137 @@
+footer {
+    background-color: map-get($colors, c-white);
+    width: 100vw;
+    height: 100vh;
+    transform: translateX(100%);
+    z-index: 1;
+    bottom: 0;
+    transition: background-color 400ms cubic-bezier(.52,0,.59,.99);
+
+    &.black {
+        background-color: map-get($colors, c-dark);
+
+        .title-top, 
+        .title-bottom, 
+        .town, 
+        .address, 
+        .copyright,
+        .link-bottom {
+            color: map-get($colors, c-white);
+        }
+
+        .icon-arrow-tab {
+            fill: map-get($colors, c-white);
+        }
+    }
+
+    .title-top, 
+    .title-bottom, 
+    .town, 
+    .address, 
+    .copyright,
+    .link-bottom {
+        transition: color 400ms cubic-bezier(.52,0,.59,.99);
+        color: map-get($colors, c-dark);
+    }
+  
+    .content {
+      z-index: 1;
+      transform: translateY(-50%);
+      height: fit-content;
+      top: 50%;
+    }
+  
+  
+    .title-top, 
+    .title-bottom {  
+      .line {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 1px;
+          background-color: map-get($colors , c-light-lines);
+          bottom: 0;
+          left: 0;
+          z-index: -1;
+      }
+    }
+  
+    .title-top {
+      height: 4.4rem;
+      margin-bottom: 1rem;
+      font-size: 4rem;
+      line-height: 1.2;
+  
+      @include teq-breakpoint($small) {
+          font-size: 6rem;
+          line-height: 0.8;
+          height: 5.4rem;
+      }
+  
+      @include teq-breakpoint($large) {
+          font-size: 8rem;
+          height: 8.8rem;
+          line-height: 1.2;
+      }
+    }
+  
+    .title-bottom {
+      font-size: 6rem;
+      line-height: 0.8;
+      height: 4.4rem;
+  
+      @include teq-breakpoint($small) {
+          font-size: 8rem;
+          line-height: 0.8;
+          height: 5.7rem;
+      }
+  
+      @include teq-breakpoint($large) {
+          font-size: 12rem;
+          line-height: 0.8;
+          height: 8.7rem;
+      }
+    }
+  
+    .line-vertical {
+      position: absolute;
+      width: 1px;
+      height: 70%;
+      background-color: map-get($colors , c-light-lines);
+      right: 200px;
+      bottom: 0;
+    }
+
+    .locations {
+        margin-top: 10rem;
+
+        .town {
+            margin-bottom: 1.6rem;
+        }
+
+        .address {
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+    }
+
+    .bottom {
+        width: calc(100% - 96px);
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+        bottom: 3.9rem;
+
+        a { 
+            font-size: 1.2rem;
+            align-items: baseline;
+        }
+
+        .icon-arrow-tab {
+            transition: fill 400ms cubic-bezier(.52,0,.59,.99);
+            width: 0.9rem;
+            height: 0.9rem;
+            transform: rotateZ(-45deg);
+        }
+    }
+}

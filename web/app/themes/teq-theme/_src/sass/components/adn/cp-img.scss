@@ -1,0 +1,34 @@
+.cp-img {
+  &.full-img {
+    .max-w {
+      max-width: initial;
+      padding: 0;
+    }
+    @include teq-breakpoint($big-screen) {
+      .img-wrapper {
+        width: 100vw;
+        margin-left: -30px;
+      }
+    }
+
+    figure {
+      flex: 0 0 100%;
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  figure {
+    img {
+      aspect-ratio: 296/167;
+      object-fit: cover;
+      object-position: center;
+
+      @include teq-breakpoint($large) {
+        aspect-ratio: 16/9;
+      }
+    }
+    a {
+      @include link-a11y-after('black');
+    }
+  }
+}

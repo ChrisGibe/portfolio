@@ -1,0 +1,44 @@
+.cp-video {
+  &.full-img {
+    padding-inline: 0;
+    .max-w {
+      margin-inline: auto;
+      max-width: initial;
+      padding: 0;
+    }
+
+    figure {
+      flex: 0 0 100%;
+      width: 100%;
+      max-width: 100%;
+      padding-inline: 0;
+
+      figcaption {
+        padding-inline: 10%;
+      }
+    }
+  }
+
+  .plyr--video {
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+
+  .plyr__poster {
+    background-size: cover;
+  }
+
+  // a11y : Avoid possibility for users to focus Plyr controls and iframe
+  // controls before to launch the video
+  .plyr--stopped {
+    .plyr__controls {
+      display: none;
+      visibility: hidden;
+    }
+
+    iframe {
+      display: none;
+      visibility: hidden;
+    }
+  }
+}

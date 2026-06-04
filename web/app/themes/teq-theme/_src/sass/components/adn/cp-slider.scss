@@ -1,0 +1,17 @@
+.swiper{
+  width: 100%;
+
+  .swiper-navigation{
+    >div{
+      background: black;
+      padding: 24px;
+      width: auto;
+      height: auto;
+      &:after{
+        display: none;
+      }
+      border:1px solid black;
+      @include btnHover;
+    }
+  }
+}

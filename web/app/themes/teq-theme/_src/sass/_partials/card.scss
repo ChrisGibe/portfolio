@@ -1,0 +1,14 @@
+.card {
+    position: relative;
+
+    .tag {
+        border-radius: 50px;
+        top: 24px;
+        left: 24px;
+        padding: 10px 17px 10px 17px;
+    }
+
+    .content {
+        padding: 24px;
+    }
+}

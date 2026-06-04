@@ -1,0 +1,81 @@
+{
+    "key": "group_654ba5309efba",
+    "title": "Titre(WysMin) + Texte(WysSim) + CTA",
+    "fields": [
+        {
+            "key": "field_654ba593247b7",
+            "label": "Titre",
+            "name": "title",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "adn_mini",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_654ba5a3247b8",
+            "label": "Texte",
+            "name": "txt",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "adn_simplify",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_654ba7e427ea7",
+            "label": "CTA",
+            "name": "cta",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "title,txt,cta",
+    "show_in_rest": 0,
+    "modified": 1699544882
+}

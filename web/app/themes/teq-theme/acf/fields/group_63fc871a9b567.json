@@ -1,0 +1,56 @@
+{
+    "key": "group_63fc871a9b567",
+    "title": "Menu Social Link (option item)",
+    "fields": [
+        {
+            "key": "field_63fc871a60883",
+            "label": "Icon social",
+            "name": "icon-social",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "instagram": "Instagram",
+                "pinterest": "Pinterest",
+                "youtube": "Youtube",
+                "twitter": "Twitter",
+                "facebook": "Facebook",
+                "whatsapp": "Whatsapp",
+                "linkedin": "Linkedin"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "nav_menu_item",
+                "operator": "==",
+                "value": "location\/social-link"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1684932294
+}

@@ -1,0 +1,92 @@
+.teq-container {
+  width: 100%;
+  display: block;
+  padding-inline: calc(#{$gutter} / 2);
+  justify-content: center;
+  @include teq-breakpoint(0, $medium){
+    padding-inline: 12px;
+  }
+  &:not(.header-sup){
+    padding-bottom: 80px;
+    padding-top: 80px;
+    @include teq-breakpoint($tablet) {
+      padding-bottom: 100px;
+      padding-top: 100px;
+    }
+  }
+
+  .teq-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-inline: calc(-#{$gutter} / 2);
+
+    &.max-w {
+      @media all and (min-width: 1025px) and (max-width: 1440px) {
+        max-width: calc($max-w + calc($paddingInlineGrid-xs * 2));
+      }
+      max-width: calc($max-w + calc($paddingInlineGrid * 2));
+      @media all and (min-width: $max-w) {
+        margin-inline: auto;
+      }
+
+      // ADD PADDING TO THE ONLY FIRST MAX-W OF A COMPONENT
+
+      padding-inline: calc($gutter / 2);
+    }
+  }
+  
+  @media all and (min-width: $max-w) {
+    padding-inline: 0;
+  }
+
+  // GRID
+  &#grid {
+    background-color: rgba(255, 0, 0, 0.1);
+    display: none;
+    height: 100%;
+    left: 50%;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    transform: translate(-50%, 0);
+    width: 100%;
+    z-index: 10;
+
+    &.isVisible {
+      display: block;
+    }
+
+    .teq-row {
+      .col-1 {
+        height: 100vh;
+        background-color: rgba(255, 0, 0, 0.1);
+
+        > div {
+          background-color: rgba(255, 0, 0, 0.1);
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+.max-w-el{
+  @media all and (min-width: 1025px) and (max-width: 1440px) {
+    max-width: calc($max-w + calc($paddingInlineGrid-xs * 2));
+  }
+  max-width: calc($max-w + calc($paddingInlineGrid * 2));
+  @media all and (min-width: $max-w) {
+    margin-inline: auto;
+  }
+
+  // ADD PADDING TO THE ONLY FIRST MAX-W OF A COMPONENT
+
+  padding-inline: calc($gutter / 2);
+  @media all and (min-width: 1025px) and (max-width: 1440px) {
+    padding-inline: calc($paddingInlineGrid-xs - calc(#{$gutter} / 2));
+  }
+  @media all and (min-width: 1440px) {
+    padding-inline: calc($paddingInlineGrid - calc(#{$gutter} / 2));
+  }
+}

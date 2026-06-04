@@ -1,0 +1,20 @@
+.cp-title-txt-cta {
+    &.centered {
+        .container {
+            justify-content: center;
+        }
+        h2, p {
+            text-align: center;
+        }
+        a {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    a {
+        @include teq-breakpoint(0, $small) {
+            width: 100%;
+        }
+    }
+}

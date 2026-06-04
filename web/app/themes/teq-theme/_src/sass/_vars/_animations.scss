@@ -1,0 +1,76 @@
+.animTextShowUp {
+  overflow: hidden;
+}
+
+div:has(> .animScaleImg) {
+  overflow: hidden;
+}
+
+@mixin leftToRight($color) {
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    display: inline-block;
+    transform: scaleX(0);
+    height: 1px;
+    transition: transform 0.65s;
+    background-color: $color;
+    transform-origin: right;
+  }
+  &:hover {
+    &:after {
+      transform-origin: left;
+      transform: scaleX(100%);
+    }
+  }
+}
+
+// REQUIRE 2 ELEMENTS (SPAN)
+@mixin rotateYWord() {
+  position: relative;
+
+  :nth-child(1),
+  :nth-child(2) {
+    transform-style: preserve-3d;
+    transform-origin: bottom;
+    transition: 0.5s ease;
+    display: inline-block;
+    position: relative;
+  }
+
+  :nth-child(2) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(100%) rotateX(-90deg);
+    transform-origin: top;
+  }
+
+  &:hover {
+    :nth-child(1) {
+      transform: translateY(-100%) rotateX(-90deg);
+    }
+    :nth-child(2) {
+      transform: translate(0) rotateX(0);
+    }
+  }
+}
+
+@mixin btnHover {
+  @include transition();
+  svg {
+    @include transition();
+  }
+  &:hover {
+    background-color: white;
+    color: black;
+    svg {
+      filter: invert(1);
+    }
+  }
+}

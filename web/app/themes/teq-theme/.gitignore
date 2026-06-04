@@ -1,0 +1,29 @@
+# OS crap
+Thumbs.db
+.DS_Store
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# IDE crap
+.idea/
+.vscode/
+*.sublime-*
+
+#assets build
+assets/*
+
+# Logs
+*.log
+
+# Dotenv
+.env
+.env.*
+!.env.example
+
+# Composer
+/vendor

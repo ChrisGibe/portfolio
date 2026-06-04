@@ -1,0 +1,37 @@
+@mixin col-breakpoints() {
+    @each $key, $val in $breaks {
+        @for $i from 1 through 12 {
+            @include teq-breakpoint($val) {
+                .col-#{$key}-#{$i} {
+                    flex: 0 0 (8.33333333% * $i);
+                    max-width: (8.33333333% * $i);
+                    padding: 0 #{calc($gutter / 2)};
+                }
+            }
+        }
+    }
+}
+
+@mixin offset-breakpoints() {
+    @each $key, $val in $breaks {
+        @for $i from 1 through 12 {
+            @include teq-breakpoint($val) {
+                .offset-#{$key}-#{$i} {
+                    margin-left: (8.33333333% * $i);
+                }
+            }
+        }
+    }
+}
+
+@mixin afterset-breakpoints() {
+    @each $key, $val in $breaks {
+        @for $i from 1 through 12 {
+            @include teq-breakpoint($val) {
+                .afterset-#{$key}-#{$i} {
+                    margin-right: (8.33333333% * $i);
+                }
+            }
+        }
+    }
+}

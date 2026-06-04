@@ -1,0 +1,7 @@
+.cp-multiple-img-txt {
+  figure {
+    a {
+      @include link-a11y-after('black');
+    }
+  }
+}

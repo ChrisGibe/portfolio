@@ -1,0 +1,37 @@
+{
+    "spaceOnMobile": {
+        "nameHTML" : "data-space-mobile",
+        "defaultValue": 0,
+        "value": ""
+    },
+   "defaultSlidesSpace": {
+        "nameHTML": "data-space",
+        "defaultValue": 0,
+        "value": ""
+    },
+    "nbSlidesMob": {
+        "nameHTML": "data-nb-slides-mobile",
+        "defaultValue": 1,
+        "value": ""
+    },
+    "nbSlidesTab": {
+        "nameHTML":  "data-nb-slides-tablet",
+        "defaultValue": 1,
+        "value": ""
+    },
+    "nbSlidesDesk": {
+        "nameHTML": "data-nb-slides-desktop",
+        "defaultValue": 1,
+        "value": ""
+    },
+    "isCenteredSlides": {
+        "nameHTML": "data-centered",
+        "defaultValue": false,
+        "value": ""
+    },
+    "effect": {
+      "nameHTML": "data-effect",
+      "defaultValue": "slide",
+      "value": ""
+    }
+}

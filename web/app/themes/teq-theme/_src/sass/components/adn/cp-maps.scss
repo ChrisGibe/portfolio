@@ -1,0 +1,61 @@
+.cp-maps {
+
+    .container {
+        top: 20px; 
+        left: 30px; 
+        z-index: 2;
+        overflow: scroll;
+        width: calc(100% - 60Px);
+        @include teq-breakpoint($medium) {
+            overflow: hidden;
+            width: auto;
+        }
+    }
+
+
+    .check-container {
+        width: max-content;
+        overflow: visible;
+        @include teq-breakpoint($medium) {
+            width: auto;
+            overflow: hidden;
+        }
+         div {
+            width: auto;
+        }
+    }
+    .card {
+        margin: -8px 0px 12px 12px;
+        @include teq-breakpoint($medium) {
+            margin: -8px 94px 12px 12px;
+        } 
+    }
+    .link {
+        text-decoration: underline;
+    }
+    .gm-style {
+        font: inherit !important;
+    }
+
+    .gm-style-iw-c {
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .gm-ui-hover-effect {
+        top: 0 !important;
+        right: 0 !important;
+        opacity: 0 !important;
+        width: 36px !important;
+        span {
+            height: 16px !important;
+            width: 16px !important;
+        }
+    }
+    .cross {
+        justify-content: flex-end;
+        svg {
+            width: 12px;
+            height: 12px;
+        }
+    }
+}
