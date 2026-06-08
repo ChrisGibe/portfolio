@@ -13,8 +13,8 @@ add_action('wp_enqueue_scripts', function () {
 });
 
 add_action('wp_head', function () {
-    $path = get_theme_file_uri('/assets/images/favicons/teq-theme');
-    $prefix = strtoupper('teq-theme') . '_'; ?>
+    $path = get_theme_file_uri('/assets/images/favicons/cgibelli');
+    $prefix = strtoupper('cgibelli') . '_'; ?>
     <link rel="apple-touch-icon" sizes="57x57" href="<?= $path . '/' . $prefix . 'apple-icon-57x57.png'; ?>">
     <link rel="apple-touch-icon" sizes="60x60" href="<?= $path . '/' . $prefix . 'apple-icon-60x60.png'; ?>">
     <link rel="apple-touch-icon" sizes="72x72" href="<?= $path . '/' . $prefix . 'apple-icon-72x72.png'; ?>">

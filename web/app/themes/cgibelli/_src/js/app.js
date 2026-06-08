@@ -1,5 +1,5 @@
 import svgxhr from "webpack-svgstore/dist/helpers/svgxhr";
-svgxhr("./app/themes/teq-theme/assets/svg/svg-sprites.svg");
+svgxhr("./app/themes/cgibelli/assets/svg/svg-sprites.svg");
 
 
 import initVars from "./helpers/_initvars";

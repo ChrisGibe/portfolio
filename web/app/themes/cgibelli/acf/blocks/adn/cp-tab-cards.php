@@ -58,7 +58,7 @@ $fields = get_fields();
                                     <svg class="icon-arrow-tab mr-1">
                                         <use xlink:href="#icon-arrow-tab"></use>
                                     </svg>
-                                    <?= __('Consulter en ligne', 'teq-theme') ?>
+                                    <?= __('Consulter en ligne', 'cgibelli') ?>
                                 </a>
                             <?php endif; ?>
                             <?php if ($item['document_download']): ?>
@@ -66,7 +66,7 @@ $fields = get_fields();
                                     <svg class="icon-arrow-tab mr-1">
                                         <use xlink:href="#icon-arrow-tab"></use>
                                     </svg>
-                                    <?= __('Télécharger', 'teq-theme') ?>
+                                    <?= __('Télécharger', 'cgibelli') ?>
                                 </a>
                             <?php endif; ?>
                         </div>

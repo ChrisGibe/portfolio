@@ -171,7 +171,7 @@ function generateFilterSearch($fields)
     foreach ($filter_post_type as $key => $post_type) {
         if (in_array($post_type->name, $fields['post_type'], true)) {
             $list_filter_post_type[] = [
-                'name' => __($post_type->label, 'teq-theme'),
+                'name' => __($post_type->label, 'cgibelli'),
                 'slug' => $post_type->name
             ];
         }
@@ -201,7 +201,7 @@ function generateFilterSearch($fields)
 
             foreach ($terms as $i => $term) {
                 $array_taxo[$key]['list'][$i]['slug'] = $term->slug;
-                $array_taxo[$key]['list'][$i]['name'] = __($term->name, 'teq-theme');
+                $array_taxo[$key]['list'][$i]['name'] = __($term->name, 'cgibelli');
             }
         }
     }
@@ -212,11 +212,11 @@ function generateFilterSearch($fields)
         'list' => [
             [
                 'slug' => 'desc',
-                'name' => __('décroissant', 'teq-theme'),
+                'name' => __('décroissant', 'cgibelli'),
             ],
             [
                 'slug' => 'asc',
-                'name' => __('croissant', 'teq-theme'),
+                'name' => __('croissant', 'cgibelli'),
             ]
 
         ]

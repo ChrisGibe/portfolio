@@ -4329,7 +4329,7 @@ const initMaps = () => {
 			map: map,
             url: `http://google.com/maps/search/?api=1&query=${city.lat},${city.long}`,
             phone: city.tel,
-            icon: `${window.location.origin}/app/themes/teq-theme/assets/images/pin_map.svg`,
+            icon: `${window.location.origin}/app/themes/cgibelli/assets/images/pin_map.svg`,
 		});	
         markers.push(marker)
     });

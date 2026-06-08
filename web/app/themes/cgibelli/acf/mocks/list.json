@@ -73,7 +73,7 @@
 				{ "title": "Actualit\u00e9s", "content": null, "link": "https://news.com", "date_publication": "12.10.2022", "taxo_on_card": "", "image": false, "type_content": "Page" },
 				{ "title": "Brasserie", "content": null, "link": "https://brasserie.fr", "date_publication": "06.10.2022", "taxo_on_card": "", "image": false, "type_content": "evenement" },
 				{ "title": "Sample Page", "content": "This is an example page. It&#8217;s different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this: Hi there! I&#8217;m a bike", "link": "https://sample-page.fr/", "date_publication": "06.10.2022", "taxo_on_card": "", "image": false, "type_content": "Page" },
-				{ "title": "C'était censé être une brioche mais elle a pas levée.", "content": "", "link": "https://www.harrys.fr/", "date_publication": "16.02.2018", "taxo_on_card": "Volkswagen", "image": "https://vgf-ppd.rec-volkswagengroup.fr/app/themes/teq-theme/assets/images/document.png", "type_content": "evenement", "donwload": false }
+				{ "title": "C'était censé être une brioche mais elle a pas levée.", "content": "", "link": "https://www.harrys.fr/", "date_publication": "16.02.2018", "taxo_on_card": "Volkswagen", "image": "https://vgf-ppd.rec-volkswagengroup.fr/app/themes/cgibelli/assets/images/document.png", "type_content": "evenement", "donwload": false }
 			]
 		}
 	]

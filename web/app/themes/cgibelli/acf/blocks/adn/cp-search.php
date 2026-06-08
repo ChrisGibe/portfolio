@@ -33,19 +33,19 @@ $data_filters2 = json_decode($file_filters2, true);
 <div id="cp-search" class="teq-container cp-search">
     <cp-search base-url="<?= $urlAjax . '?action=filter_search' . $add_filter_require ?>"
                base-url-autocompletion="<?= $urlAjax . '?action=filter_search_autocompletion' . $add_filter_require ?>"
-               text-search="<?= __('Rechercher', 'teq-theme') ?>"
-               results="<?= __('résultats', 'teq-theme') ?>"
+               text-search="<?= __('Rechercher', 'cgibelli') ?>"
+               results="<?= __('résultats', 'cgibelli') ?>"
                :filters="<?php echo htmlentities(json_encode($filters)); ?>"
                :list2="<?php echo htmlentities(json_encode($data_filters2)); ?>"
-               next-button="<?= __('suivant', 'teq-theme') ?>"
-               prev-button="<?= __('précédent', 'teq-theme') ?>"
+               next-button="<?= __('suivant', 'cgibelli') ?>"
+               prev-button="<?= __('précédent', 'cgibelli') ?>"
                :show-tag="true"
                :test-mode="false"
                :show-filter="true"
                :show-autocomplete="false"
-               text-no-completion="<?= __("Il n'existe aucun résultat", 'teq-theme') ?>"
-               text-reste="<?= __("Réinitialiser", 'teq-theme') ?>"
-               text-empty-list="<?= __("Aucun contenu disponible avec ces filtres.", 'teq-theme') ?>"></cp-search>
+               text-no-completion="<?= __("Il n'existe aucun résultat", 'cgibelli') ?>"
+               text-reste="<?= __("Réinitialiser", 'cgibelli') ?>"
+               text-empty-list="<?= __("Aucun contenu disponible avec ces filtres.", 'cgibelli') ?>"></cp-search>
 </div>
 
 <!-- 

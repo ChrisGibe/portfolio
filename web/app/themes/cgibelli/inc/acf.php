@@ -34,7 +34,7 @@ add_action('acf/init', function () {
      * Register Option page
      */
     acf_add_options_page([
-        'page_title' => __('Theme Options', 'teq-theme'),
+        'page_title' => __('Theme Options', 'cgibelli'),
         'menu_slug' => 'theme-options',
         'parent_slug' => 'themes.php',
         'capability' => 'edit_posts',
