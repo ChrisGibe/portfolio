@@ -10,7 +10,7 @@ const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 
 
 const entry = {
-    app: ['./_src/js/app.js', './_src/sass/styles.scss'],
+    app: ['./_src/js/app.js', './_src/sass/styles.scss', './_src/css/tailwind.css'],
 }
 
 module.exports = (env, argv) => {
@@ -77,6 +77,14 @@ module.exports = (env, argv) => {
                         'sass-loader'
                     ],
 
+                },
+                {
+                    test: /\.css$/i,
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        'css-loader',
+                        'postcss-loader',
+                    ],
                 },
                 {
                     test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
