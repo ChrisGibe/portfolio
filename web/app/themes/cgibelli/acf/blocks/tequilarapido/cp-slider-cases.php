@@ -1,20 +1,16 @@
 <?php if (!empty($block['data']['is_preview']) || !empty($is_preview)) : ?>
-<img src="<?= get_template_directory_uri() . '/acf/preview/cp-slider-cases.png' ?>" style="width:100%; height:auto;"
-    alt="preview">
-<?php return; ?>
+    <img src="<?= get_template_directory_uri() . '/acf/preview/cp-slider-cases.png' ?>" style="width:100%; height:auto;"
+        alt="preview">
+    <?php return; ?>
 <?php endif; ?>
 
 <?php
-$id = 'cp-slider-cases-' . (!empty($block['id'])) ? $block['id'] : '';
-if (!empty($block['anchor'])) {
-    $id = $block['anchor'];
-}
-
 $fields = get_fields();
 
 $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
 
 ?>
+
 <?php if(!empty($fields["slides"])): ?>
     <div class="cp-slider-cases teq-container fixed bg-c-white desktop-only">
         <?php foreach ($fields["slides"] as $key => $item):?>

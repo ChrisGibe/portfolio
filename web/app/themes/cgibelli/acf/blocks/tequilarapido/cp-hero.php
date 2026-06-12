@@ -5,11 +5,6 @@
 <?php endif; ?>
 
 <?php
-$id = 'cp-hero-' . (!empty($block['id'])) ? $block['id'] : '';
-if (!empty($block['anchor'])) {
-    $id = $block['anchor'];
-}
-
 $fields = get_fields();
 ?>
 
