@@ -1,5 +1,5 @@
 .cp-slider-cases {
-  width: 100vw;
+  width: calc(100vw - 18px);
   height: 100vh;
   transform: translateX(100%);
   z-index: 1;

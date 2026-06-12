@@ -6,19 +6,23 @@
 @source "../js/**/*.js";
 
 
+/* COLORS */
+@theme {
+  --color-grid: rgba(255, 0, 0, 0.1);
+  --color-text: #fff;
+}
+
 @layer components {
-    .teq-container {
-        @apply
-        2xl:container
+  .teq-container {
+    @apply 2xl:container
         px-4 
         py-10 
         md:py-22
         w-full;
 
     &.full-screen {
-      @apply
-      w-screen
-      max-w-full
+      @apply w-screen
+      max-w-full;
     }
 
     &#grid {
@@ -31,16 +35,14 @@
     }
 
     &.banner {
-      @apply
-      pt-[14.5rem]
+      @apply pt-[14.5rem]
       pb-10
-      lg:py-22
+      lg:py-22;
     }
   }
 
   .teq-grid {
-    @apply
-    grid
+    @apply grid
     grid-cols-6
     md:grid-cols-12
     lg:grid-cols-24

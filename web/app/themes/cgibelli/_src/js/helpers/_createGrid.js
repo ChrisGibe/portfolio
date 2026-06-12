@@ -10,8 +10,7 @@ export default function createGrid() {
   divParent.classList.add("teq-container");
 
   let divRow = document.createElement("div");
-  divRow.classList.add("teq-row");
-  divRow.classList.add("max-w");
+  divRow.classList.add("teq-grid");
 
   divParent.appendChild(divRow);
 
@@ -19,7 +18,7 @@ export default function createGrid() {
     let divOne = document.createElement("div");
     let divTwo = document.createElement("div");
 
-    divOne.classList.add("col-1");
+    divOne.classList.add("col-span-1");
 
     divOne.appendChild(divTwo);
     divRow.appendChild(divOne);
