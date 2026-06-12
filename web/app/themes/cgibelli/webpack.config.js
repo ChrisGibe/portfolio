@@ -2,11 +2,11 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const SvgStore = require("webpack-svgstore");
+const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 
 
 const entry = {
@@ -14,12 +14,13 @@ const entry = {
 }
 
 module.exports = (env, argv) => {
-    
+
     const isProduction = argv.mode === 'production';
     const config = {
         entry: entry,
         output: {
-            path: path.resolve(__dirname, 'assets/scripts')
+            path: path.resolve(__dirname, 'assets/scripts'),
+            assetModuleFilename: '[name][ext]'
         },
         resolve: {
             alias: {
@@ -40,11 +41,20 @@ module.exports = (env, argv) => {
             }),
             new WebpackManifestPlugin(),
             new VueLoaderPlugin(),
-            new SvgStore({
-                path: path.resolve(__dirname, "./_src/svg/**/*.svg"),
-                fileName: "../svg/svg-sprites.svg",
-                prefix: "icon-",
-                inlineSvg:true
+            new SVGSpritemapPlugin('./_src/svg/**/*.svg', {
+                output: {
+                    filename: '../svg/svg-sprites.svg',
+                    chunk: { keep: true },
+                    svgo: false,
+                    svg4everybody: false,
+                },
+                sprite: {
+                    prefix: 'icon-',
+                    generate: {
+                        title: false,
+                    },
+                },
+                styles: false,
             }),
         ],
         module: {
@@ -69,28 +79,18 @@ module.exports = (env, argv) => {
 
                 },
                 {
-                    test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                    use: [
-                        {
-                            loader: 'file-loader',
-                            options: {
-                                name: '[name].[ext]',
-                                outputPath: '../fonts/'
-                            }
-                        }
-                    ]
+                    test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+                    type: 'asset/resource',
+                    generator: {
+                        filename: '../fonts/[name][ext]'
+                    }
                 },
                 {
                     test: /\.(png|jpg|gif|svg|webp)$/,
-                    use: [
-                        {
-                            loader: 'file-loader',
-                            options: {
-                                name: '[name].[ext]',
-                                outputPath: '../images/'
-                            }
-                        }
-                    ]
+                    type: 'asset/resource',
+                    generator: {
+                        filename: '../images/[name][ext]'
+                    }
                 }
             ],
         },
@@ -98,7 +98,7 @@ module.exports = (env, argv) => {
     };
     if (isProduction) {
         config.optimization = {
-            minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+            minimizer: [new TerserJSPlugin(), new CssMinimizerPlugin()],
         }
     } else {
         config.devtool = 'inline-source-map';

@@ -19,8 +19,6 @@
 //COMPONENTS
 // GLOBAL
 @import "components/global/lenis";
-@import "components/global/breadcrumb";
-@import "components/global/a11y-nav";
 @import "components/global/header";
 @import "components/global/footer";
 
@@ -29,12 +27,3 @@
 
 @import "components/tequilarapido/cp-hero";
 @import "components/tequilarapido/cp-slider-cases";
-
-// CASE
-@import "components/tequilarapido/case/cp-hero-case";
-@import "components/tequilarapido/case/cp-double-content";
-@import "components/tequilarapido/case/cp-list-text";
-@import "components/tequilarapido/case/cp-img-text";
-@import "components/tequilarapido/case/cp-portrait-layout";
-@import "components/tequilarapido/case/cp-key-figures";
-@import "components/tequilarapido/case/cp-footer-case";
