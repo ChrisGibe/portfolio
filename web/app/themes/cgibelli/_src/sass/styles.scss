@@ -8,7 +8,6 @@
 @import "global";
 
 // LIBRARIES / PLUGINS
-@import "vendor/swiper";
 @import "../../node_modules/plyr/src/sass/plyr";
 
 // TEQ-GRID
@@ -17,13 +16,7 @@
 @import "_vars/teq-grid/teq-grid";
 
 //COMPONENTS
-// GLOBAL
-@import "components/global/lenis";
 @import "components/global/header";
 @import "components/global/footer";
-
-
-// TEQUILARAPIDO
-
 @import "components/tequilarapido/cp-hero";
 @import "components/tequilarapido/cp-slider-cases";
