@@ -1,5 +1,12 @@
-import svgxhr from "webpack-svgstore/dist/helpers/svgxhr";
-svgxhr("./app/themes/cgibelli/assets/svg/svg-sprites.svg");
+const loadSvgSprite = async (url) => {
+    const response = await fetch(url);
+    if (!response.ok) return;
+    const container = document.createElement('div');
+    container.style.display = 'none';
+    container.innerHTML = await response.text();
+    document.body.insertBefore(container, document.body.firstChild);
+};
+loadSvgSprite("./app/themes/cgibelli/assets/svg/svg-sprites.svg");
 
 
 import initVars from "./helpers/_initvars";
@@ -25,6 +32,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // TEQUILARAPIDO
     initFirstScene();
     initSliderCases();
-    //initPageTransition();
     initHeroVideoAnim();
 })
