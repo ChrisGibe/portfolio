@@ -300,7 +300,7 @@ if ( ! function_exists( 'the_bread' ) ) {
 			$nb = count( $crumbs ) - 1;
 
 			echo '  <a href="' . home_url() . '">
-                        <span class="current" style="color: black">' . __('Accueil','teq-theme') . '</span>
+                        <span class="current" style="color: black">' . __('Accueil','cgibelli') . '</span>
                     </a>  ';
 
 			echo '<span class="current petrol">' . $ingredients['separator'] . '</span>';
