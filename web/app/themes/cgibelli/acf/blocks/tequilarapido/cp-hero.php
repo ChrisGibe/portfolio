@@ -32,10 +32,10 @@ $fields = get_fields();
             </h1>
         <?php endif; ?>
         <?php if(!empty($fields["tag_title_desc"]["desc"])): ?>
-            <div class="mt-9 description"><?= $fields["tag_title_desc"]["desc"] ?></div>
+            <div class="mt-6 lg:mt-12 description lg:w-1/2 mx-auto"><?= $fields["tag_title_desc"]["desc"] ?></div>
         <?php endif; ?>
         <?php if(!empty($fields["cta"]["url"]) && !empty($fields["cta"]["title"])):?>
-            <a class="mt-14 btn-tequila"
+            <a class="mt-6 lg:mt-12 btn-tequila"
                 href="<?= $fields["cta"]["url"] ?>"
                 target="<?= (!empty($fields["cta"]["target"])) ? $fields["cta"]["target"] : ''?>"
                 aria-label="<?= __($fields["cta"]["title"],"ampere") ?>">

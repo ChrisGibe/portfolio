@@ -1,90 +1,73 @@
 <?php if(is_front_page()): ?>
-    <footer role="contentinfo" class="fixed overflow-hidden">
+    <footer role="contentinfo" class="fixed overflow-hidden w-full h-screen">
         <div class="content w-full relative text-center">
             <a href="#" class="w-full">
                 <h2>
                     <div class="flex flex-col title-container">
                         <span class="w-700 uppercase neue relative title-top w-full">
-                            Parlons
+                            Contact
                             <span class="line"></span>
                         </span>
                         <span class="w-400 saol-italic-ajusted relative title-bottom w-full">
-                            de votre projet
+                            cgibelli.dev@gmail.com
                             <span class="line bottom"></span>               
                         </span>
                     </div>
                 </h2>
             </a>
-            <ul class="flex flex-row lg:row justify-center items-center locations gap-8">
-                <li>
-                    <h3 class="neue uppercase town">Nice</h3>
-                    <p class="address">6 Place Garibaldi - 06300 Nice <br> +33 (0)4 92 00 80 30</p>
-                </li>
-                <li>
-                    <h3 class="neue uppercase town">Paris</h3>
-                    <p class="address">22 Bd Malesherbes - 75008 Paris <br> +33 (0)4 92 00 80 30</p>
-                </li>
-                <li>
-                    <h3 class="neue uppercase town">Alger</h3>
-                    <p class="address">Bd du 11 Décembre 1960 - El Biar <br> +213 21 79 32 09</p>
-                    </li>
-                <li>
-                    <h3 class="neue uppercase town">Abu Dhabi</h3>
-                    <p class="address">Bd du 11 Décembre 1960 - El Biar <br> +213 21 79 32 09</p>
-                </li>
-            </ul>
-        </div>
-        <div class="flex col lg:row-lg justify-between absolute bottom">
-            <div class="flex align-center col lg:row-lg gap-55 left">
-                <p class="copyright w-600">© tequilarapido. 2023</p>
-                <nav class="infos">
-                    <ul class="flex gap-24">
-                        <li>
-                            <a href="" target="" class="link-bottom">Accessibilité : Totalement conforme</a>
-                        </li>
-                        <li>
-                            <a href="" target="" class="link-bottom">Eco-index : B</a>
-                        </li>
-                        <li>
-                            <a href="" target="" class="link-bottom">Mentions légales</a>
-                        </li>
-                        <li>
-                            <a href="" target="" class="link-bottom">Données personnelles</a>
-                        </li>
-                    </ul>
-                </nav>
+            <div class="flex flex-row lg:row justify-center items-center locations">
+                <div>
+                    <h3 class="neue uppercase town">Based in Nice, France</h3>
+                </div>
             </div>
-            <div class="flex align-center col lg:row-lg gap-57 right">
-                <a href="" target="" class="flex gap-5 link-bottom">
-                    Nous rejoindre
-                    <svg class="icon-arrow-tab">
-                        <use xlink:href="#icon-arrow-tab"></use>
-                    </svg>
-                </a>
+        </div>
+        <div class="flex flex-col lg:flex-row justify-between items-center absolute bottom px-12 w-full">
+            <div class="flex align-center flex-col lg:flex-row gap-8 left">
+                <p class="copyright">© gibellichristophe. 2026</p>
+                <div class="infos">
+                    <a href="" target="" class="link-bottom">Mentions légales</a>
+                </div>
+            </div>
+            <div class="flex align-center flex-col lg:flex-row gap-8 right">
                 <nav>
-                    <ul class="flex gap-16">
+                    <ul class="flex gap-6">
                         <li>
-                            <a href="" target="" class="flex gap-5 link-bottom">
-                                IG.
-                                <svg class="icon-arrow-tab">
-                                    <use xlink:href="#icon-arrow-tab"></use>
-                                </svg>
+                            <a href="" target="" class="flex items-start justify-center gap-2 link-bottom leading-none">
+                                <span>IG.</span>
+                                <div class="inline-flex w-4 h-4 -rotate-45">
+                                    <svg aria-hidden="true" focusable="false" width="12" height="13" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill="white" fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
+                                        <mask id="mask0_904_2385" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="14">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
+                                        </mask>
+                                    </svg>
+                                </div>
                             </a>
                         </li>
                         <li>
-                            <a href="" target="" class="flex gap-5 link-bottom">
+                            <a href="" target="" class="flex items-start justify-center gap-2 link-bottom leading-none">
                                 X.
-                                <svg class="icon-arrow-tab">
-                                    <use xlink:href="#icon-arrow-tab"></use>
-                                </svg>
+                                <div class="inline-flex w-4 h-4 -rotate-45">
+                                    <svg aria-hidden="true" focusable="false" width="12" height="13" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill="white" fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
+                                        <mask id="mask0_904_2385" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="14">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
+                                        </mask>
+                                    </svg>
+                                </div>
                             </a>
                         </li>
                         <li>
-                            <a href="" target="" class="flex gap-5 link-bottom">
+                            <a href="" target="" class="flex items-start justify-center gap-2 link-bottom leading-none">
                                 LK.
-                                <svg class="icon-arrow-tab">
-                                    <use xlink:href="#icon-arrow-tab"></use>
-                                </svg>
+                                <div class="inline-flex w-4 h-4 -rotate-45">
+                                    <svg aria-hidden="true" focusable="false" width="12" height="13" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill="white" fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
+                                        <mask id="mask0_904_2385" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="14">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
+                                        </mask>
+                                    </svg>
+                                </div>
                             </a>
                         </li>
                     </ul>

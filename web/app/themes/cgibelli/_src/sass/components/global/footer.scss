@@ -1,7 +1,5 @@
 footer {
     background-color: var(--color-white);
-    width: 100vw;
-    height: 100vh;
     transform: translateX(100%);
     will-change: transform;
     z-index: 1;
@@ -117,15 +115,13 @@ footer {
     }
 
     .bottom {
-        width: calc(100% - 96px);
         left: 0;
         right: 0;
         margin-inline: auto;
-        bottom: 3.9rem;
+        bottom: 2rem;
 
         a { 
             font-size: 1.2rem;
-            align-items: baseline;
         }
 
         .icon-arrow-tab {

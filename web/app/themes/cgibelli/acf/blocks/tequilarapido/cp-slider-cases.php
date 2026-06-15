@@ -136,30 +136,46 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
     <div class="fake-footer desktop-only"></div>
 
     <!-- CASES MOBILE -->
-    <div class="cases-mobile mobile-only teq-container">
-        <div class="teq-row max-w">
-            <div class="col-12 tequila-case-mobile relative">
-                <div class="relative top">
-                    <!-- Image -->
-                    <img src="https://tequilarapido.my/app/uploads/2023/11/mobilize-mobile.jpg" alt="">
-                    <div class="line"></div>
+    <div class="cases-mobile mobile-only teq-grid">
+
+            <?php foreach ($fields["slides"] as $key => $item): ?>
+                <div class="col-6 tequila-case-mobile relative" data-case="<?= $key ?>">
+                    <?php if(!empty($item["img"]["mobile"]["url"])): ?>
+                        <div class="relative top">
+                            <img src="<?= $item["img"]["mobile"]["url"] ?>"
+                                 alt="<?= (!empty($item["img"]["mobile"]["alt"])) ? $item["img"]["mobile"]["alt"] : $item["img"]["mobile"]["title"] ?>">
+                            <div class="line"></div>
+                        </div>
+                    <?php endif; ?>
+                    <div class="flex flex-col items-center bottom">
+                        <?php if(!empty($item["tag_title_desc"]["tag"])): ?>
+                            <p class="txt-10 uppercase"><?= $item["tag_title_desc"]["tag"] ?></p>
+                        <?php endif; ?>
+                        <?php if(!empty($item["tag_title_desc"]["title"]["line_1"]) || !empty($item["tag_title_desc"]["title"]["line_2"])): ?>
+                            <h2 class="flex flex-col title">
+                                <?php if(!empty($item["tag_title_desc"]["title"]["line_1"])): ?>
+                                    <span class="font-bold uppercase neue first-line">
+                                        <?= $item["tag_title_desc"]["title"]["line_1"] ?>
+                                    </span>
+                                <?php endif; ?>
+                                <?php if(!empty($item["tag_title_desc"]["title"]["line_2"])): ?>
+                                    <span class="saol-italic-ajusted second-line">
+                                        <?= $item["tag_title_desc"]["title"]["line_2"] ?>
+                                    </span>
+                                <?php endif; ?>
+                            </h2>
+                        <?php endif; ?>
+                        <?php if(!empty($item["cta"]["url"]) && !empty($item["tag_title_desc"]["desc"])): ?>
+                            <a href="<?= $item["cta"]["url"] ?>"
+                               target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : '' ?>"
+                               aria-label="<?= __($item["cta"]["title"], "tequilarapido") ?>"
+                               class="stretched-link font-normal description">
+                                <?= $item["tag_title_desc"]["desc"] ?>
+                            </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <div class="flex flex-col items-center bottom">
-                    <!-- Tage -->
-                    <p class="txt-10 uppercase">Dispositif</p>
-                    <!-- Titre -->
-                    <h2 class="flex flex-col title">
-                        <span class="font-bold uppercase neue first-line">
-                            Mobilize
-                        </span>
-                        <span class="saol-italic-ajusted second-line">
-                            Share
-                        </span>
-                    <h2>
-                    <!-- Lien de la page, ici on reprend la desciption (si tu peux bien sur) -->
-                    <a href="#1" target="" class="stretched-link font-normal description">Stratégie éditoriale, design et développement <br> du site Corporate de Mobilize</a>
-                </div>
-            </div>
-        </div>
+            <?php endforeach; ?>
+   
     </div>
 <?php endif; ?>
