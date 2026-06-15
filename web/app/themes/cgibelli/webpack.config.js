@@ -6,7 +6,6 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 
 
 const entry = {
@@ -41,21 +40,6 @@ module.exports = (env, argv) => {
             }),
             new WebpackManifestPlugin(),
             new VueLoaderPlugin(),
-            new SVGSpritemapPlugin('./_src/svg/**/*.svg', {
-                output: {
-                    filename: '../svg/svg-sprites.svg',
-                    chunk: { keep: true },
-                    svgo: false,
-                    svg4everybody: false,
-                },
-                sprite: {
-                    prefix: 'icon-',
-                    generate: {
-                        title: false,
-                    },
-                },
-                styles: false,
-            }),
         ],
         module: {
             rules: [

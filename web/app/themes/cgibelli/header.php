@@ -13,5 +13,4 @@
 
     <?php get_template_part('template-parts/header'); ?>
 
-    <div class="global">
-        <div class="main clearfix" role="main">
+        <main class="main clearfix">
