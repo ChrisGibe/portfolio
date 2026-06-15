@@ -1,5 +1,5 @@
 @import "_setup";
-@import "tequila-css/scss/tequila";
+@import "_vars/teq-breakpoint";
 @import "_vars/_animations";
 @import "_vars/_a11y";
 @import "_vars/_vars";
@@ -7,23 +7,8 @@
 @import "_vars/btns";
 @import "global";
 
-// LIBRARIES / PLUGINS
-@import "vendor/swiper";
-@import "../../node_modules/plyr/src/sass/plyr";
-
-// TEQ-GRID
-@import "_vars/teq-grid/col-mixins";
-@import "_vars/teq-grid/col";
-@import "_vars/teq-grid/teq-grid";
-
 //COMPONENTS
-// GLOBAL
-@import "components/global/lenis";
 @import "components/global/header";
 @import "components/global/footer";
-
-
-// TEQUILARAPIDO
-
 @import "components/tequilarapido/cp-hero";
 @import "components/tequilarapido/cp-slider-cases";

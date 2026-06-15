@@ -1,0 +1,76 @@
+$media-queries: true !default; // true by default
+
+// BREAKPOINTS
+$huge-screen: 2560px;
+$big-screen: 1600px;
+$screen: 1440px;
+$tablet: 1024px;
+$large : 991px;
+$medium: 768px;
+$small: 690px;
+$x-small: 480px;
+
+@mixin teq-breakpoint($min-width: false, $max-width: false, $prefix: false) {
+  @if $media-queries {
+    @if $min-width {
+      @if $max-width {
+        @media all and (min-width: $min-width) and (max-width: $max-width) {
+          @if $prefix {
+            #{"." + $prefix} {
+              @content;
+            }
+          }
+
+          @else {
+            @content;
+          }
+        }
+      }
+
+      @else {
+        @media all and (min-width: $min-width) {
+          @if $prefix {
+            #{"." + $prefix} {
+              @content;
+            }
+          }
+
+          @else {
+            @content;
+          }
+        }
+      }
+    }
+
+    @else if $max-width {
+      @media all and (max-width: $max-width) {
+        @if $prefix {
+          #{"." + $prefix} {
+            @content;
+          }
+        }
+
+        @else {
+          @content;
+        }
+      }
+    }
+  }
+
+  @else if $min-width and $min-width <= $max-desktop and
+    (not $max-width or $max-width and $max-width >= $max-desktop) {
+    @content;
+  }
+}
+
+.desktop-only {
+  @include teq-breakpoint(0, $large) {
+    display: none;
+  } 
+}
+
+.mobile-only {
+  @include teq-breakpoint($large) {
+    display: none;
+  } 
+}

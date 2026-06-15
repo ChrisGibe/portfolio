@@ -9,7 +9,7 @@
 <div class="teq-container cp-maps pt-5">
     <div class="teq-row max-w">
         <div class="col-12 relative">
-            <div class="absolute bg-c-white c-dark pl-2 pr-2 pb-2 pt-2  container ">
+            <div class="absolute bg-white c-dark pl-2 pr-2 pb-2 pt-2  container ">
                 <div class="d-flex gap-10 check-container ">
                     <div><input type="checkbox" id="test1" value="Huiles d'olives" name="test1" class="input-map"> <label for="test1">Huile d'olive</label></div>
                     <div><input type="checkbox" id="test2" value="Olives de tables" name="test2" class="input-map"> <label for="test2">Olives de tables</label></div>

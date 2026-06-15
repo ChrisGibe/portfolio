@@ -1,14 +1,13 @@
 footer {
-    background-color: map-get($colors, c-white);
-    width: 100vw;
-    height: 100vh;
+    background-color: var(--color-white);
     transform: translateX(100%);
+    will-change: transform;
     z-index: 1;
     bottom: 0;
     transition: background-color 400ms cubic-bezier(.52,0,.59,.99);
 
     &.black {
-        background-color: map-get($colors, c-dark);
+        background-color: var(--color-dark);
 
         .title-top, 
         .title-bottom, 
@@ -16,11 +15,11 @@ footer {
         .address, 
         .copyright,
         .link-bottom {
-            color: map-get($colors, c-white);
+            color: var(--color-white);
         }
 
         .icon-arrow-tab {
-            fill: map-get($colors, c-white);
+            fill: var(--color-white);
         }
     }
 
@@ -31,7 +30,7 @@ footer {
     .copyright,
     .link-bottom {
         transition: color 400ms cubic-bezier(.52,0,.59,.99);
-        color: map-get($colors, c-dark);
+        color: var(--color-dark);
     }
   
     .content {
@@ -49,7 +48,7 @@ footer {
           position: absolute;
           width: 100%;
           height: 1px;
-          background-color: map-get($colors , c-light-lines);
+          background-color: var(--color-light-lines);
           bottom: 0;
           left: 0;
           z-index: -1;
@@ -97,7 +96,7 @@ footer {
       position: absolute;
       width: 1px;
       height: 70%;
-      background-color: map-get($colors , c-light-lines);
+      background-color: var(--color-light-lines);
       right: 200px;
       bottom: 0;
     }
@@ -116,15 +115,13 @@ footer {
     }
 
     .bottom {
-        width: calc(100% - 96px);
         left: 0;
         right: 0;
         margin-inline: auto;
-        bottom: 3.9rem;
+        bottom: 2rem;
 
         a { 
             font-size: 1.2rem;
-            align-items: baseline;
         }
 
         .icon-arrow-tab {

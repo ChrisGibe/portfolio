@@ -111,6 +111,10 @@ module.exports = (env, argv) => {
     } else {
         config.devtool = 'inline-source-map';
         config.watch = true;
+        config.watchOptions = {
+            ignored: ['**/node_modules/**', '**/assets/**'],
+            aggregateTimeout: 300,
+        };
     }
     return config;
 };

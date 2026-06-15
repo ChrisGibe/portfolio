@@ -48,7 +48,7 @@
         position: absolute;
         width: 100%;
         height: 1px;
-        background-color: map-get($colors , c-light-lines);
+        background-color: var(--color-light-lines);
         bottom: 0;
         left: 0;
         z-index: -1;
@@ -102,7 +102,7 @@
     position: absolute;
     width: 1px;
     height: 70%;
-    background-color: map-get($colors , c-light-lines);
+    background-color: var(--color-light-lines);
     right: 200px;
     bottom: 0;
   }
@@ -121,7 +121,7 @@
   .line-mobile {
     height: 100%;
     width: 1px;
-    background-color: map-get($colors, c-light-lines);
+    background-color: var(--color-light-lines);
     margin-inline: auto;
   }
 
@@ -166,9 +166,9 @@
       right: 2rem;
       z-index: 5;
       border-radius: 50%;
-      background-color: map-get($colors, c-dark);
+      background-color: var(--color-dark);
       svg {
-        fill: map-get($colors, c-white);
+        fill: var(--color-white);
         width: 16px;
         height: 16px;
       }

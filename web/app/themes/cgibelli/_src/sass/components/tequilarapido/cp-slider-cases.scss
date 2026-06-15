@@ -1,5 +1,5 @@
 .cp-slider-cases {
-  width: 100vw;
+  width: calc(100vw - 18px);
   height: 100vh;
   transform: translateX(100%);
   z-index: 1;
@@ -71,7 +71,7 @@
     .indicator {
       left: -0.4rem;
       top: -0.4rem;
-      border: 2px solid map-get($colors, c-dark);
+      border: 2px solid var(--color-dark);
       width: 5.8rem;
       height: 5rem;
       z-index: 4;
@@ -83,7 +83,7 @@
   padding-top: 0 !important;
   flex-wrap: wrap;
   z-index: 1;
-  background-color: map-get($colors, c-white);
+  background-color: var(--color-white);
 
   .tequila-case-mobile {
     margin-bottom: 3.2rem;
@@ -128,12 +128,12 @@
     height: 3.2rem;
     bottom: 0;
     transform: translate(-50%, 100%);
-    background-color: map-get($colors, c-light-lines);
+    background-color: var(--color-light-lines);
   }
 }
 
 .container-fake-case {
-  height: calc(100% - 10rem);
+  height: 100%;
   display: none;
   
   @include teq-breakpoint($large) {

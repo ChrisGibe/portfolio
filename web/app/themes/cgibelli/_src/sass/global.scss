@@ -2,17 +2,16 @@ html {
   font-size: 62.5%; /* Sets up the Base 10 stuff */
 }
 
-body, html {
-  scroll-padding-top: 10rem;
-}
-
 body {
   @include labeur;
 }
 
+.main {
+  overflow: hidden;
+}
+
 a {
   cursor: pointer;
-  display: inline-block;
   text-decoration: none;
   color:black;
 }
@@ -73,4 +72,20 @@ html.is-animating {
   body.transition-fade {
       opacity: 0;
     }
+}
+
+.desktop-only {
+  display: none;
+  
+  @include teq-breakpoint($large) {
+    display: block;
+  }
+}
+
+.mobile-only {
+  display: block;
+  
+  @include teq-breakpoint($large) {
+    display: none;
+  }
 }
