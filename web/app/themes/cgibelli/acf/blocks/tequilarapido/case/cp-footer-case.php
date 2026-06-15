@@ -41,7 +41,7 @@ $fields = get_fields();
                 <a href="<?= $fields["link"]["url"] ?>" 
                     target="<?= (!empty($fields["link"]["target"])) ? $fields["link"]["target"] : ''?>"
                     aria-label="<?= __($fields["link"]["title"],"tequilarapido") ?>" 
-                    class="btn-tequila">
+                    class="cta-primary">
                     <?= $fields["link"]["title"] ?>
                 </a>
             <?php endif; ?>

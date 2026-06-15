@@ -1,5 +1,5 @@
-<?php if(is_front_page()): ?>
-    <footer role="contentinfo" class="fixed overflow-hidden w-full h-screen">
+
+    <footer role="contentinfo" class="fixed overflow-hidden w-full h-screen <?= is_front_page() ? '' : 'black' ?>">
         <div class="content w-full relative text-center">
             <a href="#" class="w-full">
                 <h2>
@@ -75,4 +75,4 @@
             </div>
         </div>
     </footer>
-<?php endif; ?>
+

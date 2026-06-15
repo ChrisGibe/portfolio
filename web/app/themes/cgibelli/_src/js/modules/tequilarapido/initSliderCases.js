@@ -12,6 +12,7 @@ const initSliderCases = () => {
   const header = document.querySelector("header");
   const indicator = document.querySelector(".indicator");
   const thumbnails = document.querySelectorAll(".thumbnail");
+  const IS_HP = document.body.classList.contains("-homepage");
 
   if (!hero || !sliderOfCases) {
     return;
@@ -49,26 +50,28 @@ const initSliderCases = () => {
     });
 
     // Translate the footer at the end of the cases slider
-    const lastFakeCase = document.querySelector(".container-fake-case").lastElementChild;
-    gsap.to(footer, {
-      translateX: 0,
-      scrollTrigger: {
-        trigger: lastFakeCase,
-        endTrigger: ".fake-footer",
-        start: `+=${window.innerHeight} bottom`,
-        end: "bottom bottom",
-        scrub: true,
-        onUpdate: (self) => {
-          if (self.progress > 0.9) {
-            footer.classList.add("black");
-            header.classList.add("black");
-          } else {
-            footer.classList.remove("black");
-            header.classList.remove("black");
-          }
+    if(IS_HP){
+      const lastFakeCase = document.querySelector(".container-fake-case").lastElementChild;
+      gsap.to(footer, {
+        translateX: 0,
+        scrollTrigger: {
+          trigger: lastFakeCase,
+          endTrigger: ".fake-footer",
+          start: `+=${window.innerHeight} bottom`,
+          end: "bottom bottom",
+          scrub: true,
+          onUpdate: (self) => {
+            if (self.progress > 0.9) {
+              footer.classList.add("black");
+              header.classList.add("black");
+            } else {
+              footer.classList.remove("black");
+              header.classList.remove("black");
+            }
+          },
         },
-      },
-    });
+      });
+    }
 
     // CASE TRANSITION
     // Shift by 1 viewport so case 0 becomes active at the end of the slider entrance pin

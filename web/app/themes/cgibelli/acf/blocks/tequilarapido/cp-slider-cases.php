@@ -56,7 +56,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                                 <a href="<?= $item["cta"]["url"] ?>"
                                     target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : ''?>"
                                     aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?>"
-                                    class="btn-tequila"><?= $item["cta"]["title"] ?></a>
+                                    class="cta-primary"><?= $item["cta"]["title"] ?></a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -103,7 +103,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                                     <a href="<?= $item["cta"]["url"] ?>"
                                         target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : ''?>"
                                         aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?>"
-                                        class="btn-tequila"><?= $item["cta"]["title"] ?></a>
+                                        class="cta-primary"><?= $item["cta"]["title"] ?></a>
                                 <?php endif; ?>
                             </div>
                         </div>

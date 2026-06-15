@@ -1,0 +1,166 @@
+.cp-hero-banner{
+  @include teq-breakpoint(0, $medium){
+    position: relative;
+
+    &:before{
+      content:"";
+      display: block;
+      width: 100%;
+      height:calc(100% - 160px);
+      background-color: var(--color-grey);
+      position: absolute;
+      top:0px;
+      left:0px;
+    }
+  }
+  .content{
+    padding: 30px 0;
+    @include teq-breakpoint($x-small){
+      padding: 64px 0;
+    }
+    @include teq-breakpoint($medium) {
+      padding: 0 64px;
+    }
+    >div{
+      @include teq-breakpoint($medium) {
+        max-width: 580px;
+      }
+      margin: 0 auto;
+    }
+    h2{
+      >div{
+        overflow: hidden;
+        line-height: 1.2;
+        opacity: 0;
+        transform: translateY(-50px);
+        transition: all 1s;
+        @include teq-breakpoint($medium) {
+          transition-delay: 0.3s;
+        }
+        >div{
+
+        }
+      }
+    }
+    .txt{
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 1s;
+      @include teq-breakpoint($medium) {
+        transition-delay: 0.6s;
+      }
+    }
+  }
+  .images{
+    height:calc(calc(var(--vh, 1vh) * 100) - #{$header-height});
+    padding-right: 0;
+    position: relative;
+    overflow: hidden;
+    
+    @include teq-breakpoint(0, $medium) {
+      margin-top: auto;
+    }
+
+    @include teq-breakpoint(0, $x-small){
+      max-height: calc(var(--vh, 1vh) * 40);
+      padding: 0px;
+    }
+    @include teq-breakpoint( $x-small, $medium){
+      max-height: calc(var(--vh, 1vh) * 50);
+      padding: 0px;
+    }
+    @include teq-breakpoint($medium,$tablet){
+      max-height: 554px;
+    }
+    img{
+      object-fit: cover;
+      object-position: center;
+      @include teq-breakpoint($medium) {
+        transform: scale(0.8);
+        @include transition(all, 1s);
+        opacity: 0;
+      }
+    }
+  }
+
+  .swiper{
+    overflow: visible;
+    @include teq-breakpoint(0,$x-small){
+      padding: 0 24px;
+    }
+    @include teq-breakpoint($x-small,$medium){
+      padding: 0 88px;
+    }
+    .swiper-navigation{
+      width: 100%;
+      position: absolute;
+      @include teq-breakpoint(0,$medium){
+        display: none;
+      }
+      @include teq-breakpoint($medium){
+        width: 50%;
+      }
+      top: 50%;
+      right: 0;
+      .swiper-button-prev{
+        left:15px;
+      }
+      .swiper-button-next{
+        right:0px;
+      }
+
+      .swiper-button-next, .swiper-button-prev {
+        //opacity: 0;
+        //display: none;
+        button {
+          border: none;
+          background-color: transparent;
+        }
+      }
+    }
+
+    .cp-hero-banner-pagination{
+      position: absolute;
+      bottom: 0;
+      width: 50%;
+      left: 0px;
+      text-align: right;
+      z-index: 10;
+      gap: $margin;
+      @include teq-breakpoint(0,$medium){
+        display: none;
+      }
+      span{
+        background-color: transparent;
+        font-weight: 600;
+        height: auto;
+      }
+    }
+
+    .swiper-slide {
+      // opacity: 0;
+      &.swiper-slide-active {
+        .content {
+          h2{
+            >div{
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          .txt{
+            opacity: 1;
+            transform: translateX(0);
+          }
+
+        }
+
+        .images {
+          img {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      }
+    }
+  }
+}

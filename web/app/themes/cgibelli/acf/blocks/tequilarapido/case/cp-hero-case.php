@@ -114,7 +114,7 @@ $fields = get_fields();
         </button>
     <?php endif; ?>
 
-    <a href="" class="d-block mx-auto relative btn-tequila big mobile-only" aria-label="<?= __((!empty($fields["scroll_label"])) ? $fields["scroll_label"] : "Scroll","tequilarapido") ?>">
+    <a href="" class="d-block mx-auto relative cta-primary big mobile-only" aria-label="<?= __((!empty($fields["scroll_label"])) ? $fields["scroll_label"] : "Scroll","tequilarapido") ?>">
         <?= (!empty($fields["scroll_label"])) ? $fields["scroll_label"] : __("Scroll","tequilarapido")?>
         <span class="absolute line"></span>
     </a>

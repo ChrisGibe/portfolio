@@ -1,0 +1,101 @@
+@use "_base/fonts";
+@use "_base/teq-breakpoint";
+
+html {
+  font-size: 62.5%; /* Sets up the Base 10 stuff */
+}
+
+body {
+  @include fonts.labeur;
+
+  &:not(.-homepage) {
+    footer {
+      transform: translateX(0) !important;
+      position: relative !important;
+    }
+  }
+}
+
+.main {
+  overflow: hidden;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color:black;
+}
+
+button {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+// PLYR VIDEO
+:root {
+  --plyr-color-main: #143c96;
+}
+
+.plyr__control--overlaid {
+  background-color: var(--color-dark);
+  opacity: 1;
+  width: 50px;
+  height: 50px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+    width: 50px;
+    height: 50px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-dark);
+
+    svg {
+      fill: var(--color-white);
+    }
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+img, video, iframe {
+  object-fit: cover;
+}
+
+/* Define a transition duration during page visits */
+html.is-changing {
+    body.transition-fade {
+      transition: opacity 0.25s;
+      opacity: 1;
+    }
+}
+/* Define the styles for the unloaded pages */
+html.is-animating {
+  body.transition-fade {
+      opacity: 0;
+    }
+}
+
+.desktop-only {
+  display: none;
+  
+  @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+    display: block;
+  }
+}
+
+.mobile-only {
+  display: block;
+  
+  @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+    display: none;
+  }
+}

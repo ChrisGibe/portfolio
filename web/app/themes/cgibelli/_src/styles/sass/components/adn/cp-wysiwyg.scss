@@ -1,0 +1,186 @@
+@use "../../_base/teq-breakpoint";
+
+.cp-wysiwyg {
+    color: var(--color-dark);
+    font-family: 'Sterling', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+
+    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+        font-size: 1.8rem;
+        line-height: 1.6;
+    }
+
+    > * + * {
+        margin-top: 1.6rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            margin-top: 2.4rem;
+        }
+    }
+
+    h1 {
+        margin-top: 4.6rem;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Neue Din', sans-serif;
+        font-weight: 700;
+        line-height: 1.2;
+        text-transform: uppercase;
+        color: var(--color-dark);
+        margin-bottom: 2.4rem;
+        
+
+        & + * {
+            margin-top: 1.2rem;
+
+            @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+                margin-top: 1.6rem;
+            }
+        }
+    }
+
+    h1 {
+        font-size: 3.4rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            font-size: 6.4rem;
+        }
+    }
+
+    h2 {
+        font-size: 3rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            font-size: 4.4rem;
+        }
+    }
+
+    h3 {
+        font-size: 2.4rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            font-size: 3.2rem;
+        }
+    }
+
+    h4 {
+        font-size: 2rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            font-size: 2.4rem;
+        }
+    }
+
+    h5 {
+        font-size: 1.8rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            font-size: 2rem;
+        }
+    }
+
+    h6 {
+        font-size: 1.6rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            font-size: 1.8rem;
+        }
+    }
+
+    p {
+        margin: 0;
+    }
+
+    strong, b {
+        font-weight: 700;
+    }
+
+    em, i {
+        font-family: 'Saol', serif;
+        font-style: italic;
+    }
+
+    a {
+        color: var(--color-dark);
+        text-decoration: underline;
+        text-underline-offset: 0.3rem;
+        transition: opacity 200ms ease;
+
+        &:hover,
+        &:focus-visible {
+            opacity: 0.6;
+        }
+    }
+
+    ul, ol {
+        padding-left: 2.4rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            padding-left: 3.2rem;
+        }
+
+        li + li {
+            margin-top: 0.8rem;
+        }
+    }
+
+    ul {
+        list-style: disc;
+    }
+
+    ol {
+        list-style: decimal;
+    }
+
+    blockquote {
+        position: relative;
+        padding-left: 2rem;
+        font-family: 'Saol-italic-ajusted', serif;
+        font-style: italic;
+        font-size: 2rem;
+        line-height: 1.4;
+        border-left: 2px solid var(--color-dark);
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            padding-left: 3.2rem;
+            font-size: 2.8rem;
+        }
+
+        p + p {
+            margin-top: 1.2rem;
+        }
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    figure {
+        margin: 0;
+
+        figcaption {
+            margin-top: 0.8rem;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            color: var(--color-grey-50);
+
+            @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+                font-size: 1.4rem;
+            }
+        }
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid var(--color-light-lines);
+        margin: 3.2rem 0;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            margin: 4.8rem 0;
+        }
+    }
+}

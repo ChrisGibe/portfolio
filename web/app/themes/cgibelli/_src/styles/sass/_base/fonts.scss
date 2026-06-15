@@ -1,0 +1,62 @@
+@use "teq-breakpoint";
+
+@font-face {
+  font-family: "Sterling";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/FTSterling-Book.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Sterling";
+  font-style: normal;
+  font-weight: 600;
+  src: url("../fonts/FTSterling-Semi-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Neue Din";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/NeueDINWide-BoldWeb.woff2") format("woff2");
+  descent-override: 10%;
+  ascent-override: 107%;
+}
+
+
+@font-face {
+  font-family: "Saol";
+  font-weight: 400;
+  src: url("../fonts/SaolText-RegularItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Saol-italic-ajusted";
+  font-weight: 400;
+  src: url("../fonts/SaolText-RegularItalic.woff2") format("woff2");
+  descent-override: 35%;
+  ascent-override: 97%;
+}
+
+.neue {
+  font-family: "Neue Din";
+}
+
+.saol {
+  font-family: "Saol";
+}
+
+.saol-italic-ajusted {
+  font-family: "Saol-italic-ajusted";
+}
+
+@mixin labeur {
+  font-family: 'Sterling', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.2;
+
+  @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+    line-height: 1.6;
+  }
+}
+

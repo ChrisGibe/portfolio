@@ -1,0 +1,167 @@
+.cp-hero-case {
+    margin-top: 7.1rem !important;
+    aspect-ratio: 264/194;
+
+    @include teq-breakpoint($large) {
+        margin-top: 10rem !important;
+        aspect-ratio: 1568/1120;
+    }
+
+    &.background {
+        aspect-ratio: 264/194;
+        position: relative;
+        margin-bottom: 14.8rem;
+    
+        @include teq-breakpoint($large) {
+            aspect-ratio: 1568/1120;
+            margin-bottom: 0;
+        }
+
+        .img-video-row {
+            position: initial;
+        }
+
+        .cta-primary {
+            bottom: -5.6rem;
+            position: absolute;
+            transform: translateY(100%);
+            left: 0;
+            right: 0;
+        }
+    }
+
+    .title {
+        margin-top: 3.2rem;
+
+        .first-line {
+            height: 1.7rem;
+            margin-bottom: 0.5rem;
+            font-size: 2.4rem;
+            line-height: 1.2;
+        
+            @include teq-breakpoint($small) {
+                font-size: 6rem;
+                line-height: 0.8;
+                height: 5.4rem;
+            }
+        
+            @include teq-breakpoint($large) {
+                font-size: 6rem;
+                height: 6.6rem;
+                line-height: 1.2;
+            }
+        }
+
+        .second-line {
+            font-size: 3.2rem;
+            line-height: 1.2;
+            height: 2.2rem;
+            font-weight: 300;
+        
+            @include teq-breakpoint($small) {
+                font-size: 8rem;
+                line-height: 0.8;
+                height: 5.7rem;
+                font-weight: 400;
+            }
+        
+            @include teq-breakpoint($large) {
+                font-size: 9rem;
+                line-height: 0.8;
+                height: 6.1rem;
+            }
+        }
+    }
+
+    .description {
+        margin-top: 3.2rem;   
+        @include teq-breakpoint($large) {
+            margin-top: 3.9rem; 
+        } 
+    }
+
+    .img-video-row {
+        margin-top: 7.2rem;
+        position: relative;
+        padding-inline: 0 !important;
+
+        .img-bg {
+            padding-inline: 0;
+
+            picture {
+                img {
+                    aspect-ratio: 390/280;
+                }
+            }
+        }
+
+        .img-principal, 
+        .video-principal {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            picture {
+                img {
+                    aspect-ratio: 264/194;
+                }
+            }
+
+            video {
+                aspect-ratio: 264/194;
+            }
+        }
+
+
+        @include teq-breakpoint($large) {
+            margin-top: 8rem;
+
+            .bg-img {
+                picture {
+                    img {
+                        max-height: auto;
+                        aspect-ratio: 1568/1120;
+                    }
+                }
+            }
+
+            .img-principal, 
+            .video-principal {
+                picture {
+                    img {
+                        aspect-ratio: 1040/766;
+                    }
+                }
+                video {
+                    aspect-ratio: 1040/766;
+                }
+            }
+        }
+    }
+
+        
+    .btn-pause {
+        left: 50%;
+        bottom: 6.5%;
+        transform: translateX(-50%);
+
+        &.mobile {
+            margin-top: 2.4rem;
+            transform: translateX(0);
+        }
+    }
+
+    .cta-primary {
+        margin-top: 5.6rem;
+
+        .line {
+            position: absolute;
+            width: 0.1rem;
+            height: 5.7rem;
+            background-color: var(--color-light-lines);
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 100%);
+        }
+    }
+}

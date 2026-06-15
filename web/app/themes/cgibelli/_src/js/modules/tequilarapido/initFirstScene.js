@@ -47,7 +47,7 @@ const initFirstScene = () => {
 
   gsap.to('.logo-header', { alpha: 1, translateY: 0, duration: 2, ease: "butter"});
   gsap.to('.cp-hero .description', { alpha: 1, duration: 2, ease: "butter"});
-  gsap.to('.cp-hero .btn-tequila', { alpha: 1, duration: 2, ease: "butter"});
+  gsap.to('.cp-hero .cta-primary', { alpha: 1, duration: 2, ease: "butter"});
 
   // LINES AT THE END
   gsap.to('.cp-hero .line', { scaleX: 1, duration: 1.2, delay: 1.3, ease: "butter" });

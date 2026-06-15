@@ -9,7 +9,7 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 
 const entry = {
-    app: ['./_src/js/app.js', './_src/sass/styles.scss', './_src/css/tailwind.css'],
+    app: ['./_src/js/app.js', './_src/styles/styles.scss', './_src/styles/css/tailwind.css'],
 }
 
 module.exports = (env, argv) => {

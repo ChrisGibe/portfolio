@@ -39,7 +39,7 @@ $fields = get_fields();
             <?php if(!empty($fields["title_txt_cta"]["cta"]["url"]) && !empty($fields["title_txt_cta"]["cta"]["title"])):?>
                 <a href="<?= $fields["title_txt_cta"]["cta"]["url"] ?>" 
                     target="<?= (!empty($fields["title_txt_cta"]["cta"]["target"])) ? $fields["title_txt_cta"]["cta"]["target"] : ''?>" 
-                    class="btn-tequila <?= (!empty($fields["title_txt_cta"]["cta"]["target"])) ? "new-tab" : "" ?>"
+                    class="cta-primary <?= (!empty($fields["title_txt_cta"]["cta"]["target"])) ? "new-tab" : "" ?>"
                     aria-label="<?= __($fields["title_txt_cta"]["cta"]["title"],"ampere") ?>">
                     <?= $fields["title_txt_cta"]["cta"]["title"] ?>
                     <?php if(!empty($fields["title_txt_cta"]["cta"]["target"])):?>

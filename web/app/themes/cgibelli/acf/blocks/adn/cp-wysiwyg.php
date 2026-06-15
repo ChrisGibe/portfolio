@@ -12,8 +12,8 @@ $fields = get_fields();
 ?>
 
 <div id="<?= esc_attr($id); ?>" class="teq-container">
-    <div class="teq-row max-w">
-        <div class="col-12 col-md-10 offset-md-1 cp-wysiwyg">
+    <div class="teq-grid">
+        <div class="col-span-6 md:col-span-12 lg:col-span-16 lg:col-start-6 cp-wysiwyg">
             <?= $fields['contenu'] ?? '' ?>
         </div>
     </div>
