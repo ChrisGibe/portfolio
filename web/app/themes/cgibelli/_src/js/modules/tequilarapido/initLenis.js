@@ -17,6 +17,15 @@ export const initLenis = () => {
     });
 
     gsap.ticker.lagSmoothing(0);
+
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+    document.querySelectorAll('img').forEach((img) => {
+        if (img.complete) return;
+        img.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+    });
 }
 
 export default {initLenis, lenis}

@@ -1,35 +1,35 @@
 <?php if(is_front_page()): ?>
-    <footer class="fixed">
+    <footer role="contentinfo" class="fixed overflow-hidden">
         <div class="content w-full relative text-center">
             <a href="#" class="w-full">
                 <h2>
-                    <div class="flex col title-container">
-                        <span class="w-700 text-uppercase neue relative title-top">
+                    <div class="flex flex-col title-container">
+                        <span class="w-700 uppercase neue relative title-top w-full">
                             Parlons
                             <span class="line"></span>
                         </span>
-                        <span class="w-400 saol-italic-ajusted relative title-bottom">
+                        <span class="w-400 saol-italic-ajusted relative title-bottom w-full">
                             de votre projet
                             <span class="line bottom"></span>               
                         </span>
                     </div>
                 </h2>
             </a>
-            <ul class="flex col lg:row justify-center locations">
-                <li class="col-2">
-                    <h3 class="neue text-uppercase town">Nice</h3>
+            <ul class="flex flex-row lg:row justify-center items-center locations gap-8">
+                <li>
+                    <h3 class="neue uppercase town">Nice</h3>
                     <p class="address">6 Place Garibaldi - 06300 Nice <br> +33 (0)4 92 00 80 30</p>
                 </li>
-                <li class="col-2">
-                    <h3 class="neue text-uppercase town">Paris</h3>
+                <li>
+                    <h3 class="neue uppercase town">Paris</h3>
                     <p class="address">22 Bd Malesherbes - 75008 Paris <br> +33 (0)4 92 00 80 30</p>
                 </li>
-                <li class="col-2">
-                    <h3 class="neue text-uppercase town">Alger</h3>
+                <li>
+                    <h3 class="neue uppercase town">Alger</h3>
                     <p class="address">Bd du 11 Décembre 1960 - El Biar <br> +213 21 79 32 09</p>
                     </li>
-                <li class="col-2">
-                    <h3 class="neue text-uppercase town">Abu Dhabi</h3>
+                <li>
+                    <h3 class="neue uppercase town">Abu Dhabi</h3>
                     <p class="address">Bd du 11 Décembre 1960 - El Biar <br> +213 21 79 32 09</p>
                 </li>
             </ul>

@@ -12,7 +12,6 @@ const initSliderCases = () => {
   const header = document.querySelector("header");
   const indicator = document.querySelector(".indicator");
   const thumbnails = document.querySelectorAll(".thumbnail");
-  const nbOfCases = document.querySelectorAll(".fake-case").length;
 
   if (!hero || !sliderOfCases) {
     return;
@@ -37,13 +36,15 @@ const initSliderCases = () => {
       },
     });
 
-    // After slider component translate at 100%, move the "scroll position" on scroll
+    // Move the indicator in sync with case transitions
+    // Shift by 1 viewport so progress starts at the end of the slider entrance pin
+    const indicatorDistance = thumbnails[thumbnails.length - 1].offsetLeft - thumbnails[0].offsetLeft;
     ScrollTrigger.create({
       trigger: ".container-fake-case",
-      start: `top top`,
-      end: `bottom bottom`,
+      start: () => `top top+=${window.innerHeight}`,
+      end: () => `bottom bottom+=${window.innerHeight}`,
       onUpdate: (self) => {
-        gsap.to(indicator, {xPercent: self.progress * (nbOfCases * 100 - 100)});
+        gsap.to(indicator, {x: self.progress * indicatorDistance});
       },
     });
 
@@ -54,7 +55,7 @@ const initSliderCases = () => {
       scrollTrigger: {
         trigger: lastFakeCase,
         endTrigger: ".fake-footer",
-        start: `+=${window.innerHeight + 300} bottom`,
+        start: `+=${window.innerHeight} bottom`,
         end: "bottom bottom",
         scrub: true,
         onUpdate: (self) => {
@@ -70,11 +71,12 @@ const initSliderCases = () => {
     });
 
     // CASE TRANSITION
+    // Shift by 1 viewport so case 0 becomes active at the end of the slider entrance pin
     gsap.utils.toArray(".tequila-case").forEach((tequilaCase, dataCase) => {
       gsap.to(tequilaCase, {
         scrollTrigger: {
           trigger: `.fake-case[data-case="${dataCase}"]`,
-          start: "top top",
+          start: () => `top top+=${window.innerHeight}`,
           onEnter: () => {
             if(currentCase !== tequilaCase) {
               gsap.utils.toArray(".tequila-case").forEach((caseTequila) => {

@@ -133,7 +133,7 @@
 }
 
 .container-fake-case {
-  height: calc(100% - 10rem);
+  height: 100%;
   display: none;
   
   @include teq-breakpoint($large) {
