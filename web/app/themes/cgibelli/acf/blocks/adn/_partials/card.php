@@ -8,7 +8,7 @@
                     <img src="<?= get_the_post_thumbnail_url($post->ID) ?>" alt="">
                 <?php endif; ?>
                 <?php if ($post->fields['tag']): ?>
-                    <p class="txt-12 w-400 c-dark absolute bg-c-white tag">
+                    <p class="txt-12 w-400 c-dark absolute bg-white tag">
                         <?= $post->fields['tag'] ?>
                     </p>
                 <?php endif; ?>

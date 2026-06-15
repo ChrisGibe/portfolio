@@ -36,28 +36,6 @@
   ascent-override: 97%;
 }
 
-$f-sizes:(
-  (120, 120, 120),
-  (80, 80, 80),
-  (64, 40, 34),
-  (56, 40, 40), 
-  (44, 40, 30), 
-  (32, 32, 32), 
-  (24, 24, 24),
-  (20, 16, 16),
-  (18, 18, 18), 
-  (16, 10, 10),
-  (14, 14, 14),
-  (12, 12, 12),
-  (10, 10, 10),
-);
-
-$f-weights: 700, 600, 500, 400, 350;
-
-@mixin prem($sizeValue: 1.6) {
-  font-size: calc($sizeValue / 10) + rem;
-}
-
 .neue {
   font-family: "Neue Din";
 }
@@ -74,43 +52,9 @@ $f-weights: 700, 600, 500, 400, 350;
   font-family: 'Sterling', sans-serif;
   font-size: 1.6rem;
   line-height: 1.2;
+
   @include teq-breakpoint($large) {
     line-height: 1.6;
   }
 }
 
-@mixin f-size($f-size-desktop, $f-size-tablet: $f-size-desktop ,$f-size-mobile: $f-size-desktop) {
-  @include prem($f-size-mobile);
-
-  @include teq-breakpoint($small, $tablet) {
-    @include prem($f-size-tablet);
-  }
-
-  @include teq-breakpoint($tablet) {
-    @include prem($f-size-desktop);
-  }
-
-  @if $f-size-mobile <= 24 {
-    line-height: 1.4;
-  }@else{
-    line-height: 1.2;
-  }
-}
-
-@mixin f-weight($f-weight) {
-  font-weight: $f-weight;
-}
-
-// FONT SIZES
-@each $f-size-desktop, $f-size-tablet, $f-size-mobile in $f-sizes {
-  .txt-#{$f-size-desktop} {
-    @include f-size($f-size-desktop, $f-size-tablet,  $f-size-mobile);
-  }
-}
-
-// FONT WEIGHT
-@each $f-weight in $f-weights {
-  .w-#{$f-weight} {
-    @include f-weight($f-weight);
-  }
-}

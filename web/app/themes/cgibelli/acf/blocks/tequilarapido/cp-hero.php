@@ -11,7 +11,7 @@ $fields = get_fields();
 <div class="cp-hero flex justify-center relative w-full">
     <div class="content w-full relative text-center">
         <?php if(!empty($fields["tag_title_desc"]["tag"] )): ?>
-            <p class="txt-10 uppercase"><?= $fields["tag_title_desc"]["tag"] ?></p>
+            <p class="text-sm uppercase"><?= $fields["tag_title_desc"]["tag"] ?></p>
         <?php endif; ?>
         <?php if(!empty($fields["tag_title_desc"]["title"]["line_1"]) || !empty($fields["tag_title_desc"]["title"]["line_2"])): ?>
             <h1>

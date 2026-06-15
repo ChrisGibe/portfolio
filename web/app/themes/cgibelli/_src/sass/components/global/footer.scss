@@ -1,5 +1,5 @@
 footer {
-    background-color: map-get($colors, c-white);
+    background-color: var(--color-white);
     width: 100vw;
     height: 100vh;
     transform: translateX(100%);
@@ -9,7 +9,7 @@ footer {
     transition: background-color 400ms cubic-bezier(.52,0,.59,.99);
 
     &.black {
-        background-color: map-get($colors, c-dark);
+        background-color: var(--color-dark);
 
         .title-top, 
         .title-bottom, 
@@ -17,11 +17,11 @@ footer {
         .address, 
         .copyright,
         .link-bottom {
-            color: map-get($colors, c-white);
+            color: var(--color-white);
         }
 
         .icon-arrow-tab {
-            fill: map-get($colors, c-white);
+            fill: var(--color-white);
         }
     }
 
@@ -32,7 +32,7 @@ footer {
     .copyright,
     .link-bottom {
         transition: color 400ms cubic-bezier(.52,0,.59,.99);
-        color: map-get($colors, c-dark);
+        color: var(--color-dark);
     }
   
     .content {
@@ -50,7 +50,7 @@ footer {
           position: absolute;
           width: 100%;
           height: 1px;
-          background-color: map-get($colors , c-light-lines);
+          background-color: var(--color-light-lines);
           bottom: 0;
           left: 0;
           z-index: -1;
@@ -98,7 +98,7 @@ footer {
       position: absolute;
       width: 1px;
       height: 70%;
-      background-color: map-get($colors , c-light-lines);
+      background-color: var(--color-light-lines);
       right: 200px;
       bottom: 0;
     }

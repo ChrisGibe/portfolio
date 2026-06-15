@@ -1,16 +1,16 @@
 header {
-    background-color: map-get($colors, c-white);
+    background-color: var(--color-white);
     padding: 24px 0 25px 0;
     height: fit-content;
     z-index: 2;
     transition: background-color 400ms cubic-bezier(.52,0,.59,.99);
 
     &.black {
-        background-color: map-get($colors, c-dark);
+        background-color: var(--color-dark);
         .logo-header {
             svg {
                 path {
-                    fill: map-get($colors, c-white);
+                    fill: var(--color-white);
                 }
             }
         }
@@ -38,7 +38,7 @@ header {
         position: absolute;
         width: 100%;
         height: 1px;
-        background-color: map-get($colors , c-light-lines);
+        background-color: var(--color-light-lines);
         bottom: 0;
         left: 0;
     }
