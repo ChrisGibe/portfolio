@@ -1,6 +1,6 @@
-<footer role="contentinfo" class="fixed overflow-hidden w-full h-screen <?= is_front_page() ? '' : 'black' ?>">
-    <div class="content w-full relative text-center">
-        <a href="#" class="w-full">
+<footer role="contentinfo" class="fixed overflow-hidden w-full h-auto lg:h-screen <?= is_front_page() ? '' : 'black' ?>">
+    <div class="content w-full relative text-center mt-[144px] lg:mt-0">
+        <div class="w-full">
             <h2>
                 <div class="flex flex-col title-container">
                     <span class="font-bold uppercase neue relative title-top w-full">
@@ -13,58 +13,61 @@
                     </span>
                 </div>
             </h2>
-        </a>
-        <div class="flex flex-row lg:row justify-center items-center locations">
+            <div class="mt-12 flex items-center justify-center lg:hidden">
+                <a class="cta-primary purple" href="#contact">
+                    Contact
+                </a>
+            </div>
+        </div>
+        <div class="flex flex-row lg:row justify-center items-center locations mt-20">
             <div>
-                <h3 class="text-white">Based in Nice, France</h3>
+                <h3 class="address">Based in Nice, France</h3>
+                <p class="address">Available for remote and on-site projects</p>
             </div>
         </div>
     </div>
-    <div class="flex flex-col lg:flex-row justify-between items-center absolute bottom px-12 w-full">
-        <div class="flex align-center flex-col lg:flex-row gap-8 left">
-            <p class="copyright">© gibellichristophe. 2026</p>
-            <div class="infos">
+    <div class="flex flex-col-reverse lg:flex-row justify-between items-center static lg:absolute bottom px-12 w-full mt-12 mb-6 lg:mt-0 lg:mb-0">
+        <div class="flex items-center flex-col-reverse lg:flex-row gap-8 left mt-20 lg:mt-0">
+            <p class="copyright text-xs">© gibellichristophe. 2026</p>
+            <div class="infos flex lg:hidden">
                 <a href="" target="" class="link-bottom">Mentions légales</a>
             </div>
         </div>
-        <div class="flex align-center flex-col lg:flex-row gap-8 right">
+        <div class="flex items-center flex-col lg:flex-row gap-8 right">
+            <div class="infos hidden lg:flex">
+                <a href="" target="" class="link-bottom">Mentions légales</a>
+            </div>
             <nav>
                 <ul class="flex gap-6">
                     <li>
-                        <a href="" target="_blank" rel="noopener noreferrer" class="flex items-baseline justify-center gap-2 link-bottom leading-none" aria-label="Instagram Account - Opens in a new tab">
-                            <span>IG.</span>
-                            <div class="inline-flex w-4 h-4 -rotate-45">
-                                <svg aria-hidden="true" focusable="false" width="12" height="13" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="white" fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
-                                    <mask id="mask0_904_2385" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="14">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
-                                    </mask>
+                        <a href="" target="_blank" rel="noopener noreferrer" class="flex items-baseline justify-center gap-2 link-bottom social-link leading-none" aria-label="Instagram Account - Opens in a new tab">
+                            IG.
+                            <div class="inline-flex w-2 h-2">
+                                <svg class="flex w-full h-full" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                    <path d="M1.5 0.5H7.5V6.5" stroke="white"/>
+                                    <path d="M7 1L1 7" stroke="white"/>
                                 </svg>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="" target="_blank" rel="noopener noreferrer" class="flex items-baseline justify-center gap-2 link-bottom leading-none" aria-label="Twitter / X Account - Opens in a new tab">
+                        <a href="" target="_blank" rel="noopener noreferrer" class="flex items-baseline justify-center gap-2 link-bottom social-link leading-none" aria-label="Twitter / X Account - Opens in a new tab">
                             X.
-                            <div class="inline-flex w-4 h-4 -rotate-45">
-                                <svg aria-hidden="true" focusable="false" width="12" height="13" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="white" fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
-                                    <mask id="mask0_904_2385" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="14">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
-                                    </mask>
+                            <div class="inline-flex w-2 h-2">
+                                <svg class="flex w-full h-full" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                    <path d="M1.5 0.5H7.5V6.5" stroke="white"/>
+                                    <path d="M7 1L1 7" stroke="white"/>
                                 </svg>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="" target="_blank" rel="noopener noreferrer" class="flex items-baseline justify-center gap-2 link-bottom leading-none" aria-label="LinkedIn Page - Opens in a new tab">
+                        <a href="" target="_blank" rel="noopener noreferrer" class="flex items-baseline justify-center gap-2 link-bottom social-link leading-none" aria-label="LinkedIn Page - Opens in a new tab">
                             LK.
-                            <div class="inline-flex w-4 h-4 -rotate-45">
-                                <svg aria-hidden="true" focusable="false" width="12" height="13" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="white" fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
-                                    <mask id="mask0_904_2385" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="14">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.32884 0.811478L5.75431 1.386C5.61834 1.52198 5.61834 1.74246 5.75431 1.87846L10.2559 6.37998L0.348229 6.37998C0.155927 6.37998 1.43746e-05 6.53589 1.43769e-05 6.72819L1.43866e-05 7.54069C1.43889e-05 7.73299 0.155927 7.8889 0.348229 7.8889L10.2559 7.8889L5.75431 12.3904C5.61834 12.5264 5.61834 12.7469 5.75431 12.8829L6.32884 13.4574C6.46482 13.5934 6.68529 13.5934 6.8213 13.4574L12.898 7.38066C13.034 7.24468 13.034 7.0242 12.898 6.88819L6.82127 0.811478C6.68529 0.675471 6.46482 0.675471 6.32884 0.811478Z" />
-                                    </mask>
+                            <div class="inline-flex w-2 h-2">
+                                <svg class="flex w-full h-full" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                    <path d="M1.5 0.5H7.5V6.5" stroke="white"/>
+                                    <path d="M7 1L1 7" stroke="white"/>
                                 </svg>
                             </div>
                         </a>
