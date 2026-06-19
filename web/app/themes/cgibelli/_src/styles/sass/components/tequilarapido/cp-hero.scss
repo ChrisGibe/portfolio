@@ -44,7 +44,6 @@
   .title-bottom {
     transform-origin: center bottom;
     perspective: 20vw;
-    overflow: hidden;
 
     .line {
         content: '';
@@ -66,47 +65,18 @@
 
 
   .title-top {
-    height: 2.75rem;
-    margin-bottom: 0.625rem;
-    font-size: 2.5rem;
+    // Fluide de 1.7rem (mobile) à 4.5rem (desktop), interpolation calée sur 375px → 1440px
+    font-size: clamp(1.7rem, 0.71rem + 4.21vw, 4.5rem);
+    height: 1.11em;
     line-height: 1.2;
-
-    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$small) {
-        font-size: 3.75rem;
-        line-height: 0.8;
-        height: 3.375rem;
-    }
-
-    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-        font-size: 5rem;
-        height: 5.5rem;
-        line-height: 1.2;
-        transform: translateY(30px);
-    }
+    margin-bottom: 0.625rem;
   }
 
   .title-bottom {
-    font-size: 3.75rem;
+    // Fluide de 2.5rem (mobile) à 7rem (desktop), interpolation calée sur 375px → 1440px
+    font-size: clamp(2.5rem, 0.92rem + 6.76vw, 7rem);
+    height: 0.714em;
     line-height: 0.8;
-    height: 2.75rem;
-
-    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$small) {
-        font-size: 5rem;
-        line-height: 0.8;
-        height: 3.5625rem;
-    }
-
-    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-        font-size: 7.5rem;
-        /* line-height: 0.8; */
-        /* height: 5.4375rem; */
-        height: auto;
-        line-height: 1.2;
-    }
-
-    .line {
-      transform: scaleX(0) translateY(-33px);
-    }
   }
 
   .line-vertical {
