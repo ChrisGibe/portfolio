@@ -9,9 +9,9 @@ $fields = get_fields();
 ?>
 
 <div class="cp-hero flex justify-center relative w-full">
-    <div class="content w-full relative text-center">
+    <div class="content w-full relative text-center cursor-default">
         <?php if(!empty($fields["tag_title_desc"]["tag"] )): ?>
-            <p class="uppercase text-base"><?= $fields["tag_title_desc"]["tag"] ?></p>
+            <p class="uppercase text-base mb-6 lg:mb-0"><?= $fields["tag_title_desc"]["tag"] ?></p>
         <?php endif; ?>
         <?php if(!empty($fields["tag_title_desc"]["title"]["line_1"]) || !empty($fields["tag_title_desc"]["title"]["line_2"])): ?>
             <h1>
@@ -32,7 +32,7 @@ $fields = get_fields();
             </h1>
         <?php endif; ?>
         <?php if(!empty($fields["tag_title_desc"]["desc"])): ?>
-            <div class="mt-6 lg:mt-12 description lg:w-1/2 mx-auto text-base">
+            <div class="mt-[32px] lg:mt-12 description lg:w-1/2 mx-auto text-base">
                 <?= $fields["tag_title_desc"]["desc"] ?>
             </div>
         <?php endif; ?>

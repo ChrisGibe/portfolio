@@ -13,7 +13,9 @@
   --color-white: #fff;
   --color-text: #fff;
   --color-grey: #f9f9f9;
+  --color-purple: #A175EA;
   --color-light-lines: #e5e5e5;
+  --color-dark-lines: #2E2E2E;
 }
 
 @layer components {

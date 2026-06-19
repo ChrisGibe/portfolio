@@ -1,7 +1,7 @@
 @use "../../_base/teq-breakpoint";
 
 .cp-hero {
-  height: calc(100vh - 4.4375rem);
+  height: calc(100vh - 9.4375rem);
   margin-top: 4.4375rem !important;
 
   @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {

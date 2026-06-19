@@ -28,6 +28,14 @@ footer {
       }
     }
 
+    .social-link {
+      @include teq-breakpoint.teq-breakpoint(0, teq-breakpoint.$large) {
+        border-radius: 18px;
+        border: 1px solid var(--color-dark-lines);
+        padding: 12px 16px;
+      }
+    }
+
     &.black {
         background-color: var(--color-dark);
 
@@ -57,9 +65,12 @@ footer {
   
     .content {
       z-index: 1;
-      transform: translateY(-50%);
       height: fit-content;
-      top: 50%;
+
+      @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+        transform: translateY(-50%);
+         top: 50%;
+      }
     }
   
   
@@ -123,18 +134,6 @@ footer {
       bottom: 0;
     }
 
-    .locations {
-        margin-top: 6.25rem;
-
-        .town {
-            margin-bottom: 1rem;
-        }
-
-        .address {
-            font-size: 0.75rem;
-            line-height: 1.4;
-        }
-    }
 
     .bottom {
         left: 0;

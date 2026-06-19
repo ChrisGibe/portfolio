@@ -16,6 +16,12 @@
     padding: 0.78125rem 2.75rem;
   }
 
+  &.purple {
+    background-color: var(--color-purple);
+    color: var(--color-dark);
+    padding: 14px 32px;
+  }
+
   &.new-tab {
     padding: 0.875rem 1.25rem;
     display: flex;
