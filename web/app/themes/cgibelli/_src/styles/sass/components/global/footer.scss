@@ -8,6 +8,26 @@ footer {
     bottom: 0;
     transition: background-color 400ms cubic-bezier(.52,0,.59,.99);
 
+    @include teq-breakpoint.teq-breakpoint(0, teq-breakpoint.$large) {
+      transform: translateX(0) !important;
+      position: relative !important;
+
+      background-color: var(--color-dark);
+
+      .title-top, 
+      .title-bottom, 
+      .town, 
+      .address, 
+      .copyright,
+      .link-bottom {
+        color: var(--color-white) !important;
+      }
+
+      .icon-arrow-tab {
+        fill: var(--color-white) !important;
+      }
+    }
+
     &.black {
         background-color: var(--color-dark);
 
@@ -58,39 +78,39 @@ footer {
     }
   
     .title-top {
-      height: 4.4rem;
-      margin-bottom: 1rem;
-      font-size: 4rem;
+      height: 2.75rem;
+      margin-bottom: 0.625rem;
+      font-size: 2.5rem;
       line-height: 1.2;
   
       @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$small) {
-          font-size: 6rem;
+          font-size: 3.75rem;
           line-height: 0.8;
-          height: 5.4rem;
+          height: 3.375rem;
       }
   
       @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-          font-size: 8rem;
-          height: 8.8rem;
+          font-size: 5rem;
+          height: 5.5rem;
           line-height: 1.2;
       }
     }
   
     .title-bottom {
-      font-size: 6rem;
+      font-size: 3.75rem;
       line-height: 0.8;
-      height: 4.4rem;
+      height: 2.75rem;
   
       @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$small) {
-          font-size: 8rem;
+          font-size: 5rem;
           line-height: 0.8;
-          height: 5.7rem;
+          height: 3.5625rem;
       }
   
       @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-          font-size: 12rem;
+          font-size: 7.5rem;
           line-height: 0.8;
-          height: 8.7rem;
+          height: 5.4375rem;
       }
     }
   
@@ -104,14 +124,14 @@ footer {
     }
 
     .locations {
-        margin-top: 10rem;
+        margin-top: 6.25rem;
 
         .town {
-            margin-bottom: 1.6rem;
+            margin-bottom: 1rem;
         }
 
         .address {
-            font-size: 1.2rem;
+            font-size: 0.75rem;
             line-height: 1.4;
         }
     }
@@ -120,16 +140,16 @@ footer {
         left: 0;
         right: 0;
         margin-inline: auto;
-        bottom: 2rem;
+        bottom: 1.25rem;
 
         a { 
-            font-size: 1.2rem;
+            font-size: 0.75rem;
         }
 
         .icon-arrow-tab {
             transition: fill 400ms cubic-bezier(.52,0,.59,.99);
-            width: 0.9rem;
-            height: 0.9rem;
+            width: 0.5625rem;
+            height: 0.5625rem;
             transform: rotateZ(-45deg);
         }
     }

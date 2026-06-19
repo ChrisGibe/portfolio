@@ -1,12 +1,11 @@
 @use "_base/fonts";
 @use "_base/teq-breakpoint";
 
-html {
-  font-size: 62.5%; /* Sets up the Base 10 stuff */
-}
 
 body {
   @include fonts.labeur;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   &:not(.-homepage) {
     footer {

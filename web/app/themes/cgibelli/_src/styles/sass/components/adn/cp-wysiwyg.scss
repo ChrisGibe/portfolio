@@ -3,24 +3,24 @@
 .cp-wysiwyg {
     color: var(--color-dark);
     font-family: 'Sterling', sans-serif;
-    font-size: 1.6rem;
+    font-size: 1rem;
     line-height: 1.5;
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-        font-size: 1.8rem;
+        font-size: 1.125rem;
         line-height: 1.6;
     }
 
     > * + * {
-        margin-top: 1.6rem;
+        margin-top: 1rem;
 
         @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            margin-top: 2.4rem;
+            margin-top: 1.5rem;
         }
     }
 
     h1 {
-        margin-top: 4.6rem;
+        margin-top: 2.875rem;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -29,63 +29,63 @@
         line-height: 1.2;
         text-transform: uppercase;
         color: var(--color-dark);
-        margin-bottom: 2.4rem;
+        margin-bottom: 1.5rem;
         
 
         & + * {
-            margin-top: 1.2rem;
+            margin-top: 0.75rem;
 
             @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-                margin-top: 1.6rem;
+                margin-top: 1rem;
             }
         }
     }
 
     h1 {
-        font-size: 3.4rem;
+        font-size: 2.125rem;
 
         @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            font-size: 6.4rem;
+            font-size: 4rem;
         }
     }
 
     h2 {
-        font-size: 3rem;
+        font-size: 1.875rem;
 
         @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            font-size: 4.4rem;
+            font-size: 2.75rem;
         }
     }
 
     h3 {
-        font-size: 2.4rem;
-
-        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            font-size: 3.2rem;
-        }
-    }
-
-    h4 {
-        font-size: 2rem;
-
-        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            font-size: 2.4rem;
-        }
-    }
-
-    h5 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
 
         @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
             font-size: 2rem;
         }
     }
 
-    h6 {
-        font-size: 1.6rem;
+    h4 {
+        font-size: 1.25rem;
 
         @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
+        }
+    }
+
+    h5 {
+        font-size: 1.125rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            font-size: 1.25rem;
+        }
+    }
+
+    h6 {
+        font-size: 1rem;
+
+        @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+            font-size: 1.125rem;
         }
     }
 
@@ -105,7 +105,7 @@
     a {
         color: var(--color-dark);
         text-decoration: underline;
-        text-underline-offset: 0.3rem;
+        text-underline-offset: 0.1875rem;
         transition: opacity 200ms ease;
 
         &:hover,
@@ -115,14 +115,14 @@
     }
 
     ul, ol {
-        padding-left: 2.4rem;
+        padding-left: 1.5rem;
 
         @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            padding-left: 3.2rem;
+            padding-left: 2rem;
         }
 
         li + li {
-            margin-top: 0.8rem;
+            margin-top: 0.5rem;
         }
     }
 
@@ -136,20 +136,20 @@
 
     blockquote {
         position: relative;
-        padding-left: 2rem;
+        padding-left: 1.25rem;
         font-family: 'Saol-italic-ajusted', serif;
         font-style: italic;
-        font-size: 2rem;
+        font-size: 1.25rem;
         line-height: 1.4;
         border-left: 2px solid var(--color-dark);
 
         @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            padding-left: 3.2rem;
-            font-size: 2.8rem;
+            padding-left: 2rem;
+            font-size: 1.75rem;
         }
 
         p + p {
-            margin-top: 1.2rem;
+            margin-top: 0.75rem;
         }
     }
 
@@ -163,13 +163,13 @@
         margin: 0;
 
         figcaption {
-            margin-top: 0.8rem;
-            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
             line-height: 1.4;
             color: var(--color-grey-50);
 
             @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-                font-size: 1.4rem;
+                font-size: 0.875rem;
             }
         }
     }
@@ -177,10 +177,10 @@
     hr {
         border: 0;
         border-top: 1px solid var(--color-light-lines);
-        margin: 3.2rem 0;
+        margin: 2rem 0;
 
         @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-            margin: 4.8rem 0;
+            margin: 3rem 0;
         }
     }
 }

@@ -3,30 +3,29 @@
 .cta-primary {
   display: inline-flex;
   font-family: "Sterling";
-  font-size: 1rem;
-  line-height: 1;
+  font-size: 0.625rem;
   font-weight: 400;
   text-transform: uppercase;
   background-color: var(--color-dark);
   color: var(--color-white);
   border-radius: 24px;
-  padding: 0.95rem 1.6rem;
+  padding: 14px 16px;
   width: fit-content;
 
   &.big {
-    padding: 1.25rem 4.4rem;
+    padding: 0.78125rem 2.75rem;
   }
 
   &.new-tab {
-    padding: 1.4rem 2rem;
+    padding: 0.875rem 1.25rem;
     display: flex;
     justify-content: center;
     align-items: baseline;
     gap: 6px;
 
     .icon-arrow-tab {
-      width: 0.7rem;
-      height: 0.7rem;
+      width: 0.4375rem;
+      height: 0.4375rem;
       fill: var(--color-white);
       transform: rotateZ(-45deg);
     }
@@ -35,8 +34,8 @@
 
 .btn-pause {
   svg {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 }
 

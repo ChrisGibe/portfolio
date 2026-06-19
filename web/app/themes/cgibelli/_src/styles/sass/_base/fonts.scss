@@ -5,6 +5,7 @@
   font-style: normal;
   font-weight: 400;
   src: url("../fonts/FTSterling-Book.woff") format("woff");
+  font-display: swap;
 }
 
 @font-face {
@@ -12,6 +13,7 @@
   font-style: normal;
   font-weight: 600;
   src: url("../fonts/FTSterling-Semi-Bold.woff") format("woff");
+  font-display: swap;
 }
 
 @font-face {
@@ -21,6 +23,7 @@
   src: url("../fonts/NeueDINWide-BoldWeb.woff2") format("woff2");
   descent-override: 10%;
   ascent-override: 107%;
+  font-display: swap;
 }
 
 
@@ -28,6 +31,7 @@
   font-family: "Saol";
   font-weight: 400;
   src: url("../fonts/SaolText-RegularItalic.woff2") format("woff2");
+  font-display: swap;
 }
 
 @font-face {
@@ -36,6 +40,7 @@
   src: url("../fonts/SaolText-RegularItalic.woff2") format("woff2");
   descent-override: 35%;
   ascent-override: 97%;
+  font-display: swap;
 }
 
 .neue {
@@ -48,11 +53,12 @@
 
 .saol-italic-ajusted {
   font-family: "Saol-italic-ajusted";
+  text-transform: lowercase;
 }
 
 @mixin labeur {
   font-family: 'Sterling', sans-serif;
-  font-size: 1.6rem;
+  font-size: 1rem;
   line-height: 1.2;
 
   @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {

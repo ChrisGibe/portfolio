@@ -16,9 +16,9 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
         <?php foreach ($fields["slides"] as $key => $item):?>
             <?php if($key === 0): ?>
                 <?php /* CASE ONE */ ?>
-                <div class="teq-grid items-center absolute inset-0 bg-white w-auto tequila-case" data-case="<?= $key ?>">
+                <div class="teq-grid items-center absolute inset-0 px-4 bg-white w-auto tequila-case" data-case="<?= $key ?>">
                     <?php if(!empty($item["img"]["desktop"]["url"]) && !empty($item["img"]["mobile"]["url"])): ?>
-                        <div class="col-span-11 col-start-2">
+                        <div class="col-span-6">
                             <picture class="flex w-full h-auto">
                                 <source media="(max-width: 767px)"
                                     srcset="<?= $item["img"]["mobile"]["url"] ?>"/>
@@ -30,10 +30,10 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                             </picture>
                         </div>
                     <?php endif; ?>
-                    <div class="col-span-8 col-start-14">
+                    <div class="col-span-4 col-start-8">
                         <div class="flex flex-col justify-center items-center content">
                             <?php if(!empty($item["tag_title_desc"]["tag"] )): ?>
-                                <p class="txt-10 uppercase"><?= $item["tag_title_desc"]["tag"] ?></p>
+                                <p class="text-[10px] uppercase"><?= $item["tag_title_desc"]["tag"] ?></p>
                             <?php endif; ?>
                             <?php if(!empty($item["tag_title_desc"]["title"]["line_1"]) || !empty($item["tag_title_desc"]["title"]["line_2"])): ?>
                                 <h2 class="flex flex-col title">
@@ -50,7 +50,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                                 </h2>
                             <?php endif; ?>
                             <?php if(!empty($item["tag_title_desc"]["desc"])): ?>
-                                <div class="description"><?= $item["tag_title_desc"]["desc"] ?></div>
+                                <div class="description text-xs"><?= $item["tag_title_desc"]["desc"] ?></div>
                             <?php endif; ?>
                             <?php if(!empty($item["cta"]["url"]) && !empty($item["cta"]["title"])): ?>
                                 <a href="<?= $item["cta"]["url"] ?>"
@@ -63,9 +63,9 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                 </div>
                 <?php else: ?>
                     <?php /* CASE TWO */ ?>
-                    <div class="teq-grid items-center absolute inset-0 bg-white w-auto tequila-case" data-case="<?= $key ?>">
+                    <div class="teq-grid items-center absolute inset-0 px-4 bg-white w-auto tequila-case" data-case="<?= $key ?>">
                         <?php if(!empty($item["img"]["desktop"]["url"]) && !empty($item["img"]["mobile"]["url"])): ?>
-                            <div class="col-span-11 col-start-2">
+                            <div class="col-span-6">
                                 <picture class="flex w-full h-auto">
                                     <source media="(max-width: 767px)"
                                         srcset="<?= $item["img"]["mobile"]["url"] ?>"/>
@@ -77,10 +77,10 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                                 </picture>
                             </div>
                         <?php endif; ?>
-                        <div class="col-span-8 col-start-14">
+                        <div class="col-span-4 col-start-8">
                             <div class="flex flex-col justify-center items-center content">
                                 <?php if(!empty($item["tag_title_desc"]["tag"])): ?>
-                                    <p class="txt-10 uppercase"><?= $item["tag_title_desc"]["tag"] ?></p>
+                                    <p class="text-sm uppercase"><?= $item["tag_title_desc"]["tag"] ?></p>
                                 <?php endif; ?>
                                 <?php if(!empty($item["tag_title_desc"]["title"]["line_1"]) || !empty($item["tag_title_desc"]["title"]["line_2"])): ?>
                                     <h2 class="flex flex-col title">
@@ -97,7 +97,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                                     </h2>
                                 <?php endif; ?>
                                 <?php if(!empty($item["tag_title_desc"]["desc"])): ?>
-                                    <div class="description"><?= $item["tag_title_desc"]["desc"] ?></div>
+                                    <div class="description text-xs"><?= $item["tag_title_desc"]["desc"] ?></div>
                                 <?php endif; ?>
                                 <?php if(!empty($item["cta"]["url"]) && !empty($item["cta"]["title"])): ?>
                                     <a href="<?= $item["cta"]["url"] ?>"
@@ -136,20 +136,20 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
     <div class="fake-footer desktop-only"></div>
 
     <!-- CASES MOBILE -->
-    <div class="cases-mobile mobile-only teq-grid">
-
+     <div class="teq-container lg:hidden relative z-1">
+        <div class="cases-mobile teq-grid">
             <?php foreach ($fields["slides"] as $key => $item): ?>
-                <div class="col-6 tequila-case-mobile relative" data-case="<?= $key ?>">
+                <div class="col-span-6 tequila-case-mobile relative" data-case="<?= $key ?>">
                     <?php if(!empty($item["img"]["mobile"]["url"])): ?>
                         <div class="relative top">
                             <img src="<?= $item["img"]["mobile"]["url"] ?>"
-                                 alt="<?= (!empty($item["img"]["mobile"]["alt"])) ? $item["img"]["mobile"]["alt"] : $item["img"]["mobile"]["title"] ?>">
+                                    alt="<?= (!empty($item["img"]["mobile"]["alt"])) ? $item["img"]["mobile"]["alt"] : $item["img"]["mobile"]["title"] ?>">
                             <div class="line"></div>
                         </div>
                     <?php endif; ?>
                     <div class="flex flex-col items-center bottom">
                         <?php if(!empty($item["tag_title_desc"]["tag"])): ?>
-                            <p class="txt-10 uppercase"><?= $item["tag_title_desc"]["tag"] ?></p>
+                            <p class="text-sm uppercase"><?= $item["tag_title_desc"]["tag"] ?></p>
                         <?php endif; ?>
                         <?php if(!empty($item["tag_title_desc"]["title"]["line_1"]) || !empty($item["tag_title_desc"]["title"]["line_2"])): ?>
                             <h2 class="flex flex-col title">
@@ -167,15 +167,15 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                         <?php endif; ?>
                         <?php if(!empty($item["cta"]["url"]) && !empty($item["tag_title_desc"]["desc"])): ?>
                             <a href="<?= $item["cta"]["url"] ?>"
-                               target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : '' ?>"
-                               aria-label="<?= __($item["cta"]["title"], "tequilarapido") ?>"
-                               class="stretched-link font-normal description">
+                                target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : '' ?>"
+                                aria-label="<?= __($item["cta"]["title"], "tequilarapido") ?>"
+                                class="stretched-link font-normal description">
                                 <?= $item["tag_title_desc"]["desc"] ?>
                             </a>
                         <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
-   
-    </div>
+        </div>
+     </div>
 <?php endif; ?>

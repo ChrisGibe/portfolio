@@ -1,8 +1,8 @@
 @use "../../_base/teq-breakpoint";
 
 .cp-hero {
-  height: calc(100vh - 7.1rem);
-  margin-top: 7.1rem !important;
+  height: calc(100vh - 4.4375rem);
+  margin-top: 4.4375rem !important;
 
   @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
     height: 100vh;
@@ -12,7 +12,7 @@
   .content {
     z-index: 1;
     height: 100%;
-    margin-top: 12rem;
+    margin-top: 7.5rem;
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
       margin-top: 0;
@@ -29,7 +29,7 @@
   .description {
     line-height: 1.2;
     opacity: 0;
-    padding-inline: 3.2rem;
+    padding-inline: 2rem;
   }
 
   .cta-primary {
@@ -40,10 +40,11 @@
     opacity: 0;
   }
 
-  .title-top, 
+  .title-top,
   .title-bottom {
     transform-origin: center bottom;
     perspective: 20vw;
+    overflow: hidden;
 
     .line {
         content: '';
@@ -63,40 +64,48 @@
     }
   }
 
+
   .title-top {
-    height: 4.4rem;
-    margin-bottom: 1rem;
-    font-size: 4rem;
+    height: 2.75rem;
+    margin-bottom: 0.625rem;
+    font-size: 2.5rem;
     line-height: 1.2;
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$small) {
-        font-size: 6rem;
+        font-size: 3.75rem;
         line-height: 0.8;
-        height: 5.4rem;
+        height: 3.375rem;
     }
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-        font-size: 8rem;
-        height: 8.8rem;
+        font-size: 5rem;
+        height: 5.5rem;
         line-height: 1.2;
+        transform: translateY(30px);
     }
   }
 
   .title-bottom {
-    font-size: 6rem;
+    font-size: 3.75rem;
     line-height: 0.8;
-    height: 4.4rem;
+    height: 2.75rem;
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$small) {
-        font-size: 8rem;
+        font-size: 5rem;
         line-height: 0.8;
-        height: 5.7rem;
+        height: 3.5625rem;
     }
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-        font-size: 12rem;
-        line-height: 0.8;
-        height: 8.7rem;
+        font-size: 7.5rem;
+        /* line-height: 0.8; */
+        /* height: 5.4375rem; */
+        height: auto;
+        line-height: 1.2;
+    }
+
+    .line {
+      transform: scaleX(0) translateY(-33px);
     }
   }
 
@@ -115,7 +124,7 @@
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
       display: block;
-      top: 10rem;
+      top: 6.25rem;
       left: 0;
     }
   }
@@ -176,5 +185,4 @@
       }
     }
   }
-
 }

@@ -1,10 +1,10 @@
 .a11y-nav {
     z-index: 11;
-    top: -10rem;
+    top: -6.25rem;
 
     a {
         &:focus-visible, &:hover {
-            top: 10rem;
+            top: 6.25rem;
         }
     }
 

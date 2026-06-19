@@ -1,16 +1,16 @@
 .cp-hero-case {
-    margin-top: 7.1rem !important;
+    margin-top: 4.4375rem !important;
     aspect-ratio: 264/194;
 
     @include teq-breakpoint($large) {
-        margin-top: 10rem !important;
+        margin-top: 6.25rem !important;
         aspect-ratio: 1568/1120;
     }
 
     &.background {
         aspect-ratio: 264/194;
         position: relative;
-        margin-bottom: 14.8rem;
+        margin-bottom: 9.25rem;
     
         @include teq-breakpoint($large) {
             aspect-ratio: 1568/1120;
@@ -22,7 +22,7 @@
         }
 
         .cta-primary {
-            bottom: -5.6rem;
+            bottom: -3.5rem;
             position: absolute;
             transform: translateY(100%);
             left: 0;
@@ -31,57 +31,57 @@
     }
 
     .title {
-        margin-top: 3.2rem;
+        margin-top: 2rem;
 
         .first-line {
-            height: 1.7rem;
-            margin-bottom: 0.5rem;
-            font-size: 2.4rem;
+            height: 1.0625rem;
+            margin-bottom: 0.3125rem;
+            font-size: 1.5rem;
             line-height: 1.2;
         
             @include teq-breakpoint($small) {
-                font-size: 6rem;
+                font-size: 3.75rem;
                 line-height: 0.8;
-                height: 5.4rem;
+                height: 3.375rem;
             }
         
             @include teq-breakpoint($large) {
-                font-size: 6rem;
-                height: 6.6rem;
+                font-size: 3.75rem;
+                height: 4.125rem;
                 line-height: 1.2;
             }
         }
 
         .second-line {
-            font-size: 3.2rem;
+            font-size: 2rem;
             line-height: 1.2;
-            height: 2.2rem;
+            height: 1.375rem;
             font-weight: 300;
         
             @include teq-breakpoint($small) {
-                font-size: 8rem;
+                font-size: 5rem;
                 line-height: 0.8;
-                height: 5.7rem;
+                height: 3.5625rem;
                 font-weight: 400;
             }
         
             @include teq-breakpoint($large) {
-                font-size: 9rem;
+                font-size: 5.625rem;
                 line-height: 0.8;
-                height: 6.1rem;
+                height: 3.8125rem;
             }
         }
     }
 
     .description {
-        margin-top: 3.2rem;   
+        margin-top: 2rem;   
         @include teq-breakpoint($large) {
-            margin-top: 3.9rem; 
+            margin-top: 2.4375rem; 
         } 
     }
 
     .img-video-row {
-        margin-top: 7.2rem;
+        margin-top: 4.5rem;
         position: relative;
         padding-inline: 0 !important;
 
@@ -114,7 +114,7 @@
 
 
         @include teq-breakpoint($large) {
-            margin-top: 8rem;
+            margin-top: 5rem;
 
             .bg-img {
                 picture {
@@ -146,18 +146,18 @@
         transform: translateX(-50%);
 
         &.mobile {
-            margin-top: 2.4rem;
+            margin-top: 1.5rem;
             transform: translateX(0);
         }
     }
 
     .cta-primary {
-        margin-top: 5.6rem;
+        margin-top: 3.5rem;
 
         .line {
             position: absolute;
-            width: 0.1rem;
-            height: 5.7rem;
+            width: 0.0625rem;
+            height: 3.5625rem;
             background-color: var(--color-light-lines);
             bottom: 0;
             left: 50%;

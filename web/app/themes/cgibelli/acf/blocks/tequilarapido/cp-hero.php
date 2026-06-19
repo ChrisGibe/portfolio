@@ -11,7 +11,7 @@ $fields = get_fields();
 <div class="cp-hero flex justify-center relative w-full">
     <div class="content w-full relative text-center">
         <?php if(!empty($fields["tag_title_desc"]["tag"] )): ?>
-            <p class="text-sm uppercase"><?= $fields["tag_title_desc"]["tag"] ?></p>
+            <p class="uppercase text-base"><?= $fields["tag_title_desc"]["tag"] ?></p>
         <?php endif; ?>
         <?php if(!empty($fields["tag_title_desc"]["title"]["line_1"]) || !empty($fields["tag_title_desc"]["title"]["line_2"])): ?>
             <h1>
@@ -32,7 +32,9 @@ $fields = get_fields();
             </h1>
         <?php endif; ?>
         <?php if(!empty($fields["tag_title_desc"]["desc"])): ?>
-            <div class="mt-6 lg:mt-12 description lg:w-1/2 mx-auto"><?= $fields["tag_title_desc"]["desc"] ?></div>
+            <div class="mt-6 lg:mt-12 description lg:w-1/2 mx-auto text-base">
+                <?= $fields["tag_title_desc"]["desc"] ?>
+            </div>
         <?php endif; ?>
         <?php if(!empty($fields["cta"]["url"]) && !empty($fields["cta"]["title"])):?>
             <a class="mt-6 lg:mt-12 cta-primary"

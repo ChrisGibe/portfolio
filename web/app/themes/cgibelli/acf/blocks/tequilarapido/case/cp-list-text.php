@@ -23,7 +23,7 @@ $fields = get_fields();
                 <ul class="d-flex column gap-16">
                     <?php foreach ($fields["title_list"]["list"] as $item):?>
                         <?php if(!empty($item["txt"])): ?>
-                            <li class="txt-10 w-350 text-uppercase"><?= $item["txt"] ?></li>
+                            <li class="text-sm w-350 text-uppercase"><?= $item["txt"] ?></li>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>

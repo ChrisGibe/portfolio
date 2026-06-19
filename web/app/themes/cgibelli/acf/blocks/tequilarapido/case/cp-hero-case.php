@@ -20,7 +20,7 @@ $fields = get_fields();
         <div class="teq-row max-w">
                 <div class="col-12 d-flex column align-center text-center content">
                     <?php if(!empty($fields["tag_title_desc"]["tag"] )): ?>
-                        <p class="txt-10 text-uppercase"><?= $fields["tag_title_desc"]["tag"] ?></p>
+                        <p class="text-sm text-uppercase"><?= $fields["tag_title_desc"]["tag"] ?></p>
                     <?php endif; ?>
                     <?php if(!empty($fields["tag_title_desc"]["title"]["line_1"]) || !empty($fields["tag_title_desc"]["title"]["line_2"])): ?>
                         <h1 class="d-flex column title">

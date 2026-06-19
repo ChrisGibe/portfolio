@@ -13,6 +13,7 @@ const initSliderCases = () => {
   const indicator = document.querySelector(".indicator");
   const thumbnails = document.querySelectorAll(".thumbnail");
   const IS_HP = document.body.classList.contains("-homepage");
+  const IS_MOBILE = window.innerWidth < 991;
 
   if (!hero || !sliderOfCases) {
     return;
@@ -50,7 +51,7 @@ const initSliderCases = () => {
     });
 
     // Translate the footer at the end of the cases slider
-    if(IS_HP){
+    if(IS_HP && !IS_MOBILE){
       const lastFakeCase = document.querySelector(".container-fake-case").lastElementChild;
       gsap.to(footer, {
         translateX: 0,
