@@ -133,6 +133,26 @@
                 "id": ""
             },
             "return_format": "array"
+        },
+        {
+            "key": "field_6a35492b0b2b5",
+            "label": "About",
+            "name": "about",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "text",
+            "media_upload": 0,
+            "toolbar": "full",
+            "delay": 0
         }
     ],
     "location": [
@@ -153,5 +173,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1700063612
+    "modified": 1781877063
 }

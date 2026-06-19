@@ -6,6 +6,7 @@ body {
   @include fonts.labeur;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 
   &:not(.-homepage) {
     footer {

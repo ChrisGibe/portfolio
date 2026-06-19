@@ -4,21 +4,84 @@ import {lenis} from "./initLenis";
 const initHeroVideoAnim = () => {
   const mm = gsap.matchMedia();
   const cp = document.querySelector('.cp-hero');
-  const wrapper = document.querySelector('.showreel-wrapper');
+  const wrapper = document.querySelector('.about-wrapper');
+
   if (!wrapper) return;
 
   const header = document.querySelector('header');
-  const cursorVideo = wrapper.querySelector('video');
-  const fullVideoWrapper = document.querySelector('.full-video-wrapper');
-  const fullVideo = fullVideoWrapper.querySelector('video');
+  const fullWrapper = document.querySelector('.full-about-wrapper');
+  const closeBtn = fullWrapper.querySelector('.close-btn');
+  const fullText = fullWrapper.querySelector('.about-text');
+  const aboutBtnMobile = document.querySelector('.about-btn-mobile');
 
-  let isFullVideoOpened = false;
+  let isFullOpened = false;
 
-  const closeBtn = fullVideoWrapper.querySelector('.close-btn');
+  // Expand `origin` (cursor circle on desktop, button on mobile) to open the full about view
+  const openFull = (origin, transformOrigin) => {
+    if (isFullOpened) return;
+    const tl = new gsap.timeline();
+    tl.to(origin, {
+      duration: 0.3,
+      transformOrigin,
+      scale: 0.01,
+    }, 0)
+    tl.to(origin, {
+      duration: 0.7,
+      opacity: 0,
+      transformOrigin,
+      scale: 5
+    }, 0.3)
+    tl.to(fullWrapper, {
+      duration: 0.7,
+      opacity: 1,
+      pointerEvents: 'all',
+      onEnter: () => {
+        isFullOpened = true;
+        header.style.zIndex = -1;
+        lenis.scrollTo('top', {immediate: true, lock: true})
+        lenis.stop();
+      }
+    }, 0.3)
+    // Reveal the about text once the full view is in
+    tl.to(fullText, {
+      duration: 0.6,
+      ease: 'power2.out',
+      opacity: 1,
+      y: 0
+    }, 0.7)
+  }
 
+  // Collapse the full about view back to `origin`
+  const closeFull = (origin) => {
+    const tl = new gsap.timeline();
+    tl.to(fullText, {
+      duration: 0.3,
+      ease: 'power1.in',
+      opacity: 0,
+      y: '2rem'
+    }, 0)
+    tl.to(origin, {
+      duration: 0.65,
+      ease: 'power1.out',
+      opacity: 1,
+      scale: 1
+    }, 0)
+    tl.to(fullWrapper, {
+      duration: 0.65,
+      ease: 'power1.out',
+      opacity: 0,
+      pointerEvents: 'none',
+      onEnter: () => {
+        isFullOpened = false;
+        header.style.zIndex = 2;
+        lenis.start();
+      }
+    }, 0)
+  }
+
+  // Desktop: cursor circle follows the mouse, clicking the hero expands it
   mm.add('(min-width: 991px)', () => {
-    // Make cursor video follow mouse
-    window.addEventListener('mousemove', (e) => {
+    const onMouseMove = (e) => {
       const maskWidth = parseInt(window.getComputedStyle(wrapper).webkitMaskSize, 10);
       gsap.to(wrapper, {
         duration: 0.5,
@@ -26,66 +89,35 @@ const initHeroVideoAnim = () => {
         maskPosition: `${e.clientX - maskWidth/2}px ${e.clientY - maskWidth/2}px`,
         ease: "none"
       });
-    })
+    }
+    const onOpen = (e) => openFull(wrapper, `${e.clientX}px ${e.clientY}px`);
+    const onClose = () => closeFull(wrapper);
 
-    // Opening full video & animating cursor video when clicking on hero
-    cp.addEventListener('click', (e) => {
-      if (!isFullVideoOpened) {
-        const tl = new gsap.timeline();
-        tl.to(wrapper, {
-          duration: 0.3,
-          transformOrigin: `${e.clientX}px ${e.clientY}px`,
-          scale: 0.01,
-        }, 0)
-        tl.to(wrapper, {
-          duration: 0.7,
-          // ease: 'power1.out',
-          opacity: 0,
-          transformOrigin: `${e.clientX}px ${e.clientY}px`,
-          scale: 5
-        }, 0.3)
-        tl.to(fullVideoWrapper, {
-          duration: 0.7,
-          // ease: 'power1.out',
-          opacity: 1,
-          pointerEvents: 'all',
-          onEnter: () => {
-            fullVideo.currentTime = 0;
-            cursorVideo.currentTime = 0;
-            fullVideo.play();
-            isFullVideoOpened = true;
-            header.style.zIndex = -1;
-            lenis.scrollTo('top', {immediate: true, lock: true})
-            lenis.stop();
-          }
-        }, 0.3)
-      }
-    })
+    window.addEventListener('mousemove', onMouseMove);
+    cp.addEventListener('click', onOpen);
+    closeBtn.addEventListener('click', onClose);
 
-    // Closing full video on button click
-    closeBtn.addEventListener('click', () => {
-      const tl = new gsap.timeline();
-      tl.to(wrapper, {
-        duration: 0.65,
-        ease: 'power1.out',
-        opacity: 1,
-        scale: 1
-      }, 0)
-      tl.to(fullVideoWrapper, {
-        duration: 0.65,
-        ease: 'power1.out',
-        opacity: 0,
-        pointerEvents: 'none',
-        onEnter: () => {
-          fullVideo.currentTime = 0;
-          cursorVideo.currentTime = 0;
-          fullVideo.pause();
-          isFullVideoOpened = false;
-          header.style.zIndex = 2;
-          lenis.start();
-        }
-      }, 0)
-    })
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      cp.removeEventListener('click', onOpen);
+      closeBtn.removeEventListener('click', onClose);
+    }
+  })
+
+  // Mobile: a static masked button expands to the same full about view on tap
+  mm.add('(max-width: 990px)', () => {
+    if (!aboutBtnMobile) return;
+
+    const onOpen = () => openFull(aboutBtnMobile, 'center center');
+    const onClose = () => closeFull(aboutBtnMobile);
+
+    aboutBtnMobile.addEventListener('click', onOpen);
+    closeBtn.addEventListener('click', onClose);
+
+    return () => {
+      aboutBtnMobile.removeEventListener('click', onOpen);
+      closeBtn.removeEventListener('click', onClose);
+    }
   })
 
 };
