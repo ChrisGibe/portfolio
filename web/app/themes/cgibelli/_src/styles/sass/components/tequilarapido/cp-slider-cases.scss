@@ -1,10 +1,8 @@
 @use "../../_base/teq-breakpoint";
 
 .cp-slider-cases {
-  width: calc(100vw - 18px);
+  width: 100vw;
   height: 100vh;
-  // translateX(100%) ne décale que de la largeur de l'élément (100vw - 18px),
-  // laissant 18px visibles à droite. On translate du viewport entier pour le sortir complètement.
   transform: translateX(100vw);
   z-index: 1;
 

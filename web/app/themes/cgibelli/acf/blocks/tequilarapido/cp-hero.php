@@ -6,10 +6,11 @@
 
 <?php
 $fields = get_fields();
+$about_img = get_template_directory_uri() . '/_src/images/img-about.webp';
 ?>
 
-<div class="cp-hero flex justify-center relative w-full">
-    <div class="content w-full relative text-center cursor-default">
+<div class="cp-hero flex justify-center relative w-screen">
+    <div class="content mt-14 lg:mt-0 w-full relative text-center cursor-default">
         <?php if(!empty($fields["tag_title_desc"]["tag"] )): ?>
             <p class="uppercase text-base mb-6 lg:mb-0"><?= $fields["tag_title_desc"]["tag"] ?></p>
         <?php endif; ?>
@@ -36,8 +37,16 @@ $fields = get_fields();
                 <?= $fields["tag_title_desc"]["desc"] ?>
             </div>
         <?php endif; ?>
+
+        <!-- Bouton "about" mobile : cercle masqué qui ouvre la vue plein écran au clic -->
+        <div class="flex justify-center mt-[78px] lg:hidden">
+            <button class="about-btn-mobile relative" aria-label="Open the about section">
+                <img class="about-img absolute w-full h-full" src="<?= $about_img ?>" alt="Christophe Gibelli" />
+            </button>
+        </div>
+
         <?php if(!empty($fields["cta"]["url"]) && !empty($fields["cta"]["title"])):?>
-            <a class="mt-6 lg:mt-12 cta-primary"
+            <a class="mt-20 lg:mt-12 cta-primary"
                 href="<?= $fields["cta"]["url"] ?>"
                 target="<?= (!empty($fields["cta"]["target"])) ? $fields["cta"]["target"] : ''?>"
                 aria-label="<?= __($fields["cta"]["title"],"ampere") ?>">
@@ -46,16 +55,22 @@ $fields = get_fields();
         <?php endif; ?>
         <div class="line-mobile mobile-only"></div>
     </div>
-    <div class="showreel-wrapper absolute w-full h-full">
-        <video src="<?= get_template_directory_uri() . '/_src/images/showreel.mp4' ?>" autoplay loop muted></video>
+    <div class="about-wrapper absolute w-full h-full">
+        <img class="about-img absolute w-full h-full" src="<?= $about_img ?>" alt="Christophe Gibelli" />
+        <div class="about-text absolute">
+            <?= $fields["about"] ?>
+        </div>
     </div>
-    <div class="full-video-wrapper absolute w-full h-full">
-        <button class="close-btn absolute flex justify-center items-center">
-            <svg class="icon-close">
-                <use xlink:href="#icon-close"></use>
+    <div class="full-about-wrapper absolute w-full h-full">
+        <button class="close-btn absolute flex justify-center items-center" tabindex="0" aria-label="Close the about section">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0098 2.69684L13.3027 1.98973L7.99926 7.2932L2.69605 1.98999L1.98894 2.6971L7.29215 8.00031L1.98901 13.3034L2.69612 14.0105L7.99926 8.70741L13.3026 14.0108L14.0098 13.3037L8.70636 8.00031L14.0098 2.69684Z" fill="white"/>
             </svg>
         </button>
-        <video src="<?= get_template_directory_uri() . '/_src/images/showreel.mp4' ?>" controls></video>
+        <img class="about-img absolute w-full h-full" src="<?= $about_img ?>" alt="Christophe Gibelli" />
+        <div class="about-text absolute">
+            <?= $fields["about"] ?>
+        </div>
     </div>
     <div class="overlay absolute w-full h-full bg-c-dark"></div>
 </div>
