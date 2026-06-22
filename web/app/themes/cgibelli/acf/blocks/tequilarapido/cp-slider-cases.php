@@ -130,7 +130,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
 
     <div class="container-fake-case">
         <?php foreach ($fields["slides"] as $key => $item):?>
-            <div class="fake-case" data-case="<?= $key ?>"></div>
+            <div id="case-<?= $key ?>" class="fake-case" data-case="<?= $key ?>"></div>
         <?php endforeach; ?>
     </div>
     <div class="fake-footer desktop-only"></div>

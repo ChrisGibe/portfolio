@@ -4,6 +4,8 @@
   display: inline-flex;
   font-family: "Sterling";
   font-size: 0.625rem;
+  line-height: 1;
+  text-box-trim: trim-both;
   font-weight: 400;
   text-transform: uppercase;
   background-color: var(--color-dark);

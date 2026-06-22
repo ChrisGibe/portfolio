@@ -1,4 +1,5 @@
 @use "../../_base/teq-breakpoint";
+@use "../../_base/animations";
 
 footer {
     background-color: var(--color-white);
@@ -51,6 +52,11 @@ footer {
         .icon-arrow-tab {
             fill: var(--color-white);
         }
+
+
+      .link-bottom{
+        @include animations.leftToRight(var(--color-white));
+      }
     }
 
     .title-top, 
@@ -61,6 +67,10 @@ footer {
     .link-bottom {
         transition: color 400ms cubic-bezier(.52,0,.59,.99);
         color: var(--color-dark);
+    }
+
+    .link-bottom{
+      @include animations.leftToRight(var(--color-dark));
     }
   
     .content {

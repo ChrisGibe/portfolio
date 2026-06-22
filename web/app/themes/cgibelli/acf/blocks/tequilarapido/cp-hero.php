@@ -38,7 +38,6 @@ $about_img = get_template_directory_uri() . '/_src/images/img-about.webp';
             </div>
         <?php endif; ?>
 
-        <!-- Bouton "about" mobile : cercle masqué qui ouvre la vue plein écran au clic -->
         <div class="flex justify-center mt-[78px] lg:hidden">
             <button class="about-btn-mobile relative" aria-label="Open the about section">
                 <img class="about-img absolute w-full h-full" src="<?= $about_img ?>" alt="Christophe Gibelli" />
@@ -46,10 +45,9 @@ $about_img = get_template_directory_uri() . '/_src/images/img-about.webp';
         </div>
 
         <?php if(!empty($fields["cta"]["url"]) && !empty($fields["cta"]["title"])):?>
-            <a class="mt-20 lg:mt-12 cta-primary"
+            <a class="mt-20 lg:mt-12 cta-primary go-to-first-case"
                 href="<?= $fields["cta"]["url"] ?>"
-                target="<?= (!empty($fields["cta"]["target"])) ? $fields["cta"]["target"] : ''?>"
-                aria-label="<?= __($fields["cta"]["title"],"ampere") ?>">
+                target="_self">
                 <?= $fields["cta"]["title"] ?>
             </a>
         <?php endif; ?>
