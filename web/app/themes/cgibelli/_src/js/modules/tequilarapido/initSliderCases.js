@@ -121,18 +121,32 @@ const initSliderCases = () => {
         isProgrammaticScroll = true;
         lenis.scrollTo(fakeCaseToScroll, {
           offset: -window.innerHeight,
-          duration: 0.3,
+          duration: 0.6,
           onComplete: () => {
             isProgrammaticScroll = false;
+
             if(currentCase !== caseToDisplay) {
-              gsap.to(".tequila-case", {opacity: 0, zIndex: 2});
-              gsap.to(caseToDisplay, {opacity: 1, zIndex: 3})
+              gsap.to(".tequila-case", {opacity: 0, zIndex: 2 });
+              gsap.to(caseToDisplay, {opacity: 1, zIndex: 3 })
               currentCase = caseToDisplay
             }
           },
         });
       });
     });
+
+    /**
+     * Scroll to the first case on CTA click.
+     * Same distance as the slider entrance pin above (gsap.to + `+=${window.innerHeight}`),
+     * so we land exactly where case 0 becomes active.
+     */
+    const goToFirstCase = document.querySelector(".go-to-first-case");
+    if (goToFirstCase) {
+      goToFirstCase.addEventListener("click", (e) => {
+        e.preventDefault();
+        lenis.scrollTo(window.innerHeight, {duration: 1.6});
+      });
+    }
 
     /**
      * Scotch the indicator to the nearest thumbnail when the user stops scrolling.
@@ -167,7 +181,7 @@ const initSliderCases = () => {
 
         isProgrammaticScroll = true;
         lenis.scrollTo(thumbToScotch, {
-          duration: 0.2,
+          duration: 0.1,
           onComplete: () => {
             isProgrammaticScroll = false;
             const thumbnail = document.querySelector(`.thumbnail[data-position='${thumbToScotch}']`);
@@ -187,3 +201,4 @@ const initSliderCases = () => {
 };
 
 export default initSliderCases;
+

@@ -42,6 +42,7 @@
   .title-bottom {
     transform-origin: center bottom;
     perspective: 20vw;
+    overflow: hidden;
 
     .line {
         content: '';

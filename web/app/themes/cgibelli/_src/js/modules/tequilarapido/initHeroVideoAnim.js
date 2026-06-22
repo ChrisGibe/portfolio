@@ -90,7 +90,12 @@ const initHeroVideoAnim = () => {
         ease: "none"
       });
     }
-    const onOpen = (e) => openFull(wrapper, `${e.clientX}px ${e.clientY}px`);
+    const onOpen = (e) => {
+      // Let interactive elements inside the hero (CTA link, buttons) work normally
+      // instead of opening the about overlay when their click bubbles up to .cp-hero
+      if (e.target.closest('a, button')) return;
+      openFull(wrapper, `${e.clientX}px ${e.clientY}px`);
+    };
     const onClose = () => closeFull(wrapper);
 
     window.addEventListener('mousemove', onMouseMove);
