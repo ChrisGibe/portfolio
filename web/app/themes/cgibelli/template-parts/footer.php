@@ -1,20 +1,20 @@
 <footer role="contentinfo" class="fixed overflow-hidden w-full h-auto lg:h-screen <?= is_front_page() ? '' : 'black' ?>">
     <div class="content w-full relative text-center mt-[144px] lg:mt-0">
         <div class="w-full">
-            <h2>
-                <div class="flex flex-col title-container">
+            <h2 class="w-fit mx-auto cursor-none">
+                <a href="mailto:cgibelli.dev@gmail.com" class="flex flex-col title-container hover-cursor cursor-none!">
                     <span class="font-bold uppercase neue relative title-top w-full">
-                        Get
+                        <span class="inline-block">Get</span>
                         <span class="line"></span>
                     </span>
                     <span class="font-light saol-italic-ajusted relative title-bottom w-full">
-                        in touch
+                        <span class="inline-block">in touch</span>
                         <span class="line bottom"></span>               
                     </span>
-                </div>
+                </a>
             </h2>
             <div class="mt-12 flex items-center justify-center lg:hidden">
-                <a class="cta-primary purple" href="#contact">
+                <a class="cta-primary purple" href="mailto:cgibelli.dev@gmail.com">
                     Contact
                 </a>
             </div>
@@ -77,4 +77,7 @@
         </div>
     </div>
 </footer>
+<div class="custom-cursor-footer">
+    Contact
+</div>
 

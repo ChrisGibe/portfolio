@@ -7,6 +7,7 @@ import initFirstScene from "./modules/tequilarapido/initFirstScene";
 import initSliderCases from "./modules/tequilarapido/initSliderCases";
 import { initLenis } from "./modules/tequilarapido/initLenis";
 import initHeroVideoAnim from "./modules/tequilarapido/initHeroVideoAnim";
+import initFooter from "./modules/tequilarapido/initFooter";
 
 document.addEventListener('DOMContentLoaded', () => {
     // Setup
@@ -19,4 +20,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initFirstScene();
     initSliderCases();
     initHeroVideoAnim();
+    initFooter();
 })
