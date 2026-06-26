@@ -6,7 +6,8 @@
 
 <?php
 $fields = get_fields();
-$about_img = get_template_directory_uri() . '/_src/images/img-about.webp';
+$about_img = get_template_directory_uri() . '/_src/images/img-1.jpg';
+$about_img_2 = get_template_directory_uri() . '/_src/images/img-2.jpg';
 ?>
 
 <div class="cp-hero flex justify-center relative w-screen">
@@ -55,7 +56,7 @@ $about_img = get_template_directory_uri() . '/_src/images/img-about.webp';
     </div>
     <div class="about-wrapper absolute w-full h-full">
         <img class="about-img absolute w-full h-full" src="<?= $about_img ?>" alt="Christophe Gibelli" />
-        <div class="about-text absolute">
+        <div class="about-text absolute pointer-events-none">
             <?= $fields["about"] ?>
         </div>
     </div>
@@ -65,8 +66,10 @@ $about_img = get_template_directory_uri() . '/_src/images/img-about.webp';
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0098 2.69684L13.3027 1.98973L7.99926 7.2932L2.69605 1.98999L1.98894 2.6971L7.29215 8.00031L1.98901 13.3034L2.69612 14.0105L7.99926 8.70741L13.3026 14.0108L14.0098 13.3037L8.70636 8.00031L14.0098 2.69684Z" fill="white"/>
             </svg>
         </button>
-        <img class="about-img absolute w-full h-full" src="<?= $about_img ?>" alt="Christophe Gibelli" />
-        <div class="about-text absolute">
+        <canvas id="about-experience-canvas"
+                data-texture="<?= $about_img ?>"
+                data-texture-reveal="<?= $about_img_2 ?>"></canvas>
+        <div class="about-text absolute pointer-events-none">
             <?= $fields["about"] ?>
         </div>
     </div>

@@ -153,6 +153,14 @@
     mask-size:300px;
   }
 
+  #about-experience-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   // Bouton "about" mobile : cercle masqué affichant l'image
   .about-btn-mobile {
     display: block;
