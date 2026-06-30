@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import GUI from 'lil-gui';
 
 import Sizes from '../../utils/Sizes';
 import Time from '../../utils/Time';
@@ -21,11 +22,11 @@ const FADE_DURATION = 400;
 const ENERGY_LIFETIME = HOLD_DURATION + FADE_DURATION;
 const HOLD_THRESHOLD = FADE_DURATION / ENERGY_LIFETIME;
 // How ragged the brush edge is — gives the painterly / organic outline.
-const EDGE_ROUGHNESS = 0.18;
+const EDGE_ROUGHNESS = 0;
 // Spatial scale of the paint grain anchored to the screen.
 const GRAIN_SCALE = 3.0;
 // Living ripple on the reveal boundary (mask only, the image never moves).
-const FLOW_AMPLITUDE = 0.02;
+const FLOW_AMPLITUDE = 0.005;
 const FLOW_SCALE = 2.5;
 // Sand dissolve: higher frequency = finer grains; softness = width of the
 // granular transition band along the edge.
@@ -48,6 +49,21 @@ export class AboutExperience {
 
         this.textureUrl = this.canvas.dataset.texture;
         this.textureUrl2 = this.canvas.dataset.textureReveal;
+
+        // Tweakable settings (exposed through the lil-gui debug panel)
+        this.settings = {
+            brushSize: BRUSH_SIZE,
+            edgeRoughness: EDGE_ROUGHNESS,
+            grainScale: GRAIN_SCALE,
+            flowAmplitude: FLOW_AMPLITUDE,
+            flowScale: FLOW_SCALE,
+            grainFrequency: GRAIN_FREQUENCY,
+            grainSoftness: GRAIN_SOFTNESS,
+            holdDuration: HOLD_DURATION,
+            fadeDuration: FADE_DURATION,
+            momentumFriction: MOMENTUM_FRICTION,
+            momentumMinSpeed: MOMENTUM_MIN_SPEED,
+        };
 
         // Utils
         this.sizes = new Sizes();
@@ -72,6 +88,7 @@ export class AboutExperience {
         this.setPlane();
         this.loadTextures();
         this.bindEvents();
+        this.setDebug();
     }
 
     setRenderer() {
@@ -155,7 +172,8 @@ export class AboutExperience {
     // Keep the brush disc circular despite the stretched -1..1 frustum
     updateBrushScale() {
         const aspect = this.sizes.width / this.sizes.height;
-        this.brush.scale.set(BRUSH_SIZE, BRUSH_SIZE * aspect, 1);
+        const size = this.settings.brushSize;
+        this.brush.scale.set(size, size * aspect, 1);
     }
 
     setPlane() {
@@ -242,7 +260,7 @@ export class AboutExperience {
             return;
         }
 
-        if (Math.hypot(this.velocity.x, this.velocity.y) < MOMENTUM_MIN_SPEED) {
+        if (Math.hypot(this.velocity.x, this.velocity.y) < this.settings.momentumMinSpeed) {
             return;
         }
 
@@ -253,8 +271,8 @@ export class AboutExperience {
         this.points.push({ x: this.painter.x, y: this.painter.y });
         this.interpolate(previous, this.painter);
 
-        this.velocity.x *= MOMENTUM_FRICTION;
-        this.velocity.y *= MOMENTUM_FRICTION;
+        this.velocity.x *= this.settings.momentumFriction;
+        this.velocity.y *= this.settings.momentumFriction;
     }
 
     // Fill the gap between two stamps so fast strokes stay continuous
@@ -318,6 +336,51 @@ export class AboutExperience {
         this.updateBrushScale();
     }
 
+    // Recompute the hold/fade threshold uniform after a timing change
+    updateHoldThreshold() {
+        const lifetime = this.settings.holdDuration + this.settings.fadeDuration;
+        this.material.uniforms.uHoldThreshold.value =
+            lifetime > 0 ? this.settings.fadeDuration / lifetime : 0;
+    }
+
+    // Live-tweak panel — only mounted when the URL contains "#debug"
+    setDebug() {
+        if (!window.location.hash.includes('debug')) {
+            return;
+        }
+
+        const s = this.settings;
+        const main = this.material.uniforms;
+        const brush = this.brushMaterial.uniforms;
+
+        this.gui = new GUI({ title: 'About Experience' });
+
+        const fBrush = this.gui.addFolder('Brush / curseur');
+        fBrush.add(s, 'brushSize', 0.05, 1, 0.01).name('size').onChange(() => this.updateBrushScale());
+        fBrush.add(s, 'edgeRoughness', 0, 0.5, 0.005).name('roughness (0 = rond)')
+            .onChange((v) => { brush.uRoughness.value = v; });
+        fBrush.add(s, 'grainScale', 0.5, 10, 0.1).name('grain scale')
+            .onChange((v) => { brush.uGrainScale.value = v; });
+
+        const fEdge = this.gui.addFolder('Bord du reveal');
+        fEdge.add(s, 'flowAmplitude', 0, 0.1, 0.001).name('flow amplitude')
+            .onChange((v) => { main.uFlowAmplitude.value = v; });
+        fEdge.add(s, 'flowScale', 0, 10, 0.1).name('flow scale')
+            .onChange((v) => { main.uFlowScale.value = v; });
+        fEdge.add(s, 'grainFrequency', 10, 200, 1).name('sand frequency')
+            .onChange((v) => { main.uGrainFrequency.value = v; });
+        fEdge.add(s, 'grainSoftness', 0, 1, 0.01).name('sand softness')
+            .onChange((v) => { main.uGrainSoftness.value = v; });
+
+        const fTiming = this.gui.addFolder('Timing (ms)');
+        fTiming.add(s, 'holdDuration', 0, 3000, 10).name('hold').onChange(() => this.updateHoldThreshold());
+        fTiming.add(s, 'fadeDuration', 0, 3000, 10).name('fade').onChange(() => this.updateHoldThreshold());
+
+        const fMomentum = this.gui.addFolder('Momentum');
+        fMomentum.add(s, 'momentumFriction', 0.5, 0.99, 0.01).name('friction');
+        fMomentum.add(s, 'momentumMinSpeed', 0.00001, 0.01, 0.00001).name('min speed');
+    }
+
     update() {
         // Run the glide only on frames where the mouse did not move,
         // so the momentum takes over right after the cursor stops.
@@ -328,7 +391,9 @@ export class AboutExperience {
 
         // Drain the mask energy by the fraction of its lifetime elapsed this frame
         // (frame-rate independent), so painted areas return to the initial state.
-        this.copyMaterial.uniforms.uFade.value = this.time.delta / ENERGY_LIFETIME;
+        const lifetime = this.settings.holdDuration + this.settings.fadeDuration;
+        this.copyMaterial.uniforms.uFade.value =
+            lifetime > 0 ? this.time.delta / lifetime : 1;
 
         this.drawMask();
         this.renderer.render(this.scene, this.camera);
