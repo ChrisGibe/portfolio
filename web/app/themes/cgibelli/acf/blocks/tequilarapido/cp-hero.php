@@ -55,12 +55,6 @@ $about_img_2 = get_template_directory_uri() . '/_src/images/img-2.jpg';
         <div class="line-mobile mobile-only"></div>
     </div>
     <div class="about-wrapper absolute w-full h-full">
-        <img class="about-img absolute w-full h-full" src="<?= $about_img ?>" alt="Christophe Gibelli" />
-        <div class="about-text absolute pointer-events-none">
-            <?= $fields["about"] ?>
-        </div>
-    </div>
-    <div class="full-about-wrapper absolute w-full h-full">
         <button class="close-btn absolute flex justify-center items-center" tabindex="0" aria-label="Close the about section">
             <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0098 2.69684L13.3027 1.98973L7.99926 7.2932L2.69605 1.98999L1.98894 2.6971L7.29215 8.00031L1.98901 13.3034L2.69612 14.0105L7.99926 8.70741L13.3026 14.0108L14.0098 13.3037L8.70636 8.00031L14.0098 2.69684Z" fill="white"/>
