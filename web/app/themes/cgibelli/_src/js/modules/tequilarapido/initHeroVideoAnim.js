@@ -14,30 +14,31 @@ const initHeroVideoAnim = () => {
   if (!wrapper) return;
 
   const header = document.querySelector('header');
-  const closeBtn = wrapper.querySelector('.close-btn');
   const aboutText = wrapper.querySelector('.about-text');
   const aboutBtnMobile = document.querySelector('.about-btn-mobile');
 
   let isOpened = false;
 
-  // Shared "panel is now open" side-effects (text/close reveal + lock scroll)
+  // Shared "panel is now open" side-effects (text reveal + lock scroll)
   const reveal = () => {
+    // Dissolve the canvas frosted-glass cover and enable the mouse reveal
+    window.dispatchEvent(new CustomEvent('about:open'));
     lenis.scrollTo('top', {immediate: true, lock: true});
     lenis.stop();
-    gsap.to(closeBtn, {duration: 0.4, opacity: 1, delay: 0.3});
     gsap.to(aboutText, {duration: 0.6, ease: 'power2.out', opacity: 1, y: 0, delay: 0.3});
     gsap.to(header, {duration: 0.3, opacity: 0, pointerEvents: 'none'});
   };
 
   const hide = () => {
+    // Restore the frosted-glass cover and stop the mouse reveal
+    window.dispatchEvent(new CustomEvent('about:close'));
     lenis.start();
-    gsap.to(closeBtn, {duration: 0.3, opacity: 0});
     gsap.to(aboutText, {duration: 0.3, ease: 'power1.in', opacity: 0, y: '2rem'});
     gsap.to(header, {duration: 0.3, opacity: 1, pointerEvents: 'auto'});
   };
 
   // Desktop: the canvas shows through a cursor-following circle that grows to
-  // full screen on click.
+  // full screen on click; clicking again (anywhere on the canvas) closes it.
   mm.add('(min-width: 991px)', () => {
     // Keep the mask circle centred on (x, y) for the given size, so growing the
     // size expands the disc symmetrically instead of drifting to a corner.
@@ -65,10 +66,7 @@ const initHeroVideoAnim = () => {
         maskPosition: position,
       });
     };
-    const onOpen = (e) => {
-      if (isOpened) return;
-      // Let interactive elements inside the hero (CTA link, buttons) work normally
-      if (e.target.closest('a, button')) return;
+    const open = () => {
       isOpened = true;
       // Raise the canvas above .content so it covers the hero once full screen
       gsap.set(wrapper, {zIndex: 6});
@@ -83,7 +81,7 @@ const initHeroVideoAnim = () => {
       });
       reveal();
     };
-    const onClose = () => {
+    const close = () => {
       isOpened = false;
       // Drop back below .content so the spotlight reads behind the hero text
       gsap.set(wrapper, {zIndex: 4});
@@ -97,42 +95,50 @@ const initHeroVideoAnim = () => {
       });
       hide();
     };
+    // Single toggle so the same click can't close then reopen
+    const onClick = (e) => {
+      // Let interactive elements (CTA link, links in the about text) work normally
+      if (e.target.closest('a, button')) return;
+      if (isOpened) close();
+      else open();
+    };
 
     window.addEventListener('mousemove', onMouseMove);
-    cp.addEventListener('click', onOpen);
-    closeBtn.addEventListener('click', onClose);
+    cp.addEventListener('click', onClick);
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
-      cp.removeEventListener('click', onOpen);
-      closeBtn.removeEventListener('click', onClose);
+      cp.removeEventListener('click', onClick);
     }
   })
 
-  // Mobile: a static masked button fades the full-screen canvas in on tap
+  // Mobile: a static masked button fades the full-screen canvas in on tap;
+  // tapping the canvas closes it.
   mm.add('(max-width: 990px)', () => {
     if (!aboutBtnMobile) return;
 
-    const onOpen = () => {
+    const open = () => {
       if (isOpened) return;
       isOpened = true;
       gsap.set(wrapper, {zIndex: 6});
       gsap.to(wrapper, {duration: 0.7, opacity: 1, pointerEvents: 'all'});
       reveal();
     };
-    const onClose = () => {
+    const close = (e) => {
+      if (!isOpened) return;
+      if (e && e.target.closest('a, button')) return;
       isOpened = false;
       gsap.set(wrapper, {zIndex: 4});
       gsap.to(wrapper, {duration: 0.6, opacity: 0, pointerEvents: 'none'});
       hide();
     };
 
-    aboutBtnMobile.addEventListener('click', onOpen);
-    closeBtn.addEventListener('click', onClose);
+    aboutBtnMobile.addEventListener('click', open);
+    wrapper.addEventListener('click', close);
 
     return () => {
-      aboutBtnMobile.removeEventListener('click', onOpen);
-      closeBtn.removeEventListener('click', onClose);
+      aboutBtnMobile.removeEventListener('click', open);
+      wrapper.removeEventListener('click', close);
     }
   })
 

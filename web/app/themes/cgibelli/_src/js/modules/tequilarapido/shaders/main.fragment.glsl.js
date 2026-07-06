@@ -15,6 +15,11 @@ export const mainFragment = /* glsl */ `
     uniform float uGrainFrequency;
     uniform float uGrainSoftness;
     uniform float uHoldThreshold;
+    uniform float uTime;
+    uniform vec2 uCursor;
+    uniform float uCursorRadius;
+    uniform float uDistortStrength;
+    uniform float uDistortFrequency;
 
     ${noise}
 
@@ -57,8 +62,18 @@ export const mainFragment = /* glsl */ `
             held
         );
 
-        // Image sampled with the plain cover UV — never displaced
-        vec2 uv = coverUv(vUv);
+        // Localized animated distortion under the cursor circle; sharp elsewhere.
+        // The falloff keeps it inside the spotlight; uTime keeps it moving even
+        // when the cursor is still.
+        vec2 d = vUv - uCursor;
+        d.x *= uResolution.x / uResolution.y; // aspect-correct the distance
+        float falloff = smoothstep(uCursorRadius, 0.0, length(d));
+        vec2 wobble = vec2(
+            fbm(vUv * uDistortFrequency + vec2(uTime, 0.0)),
+            fbm(vUv * uDistortFrequency + vec2(0.0, uTime))
+        ) * uDistortStrength * falloff;
+
+        vec2 uv = coverUv(vUv) + wobble;
         vec4 base = texture2D(uTexture1, uv);
         vec4 reveal = texture2D(uTexture2, uv);
 

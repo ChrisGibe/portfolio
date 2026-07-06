@@ -144,25 +144,10 @@
     opacity: 0;
     pointer-events: none;
 
-    // Text + close button revealed only once opened (animated in JS)
+    // Text revealed only once opened (animated in JS)
     .about-text {
       opacity: 0;
       transform: translateY(2rem);
-    }
-    .close-btn {
-      opacity: 0;
-      width: 40px;
-      height: 40px;
-      top: 2rem;
-      right: 2rem;
-      z-index: 5;
-      border-radius: 50%;
-      background-color: var(--color-dark);
-      svg {
-        fill: var(--color-white);
-        width: 16px;
-        height: 16px;
-      }
     }
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {

@@ -38,6 +38,14 @@ const GRAIN_SOFTNESS = 0.3;
 const MOMENTUM_FRICTION = 0.88;
 const MOMENTUM_MIN_SPEED = 0.0001;
 
+// Animated distortion localized under the cursor spotlight. Sharp everywhere
+// else; keeps moving (uTime) even when the cursor is still.
+const DISTORT_STRENGTH = 0.045; // displacement amount (UV units)
+const DISTORT_FREQUENCY = 14; // noise frequency of the wobble
+const DISTORT_RADIUS = 0.25; // falloff radius (aspect-corrected, ~spotlight size)
+const DISTORT_SPEED = 0.001; // how fast the wobble animates
+const CURSOR_SMOOTH = 0.15; // per-frame easing of the distortion center
+
 export class AboutExperience {
     constructor() {
         this.canvas = document.getElementById('about-experience-canvas');
@@ -63,6 +71,9 @@ export class AboutExperience {
             fadeDuration: FADE_DURATION,
             momentumFriction: MOMENTUM_FRICTION,
             momentumMinSpeed: MOMENTUM_MIN_SPEED,
+            distortStrength: DISTORT_STRENGTH,
+            distortFrequency: DISTORT_FREQUENCY,
+            distortRadius: DISTORT_RADIUS,
         };
 
         // Utils
@@ -77,6 +88,14 @@ export class AboutExperience {
         this.painter = null; // current paint position (clip space)
         this.velocity = { x: 0, y: 0 };
         this.movedThisFrame = false;
+
+        // The mouse reveal only paints once `revealed` is true (panel open)
+        this.revealed = false;
+
+        // Cursor position (vUv space) driving the localized distortion; the
+        // smoothed value lags slightly so it tracks the CSS spotlight circle.
+        this.cursor = { x: 0.5, y: 0.5 };
+        this.cursorTarget = { x: 0.5, y: 0.5 };
 
         this.init();
     }
@@ -193,6 +212,11 @@ export class AboutExperience {
                 uGrainFrequency: { value: GRAIN_FREQUENCY },
                 uGrainSoftness: { value: GRAIN_SOFTNESS },
                 uHoldThreshold: { value: HOLD_THRESHOLD },
+                uTime: { value: 0 },
+                uCursor: { value: new THREE.Vector2(0.5, 0.5) },
+                uCursorRadius: { value: DISTORT_RADIUS },
+                uDistortStrength: { value: DISTORT_STRENGTH },
+                uDistortFrequency: { value: DISTORT_FREQUENCY },
             },
         });
 
@@ -227,13 +251,41 @@ export class AboutExperience {
     bindEvents() {
         this.sizes.on('resize', () => this.resize());
         this.time.on('tick', () => this.update());
-        this.canvas.addEventListener('pointermove', (event) => this.onPointerMove(event));
+        // Track on window so the distortion follows the cursor everywhere,
+        // even over the hero text that sits above the canvas.
+        window.addEventListener('pointermove', (event) => this.onPointerMove(event));
+
+        // Reveal state is driven by the about panel open/close (initHeroVideoAnim)
+        window.addEventListener('about:open', () => this.setRevealed(true));
+        window.addEventListener('about:close', () => this.setRevealed(false));
+    }
+
+    // Enable the mouse reveal only while the panel is open (clears it on close)
+    setRevealed(revealed) {
+        this.revealed = revealed;
+
+        if (!revealed) {
+            // Wipe the painted reveal so the next opening starts clean
+            this.clearMaskTargets();
+            this.points = [];
+            this.painter = null;
+            this.velocity = { x: 0, y: 0 };
+        }
     }
 
     onPointerMove(event) {
         const rect = this.canvas.getBoundingClientRect();
         const x = (event.clientX - rect.left) / rect.width;
         const y = (event.clientY - rect.top) / rect.height;
+
+        // Always move the distortion center (vUv space, Y flipped)
+        this.cursorTarget.x = x;
+        this.cursorTarget.y = 1 - y;
+
+        // No mouse reveal until the panel is opened
+        if (!this.revealed) {
+            return;
+        }
 
         // Convert to clip space; flip Y (DOM top-left -> WebGL bottom-left)
         const point = {
@@ -354,6 +406,9 @@ export class AboutExperience {
         const brush = this.brushMaterial.uniforms;
 
         this.gui = new GUI({ title: 'About Experience' });
+        // Move the panel to the top-left corner
+        this.gui.domElement.style.left = '15px';
+        this.gui.domElement.style.right = 'auto';
 
         const fBrush = this.gui.addFolder('Brush / curseur');
         fBrush.add(s, 'brushSize', 0.05, 1, 0.01).name('size').onChange(() => this.updateBrushScale());
@@ -379,6 +434,25 @@ export class AboutExperience {
         const fMomentum = this.gui.addFolder('Momentum');
         fMomentum.add(s, 'momentumFriction', 0.5, 0.99, 0.01).name('friction');
         fMomentum.add(s, 'momentumMinSpeed', 0.00001, 0.01, 0.00001).name('min speed');
+
+        const fDistort = this.gui.addFolder('Distortion (curseur)');
+        // Debug toggle: show the full canvas (no mask circle) without opening the
+        // panel, so the distortion can be tuned full screen.
+        const preview = { show: false };
+        fDistort.add(preview, 'show').name('voir le canvas').onChange((show) => {
+            const wrapper = document.querySelector('.about-wrapper');
+            if (!wrapper) return;
+            wrapper.style.webkitMaskImage = show ? 'none' : '';
+            wrapper.style.maskImage = show ? 'none' : '';
+            wrapper.style.opacity = show ? '1' : '';
+            wrapper.style.zIndex = show ? '6' : '';
+        });
+        fDistort.add(s, 'distortStrength', 0, 0.1, 0.001).name('strength')
+            .onChange((v) => { main.uDistortStrength.value = v; });
+        fDistort.add(s, 'distortFrequency', 0, 30, 0.5).name('frequency')
+            .onChange((v) => { main.uDistortFrequency.value = v; });
+        fDistort.add(s, 'distortRadius', 0.02, 0.6, 0.01).name('radius')
+            .onChange((v) => { main.uCursorRadius.value = v; });
     }
 
     update() {
@@ -394,6 +468,12 @@ export class AboutExperience {
         const lifetime = this.settings.holdDuration + this.settings.fadeDuration;
         this.copyMaterial.uniforms.uFade.value =
             lifetime > 0 ? this.time.delta / lifetime : 1;
+
+        // Ease the distortion center toward the cursor and keep it animating
+        this.cursor.x += (this.cursorTarget.x - this.cursor.x) * CURSOR_SMOOTH;
+        this.cursor.y += (this.cursorTarget.y - this.cursor.y) * CURSOR_SMOOTH;
+        this.material.uniforms.uCursor.value.set(this.cursor.x, this.cursor.y);
+        this.material.uniforms.uTime.value = this.time.elapsed * DISTORT_SPEED;
 
         this.drawMask();
         this.renderer.render(this.scene, this.camera);
