@@ -282,11 +282,6 @@ export class AboutExperience {
         this.cursorTarget.x = x;
         this.cursorTarget.y = 1 - y;
 
-        // No mouse reveal until the panel is opened
-        if (!this.revealed) {
-            return;
-        }
-
         // Convert to clip space; flip Y (DOM top-left -> WebGL bottom-left)
         const point = {
             x: x * 2 - 1,

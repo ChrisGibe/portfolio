@@ -3,6 +3,7 @@
 .cp-slider-cases {
   width: 100vw;
   height: 100vh;
+  min-width: 100vw;
   transform: translateX(100vw);
   z-index: 1;
 
