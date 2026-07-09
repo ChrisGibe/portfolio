@@ -16,7 +16,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
         <?php foreach ($fields["slides"] as $key => $item):?>
             <?php if($key === 0): ?>
                 <?php /* CASE ONE */ ?>
-                <div class="teq-grid items-center absolute inset-0 px-4 bg-white w-auto tequila-case" data-case="<?= $key ?>">
+                <div class="teq-grid items-center absolute inset-0 px-4 bg-white w-screen tequila-case" data-case="<?= $key ?>">
                     <?php if(!empty($item["img"]["desktop"]["url"]) && !empty($item["img"]["mobile"]["url"])): ?>
                         <div class="col-span-6">
                             <picture class="flex w-full h-auto">
@@ -63,7 +63,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                 </div>
                 <?php else: ?>
                     <?php /* CASE TWO */ ?>
-                    <div class="teq-grid items-center absolute inset-0 px-4 bg-white w-auto tequila-case" data-case="<?= $key ?>">
+                    <div class="teq-grid items-center absolute inset-0 px-4 bg-white w-screen tequila-case" data-case="<?= $key ?>">
                         <?php if(!empty($item["img"]["desktop"]["url"]) && !empty($item["img"]["mobile"]["url"])): ?>
                             <div class="col-span-6">
                                 <picture class="flex w-full h-auto">

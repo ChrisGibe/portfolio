@@ -4,7 +4,7 @@ header {
     background-color: var(--color-white);
     padding: 24px 0 25px 0;
     height: fit-content;
-    z-index: 2;
+    z-index: 6;
     transition: background-color 400ms cubic-bezier(.52,0,.59,.99);
 
     &.black {

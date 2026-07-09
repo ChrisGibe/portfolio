@@ -1,7 +1,7 @@
 @use "../../_base/teq-breakpoint";
 
 .cp-hero {
-  height: calc(100vh - 9.4375rem);
+  height: auto;
   margin-top: 4.4375rem !important;
 
   @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
@@ -9,8 +9,10 @@
     margin-top: 0 !important;
   }
 
+  // Above the spotlight circle so the hero text stays visible while hovering;
+  // the canvas is raised back above it on open (see initHeroVideoAnim.js)
   .content {
-    z-index: 1;
+    z-index: 5;
     height: 100%;
     
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
@@ -115,42 +117,82 @@
   }
 
   .about-text {
-    bottom: 0;
+    top: 16px;
     left: 0;
     width: 100%;
-    padding: 4rem 6vw;
+    padding: 1rem 2vw;
     color: var(--color-white);
     text-align: left;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.45) 45%, rgba(0, 0, 0, 0) 100%);
+
+    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+      width: 30vw;
+      top: 24px;
+      padding: 4rem 2vw;
+    }
+
+    .about-description {
+      margin-top: 1rem;
+
+      p + p {
+        margin-top: 0.8rem;
+      }
+    }
 
     p {
-      max-width: 38rem;
-      font-size: clamp(1rem, 0.85rem + 0.6vw, 1.375rem);
+      font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1rem);
       line-height: 1.5;
 
-      & + p {
-        margin-top: 1rem;
+      &.small {
+        font-size: 0.775rem;
+      }
+
+      .square {
+        display: inline-block;
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: var(--color-white);
+        margin-right: 0.5rem;
       }
     }
   }
 
+  // The canvas-driven "about" view. On desktop it is a cursor-following circle
+  // (CSS mask) over the live canvas; clicking grows the circle to full screen.
   .about-wrapper {
-    display: none;
-    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
-      display: block;
-    }
-    // Le cercle-curseur n'affiche que l'image, pas le texte
+    z-index: 4;
+    // Mobile default: hidden until tapped, then shown as a full-screen canvas
+    opacity: 0;
+    pointer-events: none;
+
+    // Text revealed only once opened (animated in JS)
     .about-text {
-      display: none;
+      opacity: 0;
+      transform: translateY(2rem);
     }
-    -webkit-mask-image: url("https://upload.wikimedia.org/wikipedia/commons/a/a0/Circle_-_black_simple.svg");
-    -webkit-mask-position:bottom right;
-    -webkit-mask-repeat:no-repeat;
-    -webkit-mask-size:300px;
-    // mask-image: url("../images/circle.svg");
-    mask-position:center center;
-    mask-repeat:no-repeat;
-    mask-size:300px;
+
+    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+      // Desktop: visible as a cursor spotlight circle masking the canvas.
+      // --mask-size is tweened from 300px to full screen on open.
+      opacity: 1;
+      pointer-events: auto;
+      --mask-size: 300px;
+      -webkit-mask-image: url("https://upload.wikimedia.org/wikipedia/commons/a/a0/Circle_-_black_simple.svg");
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-size: var(--mask-size);
+      -webkit-mask-position: center center;
+      mask-image: url("https://upload.wikimedia.org/wikipedia/commons/a/a0/Circle_-_black_simple.svg");
+      mask-repeat: no-repeat;
+      mask-size: var(--mask-size);
+      mask-position: center center;
+    }
+  }
+
+  #about-experience-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
   // Bouton "about" mobile : cercle masqué affichant l'image
@@ -162,28 +204,11 @@
     overflow: hidden;
   }
 
-  .full-about-wrapper {
-    z-index: 4;
-    opacity: 0;
-    pointer-events: none;
-    // Le texte est révélé seulement à l'ouverture (animé en JS)
-    .about-text {
-      opacity: 0;
-      transform: translateY(2rem);
-    }
-    .close-btn {
-      width: 40px;
-      height: 40px;
-      top: 2rem;
-      right: 2rem;
-      z-index: 5;
-      border-radius: 50%;
-      background-color: var(--color-dark);
-      svg {
-        fill: var(--color-white);
-        width: 16px;
-        height: 16px;
-      }
+  .go-to-first-case {
+    display: none;
+    
+    @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
+      display: inline-flex;
     }
   }
 }
