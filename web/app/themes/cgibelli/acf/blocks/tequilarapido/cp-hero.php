@@ -59,7 +59,17 @@ $about_img_2 = get_template_directory_uri() . '/_src/images/img-2.jpg';
                 data-texture="<?= $about_img ?>"
                 data-texture-reveal="<?= $about_img_2 ?>"></canvas>
         <div class="about-text absolute pointer-events-none">
-            <?= $fields["about"] ?>
+            <?php if(!empty($fields["about_job"])): ?>
+                <p class="small">
+                    <span class="square"></span>
+                    <?= $fields["about_job"] ?>
+                </p>
+            <?php endif; ?>
+            <?php if(!empty($fields["about_description"])): ?>
+                <div class="about-description">
+                    <?= $fields["about_description"] ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="overlay absolute w-full h-full bg-c-dark"></div>

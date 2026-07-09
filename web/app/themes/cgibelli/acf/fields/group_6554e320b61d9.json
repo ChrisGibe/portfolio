@@ -135,9 +135,29 @@
             "return_format": "array"
         },
         {
+            "key": "field_6a4fc001488f2",
+            "label": "About job",
+            "name": "about_job",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_6a35492b0b2b5",
-            "label": "About",
-            "name": "about",
+            "label": "About description",
+            "name": "about_description",
             "aria-label": "",
             "type": "wysiwyg",
             "instructions": "",
@@ -149,9 +169,9 @@
                 "id": ""
             },
             "default_value": "",
-            "tabs": "text",
+            "tabs": "all",
+            "toolbar": "adn_mini",
             "media_upload": 0,
-            "toolbar": "full",
             "delay": 0
         }
     ],
@@ -173,5 +193,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1781877063
+    "modified": 1783611403
 }
