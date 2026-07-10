@@ -1,0 +1,42 @@
+.cp-key-figures {
+    padding-top: 7.5rem !important;
+    padding-bottom: 10rem !important;
+
+    @include teq-breakpoint($large) {
+        padding-top: 7.8125rem !important;
+        padding-bottom: 8.8125rem !important;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+        background-color: var(--color-dark);
+        width: calc(100% - 50px);
+        height: 100%;
+        z-index: -1;
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 4.5rem;
+    }
+
+    .title-key {
+        font-size: 3rem;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+    }
+
+    .line {
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        width: 0.0625rem;
+        height: 6.4375rem;
+        background-color: var(--color-dark-lines);
+    }
+}

@@ -1,0 +1,31 @@
+.cp-img-text {
+  h2 {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+
+    @include teq-breakpoint($large) {
+      font-weight: 600;
+    }
+  }
+
+  img {
+    margin-bottom: 0.9375rem;
+  }
+
+  .paragraph {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    @include teq-breakpoint($large) {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+  }
+
+  .left {
+    @include teq-breakpoint(0, $large) {
+      margin-bottom: 4rem;
+    }
+  }
+}

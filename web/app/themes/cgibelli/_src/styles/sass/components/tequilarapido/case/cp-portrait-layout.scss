@@ -1,0 +1,32 @@
+.cp-portrait-layout {
+    .left {
+        margin-bottom: 2rem;
+        img, video, iframe {
+            aspect-ratio: 358/680;
+        }
+        @include teq-breakpoint($medium) {
+            margin-bottom: 0;
+
+            img, video, iframe {
+                aspect-ratio: 380/720;
+            }
+        }
+    }
+
+    .right {
+        img {
+            aspect-ratio: 358/715;
+        }
+        @include teq-breakpoint($medium) {
+            img {
+                aspect-ratio: 908/1813;
+            }
+        }
+    }
+
+    .btn-pause {
+        bottom: 1.5rem;
+        left: 0;
+        right: 0;
+    }
+}

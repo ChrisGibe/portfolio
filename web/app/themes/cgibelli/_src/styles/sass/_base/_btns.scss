@@ -1,0 +1,52 @@
+@use "a11y";
+
+.cta-primary {
+  display: inline-flex;
+  font-family: "Sterling";
+  font-size: 0.625rem;
+  line-height: 1;
+  text-box-trim: trim-both;
+  font-weight: 400;
+  text-transform: uppercase;
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  border-radius: 24px;
+  padding: 14px 16px;
+  width: fit-content;
+
+  &.big {
+    padding: 0.78125rem 2.75rem;
+  }
+
+  &.purple {
+    background-color: var(--color-purple);
+    color: var(--color-dark);
+    padding: 14px 32px;
+  }
+
+  &.new-tab {
+    padding: 0.875rem 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 6px;
+
+    .icon-arrow-tab {
+      width: 0.4375rem;
+      height: 0.4375rem;
+      fill: var(--color-white);
+      transform: rotateZ(-45deg);
+    }
+  }
+}
+
+.btn-pause {
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+a.stretched-link {
+  @include a11y.link-a11y-after(var(--color-dark));
+}

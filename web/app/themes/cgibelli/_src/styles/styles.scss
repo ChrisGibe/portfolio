@@ -1,0 +1,13 @@
+@use "sass/_base/teq-breakpoint";
+@use "sass/_base/_animations";
+@use "sass/_base/_a11y";
+@use "sass/_base/fonts";
+@use "sass/_base/btns";
+@use "sass/global";
+
+//COMPONENTS
+@use "sass/components/global/header";
+@use "sass/components/global/footer";
+@use "sass/components/adn/cp-wysiwyg";
+@use "sass/components/tequilarapido/cp-hero";
+@use "sass/components/tequilarapido/cp-slider-cases";

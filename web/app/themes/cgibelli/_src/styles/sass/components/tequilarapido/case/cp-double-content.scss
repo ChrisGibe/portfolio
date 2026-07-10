@@ -1,0 +1,34 @@
+.cp-double-content {
+    .btn-pause {
+        bottom: 1.5rem;
+        left: 0;
+        right: 0;
+    }
+
+    .left {
+        margin-bottom: 2rem;
+
+        img, video, iframe {
+            aspect-ratio: 358/272;
+        }
+
+        @include teq-breakpoint($medium) {
+            margin-bottom: 0;
+
+            img, video, iframe {
+                aspect-ratio: 908/690;
+            }
+        }
+    }
+    .right {
+        img, video, iframe {
+            aspect-ratio: 358/384;
+        }
+
+        @include teq-breakpoint($medium) {
+            img, video, iframe {
+                aspect-ratio: 644/690;
+            } 
+        }
+    }
+}

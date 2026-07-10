@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+@source "../../**/*.php";
+@source "../../**/*.vue";
+@source "../js/**/*.js";
+
+
+/* COLORS */
+@theme static {
+  --color-grid: rgba(255, 0, 0, 0.1);
+  --color-dark: #000;
+  --color-white: #fff;
+  --color-text: #fff;
+  --color-grey: #f9f9f9;
+  --color-purple: #A175EA;
+  --color-light-lines: #e5e5e5;
+  --color-dark-lines: #2E2E2E;
+}
+
+@layer components {
+  .teq-container {
+    @apply 2xl:container
+        px-4 
+        py-10 
+        md:py-22
+        w-full;
+
+    &.full-screen {
+      @apply w-screen
+      max-w-full;
+    }
+
+    &#grid {
+      display: none;
+      pointer-events: none;
+
+      &.isVisible {
+        display: grid;
+      }
+    }
+
+    &.banner {
+      @apply pt-[14.5rem]
+      pb-10
+      lg:py-22;
+    }
+  }
+
+  .teq-grid {
+    @apply grid
+    grid-cols-6
+    md:grid-cols-12
+    gap-x-4
+    md:gap-x-6;
+  }
+}
