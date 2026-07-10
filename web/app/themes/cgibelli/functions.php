@@ -6,6 +6,7 @@ require_once __DIR__ . '/inc/acf.php';
 require_once __DIR__ . '/inc/assets.php';
 require_once __DIR__ . '/inc/gutenberg.php';
 require_once __DIR__ . '/inc/menu.php';
+require_once __DIR__ . '/inc/seo.php';
 
 // Disable WordPress emoji polyfill (useless on modern browsers)
 remove_action('wp_head', 'print_emoji_detection_script', 7);

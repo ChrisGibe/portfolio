@@ -9,11 +9,12 @@ header {
 
     &.black {
         background-color: var(--color-dark);
-        .logo-header {
-            svg {
-                path {
-                    fill: var(--color-white);
-                }
+
+        .home-link {
+            color: var(--color-white);
+
+            .circle {
+                background-color: var(--color-white);
             }
         }
     }
@@ -22,16 +23,13 @@ header {
         padding: 35px 0;
     }
 
-    .logo-header {
-        @include teq-breakpoint.teq-breakpoint(0, teq-breakpoint.$small) {
-            width: 114px;
-            height: 22px;
-        }
+    .home-link {
+        color: var(--color-dark);
+        transition: color 400ms cubic-bezier(.52,0,.59,.99);
 
-        svg {
-            path {
-                transition: fill 400ms cubic-bezier(.52,0,.59,.99);
-            }
+        .circle {
+            background-color: var(--color-dark);
+            transition: background-color 400ms cubic-bezier(.52,0,.59,.99);
         }
     }
 

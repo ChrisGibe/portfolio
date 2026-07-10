@@ -54,7 +54,7 @@ $about_img_2 = get_template_directory_uri() . '/_src/images/img-2.jpg';
         <?php endif; ?>
         <div class="line-mobile mobile-only"></div>
     </div>
-    <div class="about-wrapper absolute w-full h-full">
+    <div class="about-wrapper fixed inset-0 md:absolute w-full h-full">
         <canvas id="about-experience-canvas"
                 data-texture="<?= $about_img ?>"
                 data-texture-reveal="<?= $about_img_2 ?>"></canvas>

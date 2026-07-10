@@ -13,7 +13,7 @@ $fields = get_fields();
 
 <div id="<?= esc_attr($id); ?>" class="teq-container">
     <div class="teq-grid">
-        <div class="col-span-6 md:col-span-12 lg:col-span-16 lg:col-start-6 cp-wysiwyg">
+        <div class="col-span-6 md:col-span-8 md:col-start-3  cp-wysiwyg">
             <?= $fields['contenu'] ?? '' ?>
         </div>
     </div>
