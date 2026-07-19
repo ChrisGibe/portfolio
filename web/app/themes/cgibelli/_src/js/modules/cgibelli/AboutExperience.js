@@ -4,10 +4,17 @@ import GUI from 'lil-gui';
 import Sizes from '../../utils/Sizes';
 import Time from '../../utils/Time';
 
-import { mainVertex } from './shaders/main.vertex.glsl';
-import { mainFragment } from './shaders/main.fragment.glsl';
-import { brushFragment } from './shaders/brush.fragment.glsl';
-import { copyFragment } from './shaders/copy.fragment.glsl';
+import mainVertex from './shaders/about/vertex.glsl';
+import mainFragmentSrc from './shaders/about/fragment.glsl';
+import brushFragmentSrc from './shaders/about/brush.glsl';
+import copyFragment from './shaders/about/copy.glsl';
+import noise from './shaders/noise.glsl';
+
+// The .glsl files are now raw text (asset/source). The shared noise/fbm chunk
+// used to be interpolated with `${noise}`; we now inject it at the //__NOISE__
+// marker so the shader files stay pure GLSL.
+const mainFragment = mainFragmentSrc.replace('//__NOISE__', noise);
+const brushFragment = brushFragmentSrc.replace('//__NOISE__', noise);
 
 // Distance (in normalized 0..1 space) between two interpolated brush stamps,
 // so fast mouse moves still paint a continuous stroke.
