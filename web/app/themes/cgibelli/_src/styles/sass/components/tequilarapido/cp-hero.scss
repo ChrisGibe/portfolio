@@ -167,7 +167,6 @@
     // Text revealed only once opened (animated in JS)
     .about-text {
       opacity: 0;
-      transform: translateY(2rem);
     }
 
     @include teq-breakpoint.teq-breakpoint(teq-breakpoint.$large) {
