@@ -25,7 +25,7 @@ const initHeroVideoAnim = () => {
     window.dispatchEvent(new CustomEvent('about:open'));
     lenis.scrollTo('top', {immediate: true, lock: true});
     lenis.stop();
-    gsap.to(aboutText, {duration: 0.6, ease: 'power2.out', opacity: 1, y: 0, delay: 0.3});
+    gsap.to(aboutText, {duration: 0.6, ease: 'power2.out', opacity: 1, delay: 0.3});
     gsap.to(header, {duration: 0.3, opacity: 0, pointerEvents: 'none'});
   };
 
@@ -33,7 +33,7 @@ const initHeroVideoAnim = () => {
     // Restore the frosted-glass cover and stop the mouse reveal
     window.dispatchEvent(new CustomEvent('about:close'));
     lenis.start();
-    gsap.to(aboutText, {duration: 0.3, ease: 'power1.in', opacity: 0, y: '2rem'});
+    gsap.to(aboutText, {duration: 0.3, ease: 'power1.in', opacity: 0 });
     gsap.to(header, {duration: 0.3, opacity: 1, pointerEvents: 'auto'});
   };
 
