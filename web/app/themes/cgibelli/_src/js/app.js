@@ -1,4 +1,3 @@
-import initVars from "./helpers/_initvars";
 import toggleGrid from "./helpers/_toggleGrid";
 import teqAnimations from "./helpers/_animations";
 
@@ -13,7 +12,6 @@ import { AboutExperience } from "./modules/cgibelli/AboutExperience";
 document.addEventListener('DOMContentLoaded', () => {
     // Setup
     initLenis();
-    initVars();
     toggleGrid();
     teqAnimations();
 
