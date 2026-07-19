@@ -40,9 +40,9 @@ $about_img_2 = get_template_directory_uri() . '/_src/images/img-2.jpg';
         <?php endif; ?>
 
         <div class="flex justify-center mt-[78px] lg:hidden">
-            <button class="about-btn-mobile relative" aria-label="Open the about section">
-                <img class="about-img absolute w-full h-full" src="<?= $about_img ?>" alt="Christophe Gibelli" />
-            </button>
+            <!-- Transparent tap target: the WebGL canvas (.about-wrapper) is
+                 anchored over this circle in JS and rendered inside it. -->
+            <button class="about-btn-mobile relative" aria-label="Open the about section"></button>
         </div>
 
         <?php if(!empty($fields["cta"]["url"]) && !empty($fields["cta"]["title"])):?>

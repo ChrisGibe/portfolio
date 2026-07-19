@@ -33,7 +33,7 @@ const initHeroVideoAnim = () => {
     // Restore the frosted-glass cover and stop the mouse reveal
     window.dispatchEvent(new CustomEvent('about:close'));
     lenis.start();
-    gsap.to(aboutText, {duration: 0.3, ease: 'power1.in', opacity: 0 });
+    gsap.to(aboutText, {duration: 0, ease: 'power1.in', opacity: 0 });
     gsap.to(header, {duration: 0.3, opacity: 1, pointerEvents: 'auto'});
   };
 
@@ -112,33 +112,92 @@ const initHeroVideoAnim = () => {
     }
   })
 
-  // Mobile: a static masked button fades the full-screen canvas in on tap;
-  // tapping the canvas closes it.
+  // Mobile: the canvas is rendered inside a small circle (the whole photo,
+  // distorted) anchored on the in-flow button; tapping scales it to fullscreen
+  // (distortion off) and tapping the image again returns to the circle.
   mm.add('(max-width: 990px)', () => {
     if (!aboutBtnMobile) return;
+
+    // Anchor the circular canvas over the (transparent) in-flow button. The
+    // wrapper is absolutely positioned inside the hero, so it scrolls with the
+    // page without a scroll listener.
+    const positionCircle = () => {
+      const btnRect = aboutBtnMobile.getBoundingClientRect();
+      const heroRect = cp.getBoundingClientRect();
+      gsap.set(wrapper, {
+        position: 'absolute',
+        top: btnRect.top - heroRect.top,
+        left: btnRect.left - heroRect.left,
+        width: btnRect.width,
+        height: btnRect.height,
+        borderRadius: '50%',
+        zIndex: 4,
+        pointerEvents: 'none',
+      });
+    };
+
+    // Initial closed state: place + reveal the circle, size the canvas to it
+    positionCircle();
+    gsap.set(wrapper, {opacity: 1});
+    window.dispatchEvent(new CustomEvent('about:resize'));
 
     const open = () => {
       if (isOpened) return;
       isOpened = true;
-      gsap.set(wrapper, {zIndex: 6});
-      gsap.to(wrapper, {duration: 0.7, opacity: 1, pointerEvents: 'all'});
-      reveal();
+      gsap.timeline()
+        .to(wrapper, {duration: 0.25, opacity: 0, ease: 'power1.in'})
+        .add(() => {
+          // Snap the canvas box to fullscreen while hidden, resize the renderer,
+          // then turn the distortion off (about:open, dispatched by reveal()).
+          gsap.set(wrapper, {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: 0,
+            zIndex: 6,
+            pointerEvents: 'all',
+          });
+          window.dispatchEvent(new CustomEvent('about:resize'));
+          reveal();
+        })
+        .to(wrapper, {duration: 0.45, opacity: 1, ease: 'power2.out'});
     };
+
     const close = (e) => {
       if (!isOpened) return;
+      // Let links inside the about text work normally
       if (e && e.target.closest('a, button')) return;
       isOpened = false;
-      gsap.set(wrapper, {zIndex: 4});
-      gsap.to(wrapper, {duration: 0.6, opacity: 0, pointerEvents: 'none'});
-      hide();
+      gsap.timeline()
+        .to(wrapper, {duration: 0.25, opacity: 0, ease: 'power1.in'})
+        .add(() => {
+          hide();
+          // Back to the circle, re-anchored on the button, distortion back on
+          positionCircle();
+          window.dispatchEvent(new CustomEvent('about:resize'));
+        })
+        .to(wrapper, {duration: 0.45, opacity: 1, ease: 'power2.out'});
+    };
+
+    const onResize = () => {
+      if (!isOpened) positionCircle();
+      window.dispatchEvent(new CustomEvent('about:resize'));
     };
 
     aboutBtnMobile.addEventListener('click', open);
     wrapper.addEventListener('click', close);
+    window.addEventListener('resize', onResize);
 
     return () => {
       aboutBtnMobile.removeEventListener('click', open);
       wrapper.removeEventListener('click', close);
+      window.removeEventListener('resize', onResize);
+      // Reset inline styles so the desktop branch starts from a clean slate
+      gsap.set(wrapper, {
+        clearProps: 'position,top,left,width,height,borderRadius,zIndex,pointerEvents,opacity',
+      });
     }
   })
 
