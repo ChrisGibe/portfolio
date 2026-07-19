@@ -43,6 +43,9 @@ const MOMENTUM_MIN_SPEED = 0.0001;
 const DISTORT_STRENGTH = 0.045; // displacement amount (UV units)
 const DISTORT_FREQUENCY = 14; // noise frequency of the wobble
 const DISTORT_RADIUS = 0.25; // falloff radius (aspect-corrected, ~spotlight size)
+// Mobile: the canvas IS the small circle, so use a large radius (soft falloff
+// well past the circle edge) to wobble the whole photo, not just the centre.
+const DISTORT_RADIUS_MOBILE = 1.5;
 const DISTORT_SPEED = 0.001; // how fast the wobble animates
 const CURSOR_SMOOTH = 0.15; // per-frame easing of the distortion center
 
@@ -97,6 +100,17 @@ export class AboutExperience {
         this.cursor = { x: 0.5, y: 0.5 };
         this.cursorTarget = { x: 0.5, y: 0.5 };
 
+        // Mobile (<=990px): the canvas is rendered at the size of the small
+        // circle (whole photo, cover-fit) with a fixed, always-on distortion;
+        // opening scales it to fullscreen and fades the distortion off.
+        this.mql = window.matchMedia('(max-width: 990px)');
+        this.isMobile = this.mql.matches;
+        this.distortStrengthBase = DISTORT_STRENGTH;
+        this.distortionTarget = DISTORT_STRENGTH;
+        // Current render box (px); drives the brush aspect and resolution
+        this.displayWidth = this.sizes.width;
+        this.displayHeight = this.sizes.height;
+
         this.init();
     }
 
@@ -108,6 +122,13 @@ export class AboutExperience {
         this.loadTextures();
         this.bindEvents();
         this.setDebug();
+
+        // Mobile starts as the small circle: wobble the whole photo and size the
+        // renderer to the circle box (set in CSS/JS by initHeroVideoAnim).
+        if (this.isMobile) {
+            this.material.uniforms.uCursorRadius.value = DISTORT_RADIUS_MOBILE;
+            this.resize();
+        }
     }
 
     setRenderer() {
@@ -116,8 +137,10 @@ export class AboutExperience {
             antialias: true,
             alpha: true,
         });
-        this.renderer.setSize(this.sizes.width, this.sizes.height);
         this.renderer.setPixelRatio(this.sizes.pixelRatio);
+        // updateStyle = false: the canvas display size is driven by CSS
+        // (width/height: 100% of the wrapper); we only size the drawing buffer.
+        this.renderer.setSize(this.sizes.width, this.sizes.height, false);
         // Pass the sRGB image bytes straight through (no double conversion)
         this.renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     }
@@ -190,7 +213,7 @@ export class AboutExperience {
 
     // Keep the brush disc circular despite the stretched -1..1 frustum
     updateBrushScale() {
-        const aspect = this.sizes.width / this.sizes.height;
+        const aspect = this.displayWidth / this.displayHeight;
         const size = this.settings.brushSize;
         this.brush.scale.set(size, size * aspect, 1);
     }
@@ -256,8 +279,32 @@ export class AboutExperience {
         window.addEventListener('pointermove', (event) => this.onPointerMove(event));
 
         // Reveal state is driven by the about panel open/close (initHeroVideoAnim)
-        window.addEventListener('about:open', () => this.setRevealed(true));
-        window.addEventListener('about:close', () => this.setRevealed(false));
+        window.addEventListener('about:open', () => {
+            this.setRevealed(true);
+            // Mobile: fade the distortion out while the fullscreen image shows
+            if (this.isMobile) this.distortionTarget = 0;
+        });
+        window.addEventListener('about:close', () => {
+            this.setRevealed(false);
+            // Mobile: bring the distortion back on the small circle
+            if (this.isMobile) this.distortionTarget = this.distortStrengthBase;
+        });
+        // The mobile open/close snaps the canvas box (circle <-> fullscreen);
+        // re-read the display size after each snap.
+        window.addEventListener('about:resize', () => this.resize());
+        // Re-evaluate the mode when crossing the mobile/desktop breakpoint
+        this.mql.addEventListener('change', (event) => this.onModeChange(event));
+    }
+
+    // Switch distortion radius/target and re-size when the viewport crosses the
+    // mobile/desktop breakpoint (e.g. rotation).
+    onModeChange(event) {
+        this.isMobile = event.matches;
+        this.material.uniforms.uCursorRadius.value = this.isMobile
+            ? DISTORT_RADIUS_MOBILE
+            : DISTORT_RADIUS;
+        this.distortionTarget = this.distortStrengthBase;
+        this.resize();
     }
 
     // Enable the mouse reveal only while the panel is open (clears it on close)
@@ -274,6 +321,9 @@ export class AboutExperience {
     }
 
     onPointerMove(event) {
+        // Mobile: the circle stays fixed — no cursor/touch tracking, no painting
+        if (this.isMobile) return;
+
         const rect = this.canvas.getBoundingClientRect();
         const x = (event.clientX - rect.left) / rect.width;
         const y = (event.clientY - rect.top) / rect.height;
@@ -371,15 +421,29 @@ export class AboutExperience {
     }
 
     resize() {
-        this.renderer.setSize(this.sizes.width, this.sizes.height);
-        this.renderer.setPixelRatio(this.sizes.pixelRatio);
+        // Mobile follows the wrapper box (small circle when closed, viewport when
+        // open); desktop always fills the viewport.
+        const width = this.isMobile ? this.canvas.clientWidth : this.sizes.width;
+        const height = this.isMobile ? this.canvas.clientHeight : this.sizes.height;
+        this.setDisplaySize(width || this.sizes.width, height || this.sizes.height);
+    }
 
-        const targetWidth = this.sizes.width * this.sizes.pixelRatio;
-        const targetHeight = this.sizes.height * this.sizes.pixelRatio;
+    // Size the renderer + mask targets to an explicit box (CSS pixels). The
+    // canvas display size stays controlled by CSS (100% of the wrapper).
+    setDisplaySize(width, height) {
+        this.displayWidth = width;
+        this.displayHeight = height;
+
+        const pixelRatio = this.sizes.pixelRatio;
+        this.renderer.setPixelRatio(pixelRatio);
+        this.renderer.setSize(width, height, false);
+
+        const targetWidth = width * pixelRatio;
+        const targetHeight = height * pixelRatio;
         this.maskRead.setSize(targetWidth, targetHeight);
         this.maskWrite.setSize(targetWidth, targetHeight);
 
-        this.material.uniforms.uResolution.value.set(this.sizes.width, this.sizes.height);
+        this.material.uniforms.uResolution.value.set(width, height);
         this.updateBrushScale();
     }
 
@@ -469,6 +533,11 @@ export class AboutExperience {
         this.cursor.y += (this.cursorTarget.y - this.cursor.y) * CURSOR_SMOOTH;
         this.material.uniforms.uCursor.value.set(this.cursor.x, this.cursor.y);
         this.material.uniforms.uTime.value = this.time.elapsed * DISTORT_SPEED;
+
+        // Ease the distortion strength toward its target (mobile on/off toggle);
+        // on desktop the target is constant so this is a no-op.
+        const distort = this.material.uniforms.uDistortStrength;
+        distort.value += (this.distortionTarget - distort.value) * 0.1;
 
         this.drawMask();
         this.renderer.render(this.scene, this.camera);

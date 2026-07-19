@@ -109,13 +109,6 @@
 
 
   // Contenu "about" partagé (cercle-curseur + plein écran)
-  .about-img {
-    top: 0;
-    left: 0;
-    object-fit: cover;
-    object-position: center;
-  }
-
   .about-text {
     top: 16px;
     left: 0;
@@ -160,9 +153,13 @@
   // (CSS mask) over the live canvas; clicking grows the circle to full screen.
   .about-wrapper {
     z-index: 4;
-    // Mobile default: hidden until tapped, then shown as a full-screen canvas
+    // Mobile: rendered inside a small circle (whole photo, cover-fit) anchored
+    // on the button in JS; clip the canvas to that circle. Hidden until JS
+    // positions it (avoids a fullscreen flash), then faded in.
     opacity: 0;
     pointer-events: none;
+    overflow: hidden;
+    border-radius: 50%;
 
     // Text revealed only once opened (animated in JS)
     .about-text {
@@ -174,6 +171,9 @@
       // --mask-size is tweened from 300px to full screen on open.
       opacity: 1;
       pointer-events: auto;
+      // Reset the mobile circle clip — desktop uses the CSS mask instead.
+      overflow: visible;
+      border-radius: 0;
       --mask-size: 300px;
       -webkit-mask-image: url("https://upload.wikimedia.org/wikipedia/commons/a/a0/Circle_-_black_simple.svg");
       -webkit-mask-repeat: no-repeat;
