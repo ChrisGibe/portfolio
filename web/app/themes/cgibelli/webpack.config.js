@@ -49,6 +49,12 @@ module.exports = (env, argv) => {
                     loader: "babel-loader"
                 },
                 {
+                    // Import .glsl files as raw strings (webpack 5 built-in).
+                    // `import src from './x.glsl'` -> the file's text content.
+                    test: /\.glsl$/,
+                    type: 'asset/source',
+                },
+                {
                     test: /\.vue$/,
                     loader: 'vue-loader',
                 },
