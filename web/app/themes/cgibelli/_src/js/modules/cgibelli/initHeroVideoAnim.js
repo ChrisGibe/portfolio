@@ -6,6 +6,14 @@ import {lenis} from "./initLenis";
 const MASK_CLOSED = '300px';
 const MASK_OPEN = '4000px';
 
+// Mobile zoom-reveal timing/scales (open <-> close crossfade with a scale, so
+// the circle "grows" and the fullscreen image settles from a slight zoom).
+const OPEN_OUT = 0.5;         // fade/scale-out duration of the leaving state
+const OPEN_IN = 0.8;          // fade/scale-in duration of the arriving state
+const CIRCLE_GROW = 1.35;     // how much the circle grows while fading out
+const CIRCLE_SETTLE = 1.18;   // circle start scale when returning (settles to 1)
+const FULLSCREEN_ZOOM = 1.04; // slight zoom on the fullscreen image at the swap
+
 const initHeroVideoAnim = () => {
   const mm = gsap.matchMedia();
   const cp = document.querySelector('.cp-hero');
@@ -25,7 +33,7 @@ const initHeroVideoAnim = () => {
     window.dispatchEvent(new CustomEvent('about:open'));
     lenis.scrollTo('top', {immediate: true, lock: true});
     lenis.stop();
-    gsap.to(aboutText, {duration: 0.6, ease: 'power2.out', opacity: 1, delay: 0.3});
+    gsap.to(aboutText, {duration: 0.6, ease: 'power3.out', opacity: 1, delay: 0.3});
     gsap.to(header, {duration: 0.3, opacity: 0, pointerEvents: 'none'});
   };
 
@@ -118,6 +126,16 @@ const initHeroVideoAnim = () => {
   mm.add('(max-width: 990px)', () => {
     if (!aboutBtnMobile) return;
 
+    // open/close share the wrapper, about text and header. A rapid open->close
+    // must cancel the in-flight animation — including the delayed text reveal —
+    // otherwise that pending tween fires after hide() and the about text
+    // lingers on the closed circle.
+    let mobileTl = null;
+    const killActive = () => {
+      if (mobileTl) mobileTl.kill();
+      gsap.killTweensOf([wrapper, aboutText, header]);
+    };
+
     // Anchor the circular canvas over the (transparent) in-flow button. The
     // wrapper is absolutely positioned inside the hero, so it scrolls with the
     // page without a scroll listener.
@@ -144,11 +162,14 @@ const initHeroVideoAnim = () => {
     const open = () => {
       if (isOpened) return;
       isOpened = true;
-      gsap.timeline()
-        .to(wrapper, {duration: 0.25, opacity: 0, ease: 'power1.in'})
+      killActive();
+      mobileTl = gsap.timeline()
+        // The circle grows and fades out (grossissement) — this masks the swap
+        // from the square "circle" render to the fullscreen "cover" render.
+        .to(wrapper, {duration: OPEN_OUT, opacity: 0, scale: CIRCLE_GROW, ease: 'sine.inOut'})
         .add(() => {
-          // Snap the canvas box to fullscreen while hidden, resize the renderer,
-          // then turn the distortion off (about:open, dispatched by reveal()).
+          // Snap the canvas box to fullscreen (hidden, slightly zoomed in),
+          // resize the renderer, then turn the distortion off (about:open).
           gsap.set(wrapper, {
             position: 'fixed',
             top: 0,
@@ -158,11 +179,14 @@ const initHeroVideoAnim = () => {
             borderRadius: 0,
             zIndex: 6,
             pointerEvents: 'all',
+            scale: FULLSCREEN_ZOOM,
+            opacity: 0,
           });
           window.dispatchEvent(new CustomEvent('about:resize'));
           reveal();
         })
-        .to(wrapper, {duration: 0.45, opacity: 1, ease: 'power2.out'});
+        // The fullscreen image settles from the slight zoom and fades in
+        .to(wrapper, {duration: OPEN_IN, opacity: 1, scale: 1, ease: 'power3.out'});
     };
 
     const close = (e) => {
@@ -170,15 +194,19 @@ const initHeroVideoAnim = () => {
       // Let links inside the about text work normally
       if (e && e.target.closest('a, button')) return;
       isOpened = false;
-      gsap.timeline()
-        .to(wrapper, {duration: 0.25, opacity: 0, ease: 'power1.in'})
+      killActive();
+      mobileTl = gsap.timeline()
+        // The fullscreen image zooms out slightly and fades
+        .to(wrapper, {duration: OPEN_OUT, opacity: 0, scale: FULLSCREEN_ZOOM, ease: 'sine.inOut'})
         .add(() => {
           hide();
-          // Back to the circle, re-anchored on the button, distortion back on
+          // Back to the circle (hidden, slightly enlarged), distortion back on
           positionCircle();
+          gsap.set(wrapper, {scale: CIRCLE_SETTLE, opacity: 0});
           window.dispatchEvent(new CustomEvent('about:resize'));
         })
-        .to(wrapper, {duration: 0.45, opacity: 1, ease: 'power2.out'});
+        // The circle shrinks back to size and fades in
+        .to(wrapper, {duration: OPEN_IN, opacity: 1, scale: 1, ease: 'power3.out'});
     };
 
     const onResize = () => {
@@ -196,7 +224,7 @@ const initHeroVideoAnim = () => {
       window.removeEventListener('resize', onResize);
       // Reset inline styles so the desktop branch starts from a clean slate
       gsap.set(wrapper, {
-        clearProps: 'position,top,left,width,height,borderRadius,zIndex,pointerEvents,opacity',
+        clearProps: 'position,top,left,width,height,borderRadius,zIndex,pointerEvents,opacity,transform',
       });
     }
   })
