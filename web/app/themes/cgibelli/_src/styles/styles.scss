@@ -11,3 +11,9 @@
 @use "sass/components/adn/cp-wysiwyg";
 @use "sass/components/cgibelli/cp-hero";
 @use "sass/components/cgibelli/cp-slider-cases";
+
+
+#webgl-test-canvas {
+    width: 100vw;
+    height: 100vh;
+}
