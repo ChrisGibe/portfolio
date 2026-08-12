@@ -1,0 +1,170 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - env/production
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simulation rsync (aucun fichier écrit sur le serveur)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  PHP_VERSION: "8.1"
+  NODE_VERSION: "20"
+  THEME_PATH: app/themes/cgibelli
+
+jobs:
+  deploy:
+    name: Build & deploy (production)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------------------------
+      # Validation des secrets AVANT toute action destructive.
+      # ------------------------------------------------------------------
+      - name: Vérifier les secrets requis
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          missing=""
+          for name in SSH_HOST SSH_USER SSH_PRIVATE_KEY DEPLOY_PATH; do
+            [ -z "${!name}" ] && missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Secrets manquants :$missing"
+            exit 1
+          fi
+          case "$DEPLOY_PATH" in
+            /|/root|/home|"") echo "::error::DEPLOY_PATH refusé : '$DEPLOY_PATH'"; exit 1 ;;
+          esac
+
+      # ------------------------------------------------------------------
+      # PHP / Composer
+      # ------------------------------------------------------------------
+      - name: Setup PHP ${{ env.PHP_VERSION }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: simplexml, json, intl, curl, mbstring
+          tools: composer:v2
+          coverage: none
+
+      - name: Valider composer.json / composer.lock
+        run: composer validate --no-check-publish
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer/files
+          key: composer-${{ env.PHP_VERSION }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ env.PHP_VERSION }}-
+
+      - name: composer install (prod)
+        run: |
+          composer install \
+            --no-dev \
+            --prefer-dist \
+            --no-interaction \
+            --no-progress \
+            --optimize-autoloader
+
+      # ------------------------------------------------------------------
+      # Build du thème (Webpack)
+      # ------------------------------------------------------------------
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: ${{ env.THEME_PATH }}/yarn.lock
+
+      - name: yarn install
+        working-directory: ${{ env.THEME_PATH }}
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Build production (webpack)
+        working-directory: ${{ env.THEME_PATH }}
+        run: yarn production
+
+      - name: Vérifier le résultat du build
+        working-directory: ${{ env.THEME_PATH }}
+        run: |
+          # 🟢 Modifié si tes assets compilés sont dans dist/ ou assets/. Ajuste les chemins si nécessaire.
+          for artifact in assets/scripts/app.js assets/styles/styles.css; do
+            if [ ! -s "$artifact" ]; then
+              echo "::error::Build incomplet, fichier absent ou vide : $artifact"
+              exit 1
+            fi
+          done
+          echo "Assets générés :"
+          du -sh assets/*
+
+      # ------------------------------------------------------------------
+      # Déploiement
+      # ------------------------------------------------------------------
+      - name: Configurer SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '1022' }} # 🟢 Ajusté : Port par défaut 1022 pour o2switch
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          if [ -n "$SSH_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning::Secret SSH_KNOWN_HOSTS absent — l'empreinte du serveur est acceptée d'office."
+            ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" > ~/.ssh/known_hosts 2>/dev/null
+          fi
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Déployer via rsync
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '1022' }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          rsync_opts="--archive --compress --human-readable --delete --stats"
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "::notice::Mode simulation — aucune écriture sur le serveur"
+            rsync_opts="$rsync_opts --dry-run --verbose"
+          fi
+          rsync $rsync_opts \
+            --exclude-from=.github/deploy-excludes.txt \
+            --rsh="ssh -i $HOME/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=yes" \
+            ./ "$SSH_USER@$SSH_HOST:$DEPLOY_PATH/"
+
+      - name: Vider les caches WordPress
+        if: ${{ inputs.dry_run != true }}
+        continue-on-error: true
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '1022' }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh -i "$HOME/.ssh/deploy_key" -p "$SSH_PORT" -o StrictHostKeyChecking=yes \
+            "$SSH_USER@$SSH_HOST" \
+            "cd '$DEPLOY_PATH' && if command -v wp >/dev/null 2>&1; then wp cache flush --quiet; else echo 'wp-cli absent sur le serveur'; fi"
+
+      - name: Nettoyer les identifiants
+        if: always()
+        run: rm -f "$HOME/.ssh/deploy_key"
