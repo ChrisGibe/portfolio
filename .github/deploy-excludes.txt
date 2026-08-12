@@ -1,6 +1,5 @@
 # Motifs exclus du rsync de déploiement (--exclude-from).
-# Un motif exclu n'est ni envoyé, ni supprimé côté serveur par --delete :
-# c'est ce qui protège les fichiers appartenant au serveur (.env, uploads...).
+# Un motif exclu n'est ni envoyé, ni supprimé côté serveur par --delete.
 
 # --- Outillage de dépôt -------------------------------------------------
 .git/
@@ -16,22 +15,22 @@ Thumbs.db
 
 # --- Sources de build : compilées en CI, inutiles en prod ---------------
 node_modules/
-web/app/themes/cgibelli/_src/
-web/app/themes/cgibelli/package.json
-web/app/themes/cgibelli/yarn.lock
-web/app/themes/cgibelli/webpack.config.js
-web/app/themes/cgibelli/postcss.config.js
+app/themes/cgibelli/_src/
+app/themes/cgibelli/package.json
+app/themes/cgibelli/yarn.lock
+app/themes/cgibelli/webpack.config.js
+app/themes/cgibelli/postcss.config.js
 
 # --- Appartient au serveur : ne jamais écraser ni supprimer -------------
 .env
 .env.*
 wp-cli.local.yml
-web/.htaccess
-web/app/uploads/
-web/app/cache/
-web/app/upgrade/
-web/app/languages/
-web/app/advanced-cache.php
-web/app/object-cache.php
-web/app/db.php
-web/app/wp-rocket-config/
+.htaccess
+app/uploads/
+app/cache/
+app/upgrade/
+app/languages/
+app/advanced-cache.php
+app/object-cache.php
+app/db.php
+app/wp-rocket-config/
