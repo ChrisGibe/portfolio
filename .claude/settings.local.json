@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/cgibelli/.ssh/**)",
+      "Bash(ssh-add -l)",
+      "Bash(ssh -T -o StrictHostKeyChecking=accept-new git@github.com)",
+      "Bash(ssh-keygen -l -f ~/.ssh/id_rsa.pub)",
+      "Bash(ssh -vT git@github.com)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(ssh-keygen -y -P \"\" -f ~/.ssh/id_rsa)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
