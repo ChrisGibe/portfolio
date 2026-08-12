@@ -82,7 +82,7 @@ jobs:
             --optimize-autoloader
 
       # ------------------------------------------------------------------
-      # Build du thème (Webpack) — 🟢 Nettoyé des configurations de cache restrictives
+      # Build du thème (Webpack)
       # ------------------------------------------------------------------
       - name: Setup Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
@@ -115,27 +115,23 @@ jobs:
       - name: Configurer SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: ${{ secrets.SSH_PORT || '1022' }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          if [ -n "$SSH_KNOWN_HOSTS" ]; then
-            printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          else
-            echo "::warning::Secret SSH_KNOWN_HOSTS absent — l'empreinte du serveur est acceptée d'office."
-            ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" > ~/.ssh/known_hosts 2>/dev/null
-          fi
+          
+          echo "Enregistrement de l'empreinte de l'hôte..."
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" > ~/.ssh/known_hosts 2>/dev/null || true
           chmod 600 ~/.ssh/known_hosts
 
       - name: Déployer via rsync
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PORT: ${{ secrets.SSH_PORT || '1022' }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
           DRY_RUN: ${{ inputs.dry_run }}
         run: |
@@ -146,7 +142,7 @@ jobs:
           fi
           rsync $rsync_opts \
             --exclude-from=.github/deploy-excludes.txt \
-            --rsh="ssh -i $HOME/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=yes" \
+            --rsh="ssh -i $HOME/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no" \
             ./ "$SSH_USER@$SSH_HOST:$DEPLOY_PATH/"
 
       - name: Vider les caches WordPress
@@ -155,10 +151,10 @@ jobs:
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PORT: ${{ secrets.SSH_PORT || '1022' }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          ssh -i "$HOME/.ssh/deploy_key" -p "$SSH_PORT" -o StrictHostKeyChecking=yes \
+          ssh -i "$HOME/.ssh/deploy_key" -p "$SSH_PORT" -o StrictHostKeyChecking=no \
             "$SSH_USER@$SSH_HOST" \
             "cd '$DEPLOY_PATH' && if command -v wp >/dev/null 2>&1; then wp cache flush --quiet; else echo 'wp-cli absent sur le serveur'; fi"
 
