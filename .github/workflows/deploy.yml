@@ -82,14 +82,12 @@ jobs:
             --optimize-autoloader
 
       # ------------------------------------------------------------------
-      # Build du thème (Webpack)
+      # Build du thème (Webpack) — 🟢 Nettoyé des configurations de cache restrictives
       # ------------------------------------------------------------------
       - name: Setup Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: yarn
-          cache-dependency-path: ${{ env.THEME_PATH }}/yarn.lock
 
       - name: yarn install
         working-directory: ${{ env.THEME_PATH }}
@@ -102,7 +100,6 @@ jobs:
       - name: Vérifier le résultat du build
         working-directory: ${{ env.THEME_PATH }}
         run: |
-          # 🟢 Modifié si tes assets compilés sont dans dist/ ou assets/. Ajuste les chemins si nécessaire.
           for artifact in assets/scripts/app.js assets/styles/styles.css; do
             if [ ! -s "$artifact" ]; then
               echo "::error::Build incomplet, fichier absent ou vide : $artifact"
@@ -120,7 +117,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: ${{ secrets.SSH_PORT || '1022' }} # 🟢 Ajusté : Port par défaut 1022 pour o2switch
+          SSH_PORT: ${{ secrets.SSH_PORT || '1022' }}
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
