@@ -25,4 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initFooter();
     new AboutExperience();
     new WebGLTest();
+
+    console.log('TEST CI/CD');
 })
