@@ -59,3 +59,6 @@ block('CP Portrait Layout', 'tequilarapido/case/cp-portrait-layout', 'content', 
 block('CP Key Figures', 'tequilarapido/case/cp-key-figures', 'content', 'ellipsis', ['card']);
 
 block('CP Footer Case', 'tequilarapido/case/cp-footer-case', 'content', 'text', ['footer']);
+
+// TEST
+block('CP WebGL Test', 'tequilarapido/cp-webgl-test', 'content', 'text', ['webgl']);

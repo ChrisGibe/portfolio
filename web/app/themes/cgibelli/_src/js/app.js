@@ -9,6 +9,9 @@ import initHeroVideoAnim from "./modules/cgibelli/initHeroVideoAnim";
 import initFooter from "./modules/cgibelli/initFooter";
 import { AboutExperience } from "./modules/cgibelli/AboutExperience";
 
+// TEST
+import { WebGLTest } from "./modules/cgibelli/test/WebGLTest";
+
 document.addEventListener('DOMContentLoaded', () => {
     // Setup
     initLenis();
@@ -21,4 +24,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroVideoAnim();
     initFooter();
     new AboutExperience();
+    new WebGLTest();
 })
