@@ -1,26 +1,28 @@
-import initVars from "./helpers/_initvars";
 import toggleGrid from "./helpers/_toggleGrid";
 import teqAnimations from "./helpers/_animations";
 
-// TEQUILARAPIDO
-import initFirstScene from "./modules/tequilarapido/initFirstScene";
-import initSliderCases from "./modules/tequilarapido/initSliderCases";
-import { initLenis } from "./modules/tequilarapido/initLenis";
-import initHeroVideoAnim from "./modules/tequilarapido/initHeroVideoAnim";
-import initFooter from "./modules/tequilarapido/initFooter";
-import { AboutExperience } from "./modules/tequilarapido/AboutExperience";
+// MODULES
+import initFirstScene from "./modules/cgibelli/initFirstScene";
+import initSliderCases from "./modules/cgibelli/initSliderCases";
+import { initLenis } from "./modules/cgibelli/initLenis";
+import initHeroVideoAnim from "./modules/cgibelli/initHeroVideoAnim";
+import initFooter from "./modules/cgibelli/initFooter";
+import { AboutExperience } from "./modules/cgibelli/AboutExperience";
+
+// TEST
+import { WebGLTest } from "./modules/cgibelli/test/WebGLTest";
 
 document.addEventListener('DOMContentLoaded', () => {
     // Setup
     initLenis();
-    initVars();
     toggleGrid();
     teqAnimations();
 
-    // TEQUILARAPIDO
+    // MODULES
     initFirstScene();
     initSliderCases();
     initHeroVideoAnim();
     initFooter();
     new AboutExperience();
+    new WebGLTest();
 })
