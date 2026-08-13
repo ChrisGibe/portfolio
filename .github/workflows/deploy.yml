@@ -109,6 +109,22 @@ jobs:
       # ------------------------------------------------------------------
       # Déploiement via FTPS (Port 21 sécurisé)
       # ------------------------------------------------------------------
+      # DEPLOY_PATH est un chemin absolu hérité de la version rsync/SSH
+      # (ex. /home/user/projet). La session FTP étant chrootée sur /home/user,
+      # un server-dir absolu ferait créer une arborescence fantôme
+      # /home/user/home/user/projet. On le convertit donc en chemin relatif.
+      - name: Calculer le chemin FTP (relatif à la racine de session)
+        id: ftp
+        env:
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          rel="${DEPLOY_PATH#/home/$SSH_USER}"
+          rel="${rel#/}"
+          rel="${rel%/}"
+          echo "dir=${rel:+$rel/}" >> "$GITHUB_OUTPUT"
+          echo "server-dir utilisé : '${rel:+$rel/}'"
+
       - name: 🚀 Déployer les fichiers via FTP sécurisé
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -116,8 +132,10 @@ jobs:
           username: ${{ secrets.SSH_USER }} # Réutilise ton user chgi3340
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21
-          server-dir: ${{ secrets.DEPLOY_PATH }}/ # Envoie directement dans ton dossier de prod
-          dry-run: ${{ inputs.dry_run }}
+          server-dir: ${{ steps.ftp.outputs.dir }}
+          # inputs.dry_run n'existe que sur workflow_dispatch : vide sur un push
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          log-level: verbose
           # On traduit ton fichier d'exclusions rsync pour l'action FTP
           exclude: |
             **/.git*
