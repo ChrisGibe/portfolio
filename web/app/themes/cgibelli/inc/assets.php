@@ -3,13 +3,16 @@
 /**
  * Register theme assets
  */
+// $ver à null : la version est portée par le ?id=<hash> que mix() lit dans
+// assets/mix-manifest.json. Une chaîne vide ferait retomber WordPress sur sa
+// propre version ($wp_version), identique d'un déploiement à l'autre.
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('teq-style', mix('/styles/styles.css'), [], '');
+    wp_enqueue_style('teq-style', mix('/styles/styles.css'), [], null);
     /*
-    wp_enqueue_script('teq-script-manifest', mix('/scripts/manifest.js'), [], '', true);
-    wp_enqueue_script('teq-script-vendor', mix('/scripts/vendor.js'), ['teq-script-manifest'], '', true);
+    wp_enqueue_script('teq-script-manifest', mix('/scripts/manifest.js'), [], null, true);
+    wp_enqueue_script('teq-script-vendor', mix('/scripts/vendor.js'), ['teq-script-manifest'], null, true);
     */
-    wp_enqueue_script('teq-script-app', mix('/scripts/app.js'), '', '', true);
+    wp_enqueue_script('teq-script-app', mix('/scripts/app.js'), [], null, true);
 });
 
 add_action('wp_head', function () {

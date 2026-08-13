@@ -136,7 +136,10 @@ jobs:
           # inputs.dry_run n'existe que sur workflow_dispatch : vide sur un push
           dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
           log-level: verbose
-          # On traduit ton fichier d'exclusions rsync pour l'action FTP
+          # Aligné sur le .gitignore racine, à UNE exception près :
+          # web/app/themes/cgibelli/assets/ y est ignoré (c'est un build) mais
+          # doit impérativement être déployé — c'est le produit de webpack.
+          # Ne jamais ajouter assets/ ici : le thème partirait sans CSS ni JS.
           exclude: |
             **/.git*
             **/.git*/**
@@ -145,11 +148,6 @@ jobs:
             **/.claude/**
             **/node_modules/**
             **/*.log
-            **/web/app/themes/cgibelli/_src/**
-            **/web/app/themes/cgibelli/package.json
-            **/web/app/themes/cgibelli/yarn.lock
-            **/web/app/themes/cgibelli/webpack.config.js
-            **/web/app/themes/cgibelli/postcss.config.js
             **/.env
             **/.env.*
             **/wp-cli.local.yml
@@ -162,3 +160,4 @@ jobs:
             **/app/object-cache.php
             **/app/db.php
             **/app/wp-rocket-config/**
+            **/web/app/themes/twentytwentythree/**
