@@ -6,8 +6,8 @@
 
 <?php
 $fields = get_fields();
-$about_img = get_template_directory_uri() . '/_src/images/img-1.jpg';
-$about_img_2 = get_template_directory_uri() . '/_src/images/img-2.jpg';
+$about_img = get_template_directory_uri() . '/_src/images/img-1.webp';
+$about_img_2 = get_template_directory_uri() . '/_src/images/img-2.webp';
 ?>
 
 <div class="cp-hero flex justify-center relative w-screen">
