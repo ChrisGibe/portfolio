@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroVideoAnim();
     initFooter();
 
-    if (document.getElementById('#about-experience-canvas')) {
+    if (document.getElementById('about-experience-canvas')) {
         new AboutExperience();
     }
 })
