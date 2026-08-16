@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import GUI from 'lil-gui';
 
 import Sizes from '../../utils/Sizes';
 import Time from '../../utils/Time';
@@ -495,12 +494,17 @@ export class AboutExperience {
             lifetime > 0 ? this.settings.fadeDuration / lifetime : 0;
     }
 
-    // Live-tweak panel — only mounted when the URL contains "#debug"
     setDebug() {
-        if (!window.location.hash.includes('debug')) {
-            return;
-        }
+        if (__DEBUG__) {
+            if (!window.location.hash.includes('debug')) {
+                return;
+            }
 
+            import('lil-gui').then(({ default: GUI }) => this.buildDebugPanel(GUI));
+        }
+    }
+
+    buildDebugPanel(GUI) {
         const s = this.settings;
         const main = this.material.uniforms;
         const brush = this.brushMaterial.uniforms;
