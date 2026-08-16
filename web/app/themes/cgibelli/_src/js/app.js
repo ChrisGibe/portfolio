@@ -1,5 +1,4 @@
-import toggleGrid from "./helpers/_toggleGrid";
-import teqAnimations from "./helpers/_animations";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // MODULES
 import initFirstScene from "./modules/cgibelli/initFirstScene";
@@ -9,22 +8,22 @@ import initHeroVideoAnim from "./modules/cgibelli/initHeroVideoAnim";
 import initFooter from "./modules/cgibelli/initFooter";
 import { AboutExperience } from "./modules/cgibelli/AboutExperience";
 
-// TEST
-import { WebGLTest } from "./modules/cgibelli/test/WebGLTest";
-
 document.addEventListener('DOMContentLoaded', () => {
     // Setup
     initLenis();
-    toggleGrid();
-    teqAnimations();
 
     // MODULES
     initFirstScene();
     initSliderCases();
     initHeroVideoAnim();
     initFooter();
-    new AboutExperience();
-    new WebGLTest();
 
-    console.log('TEST CI/CD');
+    if (document.getElementById('#about-experience-canvas')) {
+        new AboutExperience();
+    }
 })
+
+// Unique Refresh
+window.addEventListener('load', () => {
+    ScrollTrigger.refresh();
+});

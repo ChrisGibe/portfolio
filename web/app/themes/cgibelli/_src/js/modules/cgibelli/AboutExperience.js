@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import GUI from 'lil-gui';
 
 import Sizes from '../../utils/Sizes';
 import Time from '../../utils/Time';
@@ -128,6 +127,7 @@ export class AboutExperience {
         this.setPlane();
         this.loadTextures();
         this.bindEvents();
+        this.setVisibilityGuards();
         this.setDebug();
 
         // Mobile starts as the small circle: wobble the whole photo and size the
@@ -141,7 +141,10 @@ export class AboutExperience {
     setRenderer() {
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
-            antialias: true,
+            // The scene is a single screen-aligned quad, so MSAA buys no visible
+            // edge quality — it only costs fill rate. Keep it off on mobile where
+            // the GPU is also rasterizing the page's scroll tiles.
+            antialias: !this.isMobile,
             alpha: true,
         });
         this.renderer.setPixelRatio(this.sizes.pixelRatio);
@@ -314,6 +317,36 @@ export class AboutExperience {
         this.resize();
     }
 
+    // The render loop shares the GPU with the browser's tile rasterization.
+    // Left running while the hero is off-screen it starves the compositor, which
+    // then paints blank tiles during fast scrolling. Render only when visible.
+    setVisibilityGuards() {
+        this.isIntersecting = true;
+
+        this.intersectionObserver = new IntersectionObserver(
+            ([entry]) => {
+                this.isIntersecting = entry.isIntersecting;
+                this.syncLoop();
+            },
+            // Resume slightly before the canvas enters the viewport so the first
+            // visible frame is already up to date.
+            { rootMargin: '200px' }
+        );
+        this.intersectionObserver.observe(this.canvas);
+
+        document.addEventListener('visibilitychange', () => this.syncLoop());
+
+        this.syncLoop();
+    }
+
+    syncLoop() {
+        if (this.isIntersecting && !document.hidden) {
+            this.time.play();
+        } else {
+            this.time.pause();
+        }
+    }
+
     // Enable the mouse reveal only while the panel is open (clears it on close)
     setRevealed(revealed) {
         this.revealed = revealed;
@@ -461,12 +494,17 @@ export class AboutExperience {
             lifetime > 0 ? this.settings.fadeDuration / lifetime : 0;
     }
 
-    // Live-tweak panel — only mounted when the URL contains "#debug"
     setDebug() {
-        if (!window.location.hash.includes('debug')) {
-            return;
-        }
+        if (__DEBUG__) {
+            if (!window.location.hash.includes('debug')) {
+                return;
+            }
 
+            import('lil-gui').then(({ default: GUI }) => this.buildDebugPanel(GUI));
+        }
+    }
+
+    buildDebugPanel(GUI) {
         const s = this.settings;
         const main = this.material.uniforms;
         const brush = this.brushMaterial.uniforms;
@@ -546,7 +584,13 @@ export class AboutExperience {
         const distort = this.material.uniforms.uDistortStrength;
         distort.value += (this.distortionTarget - distort.value) * 0.1;
 
-        this.drawMask();
+        // Mobile never paints: `onPointerMove` returns early, so no brush point is
+        // ever queued and the mask stays as `clearMaskTargets` left it. The
+        // ping-pong passes would decay an already-empty mask — skip them.
+        if (!this.isMobile) {
+            this.drawMask();
+        }
+
         this.renderer.render(this.scene, this.camera);
     }
 }
