@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "production": "webpack --mode production",
+    "production:debug": "webpack --mode production --env debug",
     "watch": "webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

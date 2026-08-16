@@ -88,11 +88,11 @@ module.exports = (env, argv) => {
         plugins: [
             new webpack.DefinePlugin({
                 __VUE_OPTIONS_API__: true,
-                // Les devtools Vue n'ont rien à faire sur le site public
                 __VUE_PROD_DEVTOOLS__: !isProduction,
+                __DEBUG__: !isProduction || Boolean(env && env.debug),
             }),
             new MiniCssExtractPlugin({
-                filename: "../styles/styles.css" // change this RELATIVE to your output.path!
+                filename: "../styles/styles.css"
             }),
             new CopyPlugin({
                 patterns: [
