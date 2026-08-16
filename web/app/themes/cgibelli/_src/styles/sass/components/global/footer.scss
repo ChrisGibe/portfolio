@@ -12,6 +12,7 @@ footer {
     @include teq-breakpoint.teq-breakpoint(0, teq-breakpoint.$large) {
       transform: translateX(0) !important;
       position: relative !important;
+      will-change: auto;
 
       background-color: var(--color-dark);
 
