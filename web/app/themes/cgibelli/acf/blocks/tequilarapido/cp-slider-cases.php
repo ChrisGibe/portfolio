@@ -55,7 +55,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                             <?php if(!empty($item["cta"]["url"]) && !empty($item["cta"]["title"])): ?>
                                 <a href="<?= $item["cta"]["url"] ?>"
                                     target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : ''?>"
-                                    aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?> - <?= $item["cta"]["target"] == "_blank" ? __('Opens in a new tab', 'tequilarapido') : '' ?>"
+                                    aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?> - <?= $item["cta"]["target"] == "_blank" ? __('Open in a new tab', 'tequilarapido') : '' ?>"
                                     class="cta-primary flex gap-2">
                                     <?= $item["cta"]["title"] ?>
                                     <?php if($item["cta"]["target"] == "_blank"): ?>
@@ -112,8 +112,18 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                                 <?php if(!empty($item["cta"]["url"]) && !empty($item["cta"]["title"])): ?>
                                     <a href="<?= $item["cta"]["url"] ?>"
                                         target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : ''?>"
-                                        aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?>"
-                                        class="cta-primary"><?= $item["cta"]["title"] ?></a>
+                                        aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?> - <?= __("Opens in a new tab", "tequilarapido") ?>"
+                                        class="cta-primary">
+                                        <?= $item["cta"]["title"] ?>
+                                        <?php if($item["cta"]["target"] == "_blank"): ?>
+                                            <div class="inline-flex w-2 h-2">
+                                                <svg class="flex w-full h-full" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                    <path d="M1.5 0.5H7.5V6.5" stroke="white"/>
+                                                    <path d="M7 1L1 7" stroke="white"/>
+                                                </svg>
+                                            </div>
+                                        <?php endif; ?>
+                                    </a>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -178,7 +188,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                         <?php if(!empty($item["cta"]["url"]) && !empty($item["tag_title_desc"]["desc"])): ?>
                             <a href="<?= $item["cta"]["url"] ?>"
                                 target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : '' ?>"
-                                aria-label="<?= __($item["cta"]["title"], "tequilarapido") ?> - <?= $item["cta"]["target"] == "_blank" ? __('Opens in a new tab', 'tequilarapido') : '' ?>"
+                                aria-label="<?= __($item["cta"]["title"], "tequilarapido") ?> - <?= $item["cta"]["target"] == "_blank" ? __('Open in a new tab', 'tequilarapido') : '' ?>"
                                 class="stretched-link font-normal description flex gap-2">
                                 <?= $item["tag_title_desc"]["desc"] ?>
                                 <?php if($item["cta"]["target"] == "_blank"): ?>
