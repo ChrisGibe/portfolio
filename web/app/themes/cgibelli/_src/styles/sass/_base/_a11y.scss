@@ -1,10 +1,5 @@
 @mixin link-a11y($colors) {
-    &:focus-visible {
-        transition: outline-offset 75ms ease-out;
-    }
-
     &:not(:active):focus-visible {
-        border-radius: 1px;
         outline-color: $colors;
         outline-width: 2px;
         outline-offset: 0.3125rem;
@@ -13,18 +8,16 @@
 }
 
 @mixin link-a11y-after($colors) {
-    &:focus-visible {
-        &::after {
-            transition: outline-offset 75ms ease-out;
-        }
-    }
-
     &:not(:active):focus-visible {
         &::after {
-            border-radius: 1px;
             outline-color: $colors;
             outline-offset: 0.3125rem;
             outline-style: solid;
         }
     }
+}
+
+a,
+button {
+    @include link-a11y(currentColor);
 }
