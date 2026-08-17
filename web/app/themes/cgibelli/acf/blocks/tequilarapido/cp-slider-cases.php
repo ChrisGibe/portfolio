@@ -55,8 +55,18 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                             <?php if(!empty($item["cta"]["url"]) && !empty($item["cta"]["title"])): ?>
                                 <a href="<?= $item["cta"]["url"] ?>"
                                     target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : ''?>"
-                                    aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?>"
-                                    class="cta-primary"><?= $item["cta"]["title"] ?></a>
+                                    aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?> - <?= $item["cta"]["target"] == "_blank" ? __('Opens in a new tab', 'tequilarapido') : '' ?>"
+                                    class="cta-primary flex gap-2">
+                                    <?= $item["cta"]["title"] ?>
+                                    <?php if($item["cta"]["target"] == "_blank"): ?>
+                                        <div class="inline-flex w-2 h-2">
+                                            <svg class="flex w-full h-full" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                <path d="M1.5 0.5H7.5V6.5" stroke="white"/>
+                                                <path d="M7 1L1 7" stroke="white"/>
+                                            </svg>
+                                        </div>
+                                    <?php endif; ?>
+                                </a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -124,16 +134,16 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
-            <div class="indicator absolute"></div>
+            <div aria-hidden="true" class="indicator absolute"></div>
         </div>
     </div>
 
-    <div class="container-fake-case">
+    <div aria-hidden="true" class="container-fake-case">
         <?php foreach ($fields["slides"] as $key => $item):?>
-            <div id="case-<?= $key ?>" class="fake-case" data-case="<?= $key ?>"></div>
+            <div aria-hidden="true" id="case-<?= $key ?>" class="fake-case" data-case="<?= $key ?>"></div>
         <?php endforeach; ?>
     </div>
-    <div class="fake-footer desktop-only"></div>
+    <div aria-hidden="true" class="fake-footer desktop-only"></div>
 
     <!-- CASES MOBILE -->
      <div class="teq-container lg:hidden relative z-1">
@@ -168,9 +178,17 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                         <?php if(!empty($item["cta"]["url"]) && !empty($item["tag_title_desc"]["desc"])): ?>
                             <a href="<?= $item["cta"]["url"] ?>"
                                 target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : '' ?>"
-                                aria-label="<?= __($item["cta"]["title"], "tequilarapido") ?>"
-                                class="stretched-link font-normal description">
+                                aria-label="<?= __($item["cta"]["title"], "tequilarapido") ?> - <?= $item["cta"]["target"] == "_blank" ? __('Opens in a new tab', 'tequilarapido') : '' ?>"
+                                class="stretched-link font-normal description flex gap-2">
                                 <?= $item["tag_title_desc"]["desc"] ?>
+                                <?php if($item["cta"]["target"] == "_blank"): ?>
+                                    <div class="inline-flex w-2 h-2">
+                                        <svg class="flex w-full h-full" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                            <path d="M1.5 0.5H7.5V6.5" stroke="white"/>
+                                            <path d="M7 1L1 7" stroke="white"/>
+                                        </svg>
+                                    </div>
+                                <?php endif; ?>
                             </a>
                         <?php endif; ?>
                     </div>
