@@ -113,7 +113,7 @@ $nbCases = (!empty($fields["slides"])) ? count($fields["slides"]) -1 : 0;
                                     <a href="<?= $item["cta"]["url"] ?>"
                                         target="<?= (!empty($item["cta"]["target"])) ? $item["cta"]["target"] : ''?>"
                                         aria-label="<?= __($item["cta"]["title"],"tequilarapido") ?> - <?= __("Opens in a new tab", "tequilarapido") ?>"
-                                        class="cta-primary">
+                                        class="cta-primary flex gap-2">
                                         <?= $item["cta"]["title"] ?>
                                         <?php if($item["cta"]["target"] == "_blank"): ?>
                                             <div class="inline-flex w-2 h-2">
