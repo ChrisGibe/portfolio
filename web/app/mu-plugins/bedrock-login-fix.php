@@ -1,24 +1,27 @@
 <?php
 /*
-Plugin Name: Fix Bedrock Admin Redirect
+Plugin Name: HTTP Basic Auth Protection
 */
 
-// Intercepte l'accès à wp-admin si non connecté pour éviter la redirection vers /wp/wp-login.php
-add_action('wp_loaded', function () {
+add_action('init', function () {
+    // Cibler uniquement les tentatives d'accès à la page de login ou à l'admin
     global $pagenow;
-    
-    // Si on essaie d'accéder à l'admin et qu'on n'est pas connecté
-    if (is_admin() && !is_user_logged_in() && !wp_doing_ajax() && $pagenow !== 'wp-login.php') {
-        $redirect = urlencode($_SERVER['REQUEST_URI']);
-        wp_redirect(home_url('/wp-login.php?redirect_to=' . $redirect));
+    if ($pagenow !== 'wp-login.php' && !is_admin()) {
+        return;
+    }
+
+    // Récupération des identifiants envoyés par le navigateur
+    $authUser = $_SERVER['PHP_AUTH_USER'] ?? null;
+    $authPw   = $_SERVER['PHP_AUTH_PW'] ?? null;
+
+    // Définir tes identifiants de sécurité
+    $validUser = 'TON_UTILISATEUR';
+    $validPass = 'TON_MOT_DE_PASSE';
+
+    if ($authUser !== $validUser || $authPw !== $validPass) {
+        header('WWW-Authenticate: Basic realm="Zone Protegee"');
+        header('HTTP/1.0 401 Unauthorized');
+        echo 'Accès refusé.';
         exit;
     }
 });
-
-// Force toutes les URLs de login générées par WP à pointer sur la racine web
-add_filter('site_url', function ($url, $path, $scheme) {
-    if ($path === 'wp-login.php' || $path === 'wp-login.php?') {
-        return home_url('/wp-login.php');
-    }
-    return $url;
-}, 99, 3);
