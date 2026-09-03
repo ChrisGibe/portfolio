@@ -151,7 +151,7 @@ jobs:
             **/.env
             **/.env.*
             **/wp-cli.local.yml
-            **/.htaccess
+            **/.htaccess*
             **/app/uploads/**
             **/app/cache/**
             **/app/upgrade/**
