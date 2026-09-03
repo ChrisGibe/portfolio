@@ -3,7 +3,7 @@
         'name' => 'roots/bedrock',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '2cd5543dff0d5f8815946afcda313abf5874c83d',
+        'reference' => 'f028e6b51045983c2eedd0e6ae419ccd37177dcd',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -57,7 +57,7 @@
             'version' => 'dev-latest',
             'reference' => '52e7bbf74e5fd05322eacacde4392730efd6a8ee',
             'type' => 'metapackage',
-            'install_path' => NULL,
+            'install_path' => null,
             'aliases' => array(
                 0 => '9999999-dev',
             ),
@@ -66,7 +66,7 @@
         'roots/bedrock' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '2cd5543dff0d5f8815946afcda313abf5874c83d',
+            'reference' => 'f028e6b51045983c2eedd0e6ae419ccd37177dcd',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -91,11 +91,11 @@
             'dev_requirement' => false,
         ),
         'roots/wordpress' => array(
-            'pretty_version' => '6.2.11',
-            'version' => '6.2.11.0',
+            'pretty_version' => '7.1',
+            'version' => '7.1.0.0',
             'reference' => 'eb3d108f216618a858dcaed691e00e68f0ccff9f',
             'type' => 'metapackage',
-            'install_path' => NULL,
+            'install_path' => null,
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -109,9 +109,9 @@
             'dev_requirement' => false,
         ),
         'roots/wordpress-no-content' => array(
-            'pretty_version' => '6.2.11',
-            'version' => '6.2.11.0',
-            'reference' => '6.2.11',
+            'pretty_version' => '7.1',
+            'version' => '7.1.0.0',
+            'reference' => '7.1',
             'type' => 'wordpress-core',
             'install_path' => __DIR__ . '/../../web/wp',
             'aliases' => array(),
@@ -183,7 +183,7 @@
         'wordpress/core-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '6.2.11',
+                0 => '7.1',
             ),
         ),
         'wpackagist-plugin/custom-post-type-ui' => array(

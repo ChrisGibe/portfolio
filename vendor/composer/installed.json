@@ -1639,8 +1639,8 @@
         },
         {
             "name": "roots/wordpress",
-            "version": "6.2.11",
-            "version_normalized": "6.2.11.0",
+            "version": "7.1",
+            "version_normalized": "7.1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roots/wordpress.git",
@@ -1672,7 +1672,7 @@
             ],
             "support": {
                 "issues": "https://github.com/roots/wordpress/issues",
-                "source": "https://github.com/roots/wordpress/tree/7.0.4"
+                "source": "https://github.com/roots/wordpress/tree/7.1"
             },
             "funding": [
                 {
@@ -1754,24 +1754,24 @@
         },
         {
             "name": "roots/wordpress-no-content",
-            "version": "6.2.11",
-            "version_normalized": "6.2.11.0",
+            "version": "7.1",
+            "version_normalized": "7.1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress.git",
-                "reference": "6.2.11"
+                "reference": "7.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.w.org/release/wordpress-6.2.11-no-content.zip",
-                "reference": "6.2.11",
-                "shasum": "2eb345b89dc998795d2937b3e03927bd3213808e"
+                "url": "https://downloads.wordpress.org/release/wordpress-7.1-no-content.zip",
+                "reference": "7.1",
+                "shasum": "7b28e5af89345d79a30b44a16cbe3244379d1765"
             },
             "require": {
-                "php": ">= 5.6.20"
+                "php": ">= 7.4"
             },
             "provide": {
-                "wordpress/core-implementation": "6.2.11"
+                "wordpress/core-implementation": "7.1"
             },
             "suggest": {
                 "ext-curl": "Performs remote request operations.",
@@ -1789,7 +1789,7 @@
                 "ext-xml": "Used for XML parsing, such as from a third-party site.",
                 "ext-zip": "Used for decompressing Plugins, Themes, and WordPress update packages."
             },
-            "time": "2026-08-12T18:51:07+00:00",
+            "time": "2026-08-19T20:16:40+00:00",
             "type": "wordpress-core",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -1955,6 +1955,7 @@
                     "type": "patreon"
                 }
             ],
+            "abandoned": "roots/wp-password-bcrypt",
             "install-path": "../roots/wp-password-bcrypt"
         },
         {
