@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/navigation-submenu",
 	"title": "Submenu",
 	"category": "design",
@@ -9,8 +9,7 @@
 	"textdomain": "default",
 	"attributes": {
 		"label": {
-			"type": "string",
-			"role": "content"
+			"type": "string"
 		},
 		"type": {
 			"type": "string"
@@ -29,8 +28,7 @@
 			"default": false
 		},
 		"url": {
-			"type": "string",
-			"role": "content"
+			"type": "string"
 		},
 		"title": {
 			"type": "string"
@@ -56,29 +54,11 @@
 		"showSubmenuIcon",
 		"maxNestingLevel",
 		"openSubmenusOnClick",
-		"submenuVisibility",
 		"style"
 	],
 	"supports": {
-		"anchor": true,
 		"reusable": false,
-		"html": false,
-		"typography": {
-			"fontSize": true,
-			"lineHeight": true,
-			"__experimentalFontFamily": true,
-			"__experimentalFontWeight": true,
-			"__experimentalFontStyle": true,
-			"__experimentalTextTransform": true,
-			"__experimentalTextDecoration": true,
-			"__experimentalLetterSpacing": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true
-			}
-		},
-		"interactivity": {
-			"clientNavigation": true
-		}
+		"html": false
 	},
 	"editorStyle": "wp-block-navigation-submenu-editor",
 	"style": "wp-block-navigation-submenu"

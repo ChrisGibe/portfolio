@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/query-title",
 	"title": "Query Title",
 	"category": "theme",
@@ -17,9 +17,6 @@
 			"type": "number",
 			"default": 1
 		},
-		"levelOptions": {
-			"type": "array"
-		},
 		"showPrefix": {
 			"type": "boolean",
 			"default": true
@@ -29,14 +26,7 @@
 			"default": true
 		}
 	},
-	"example": {
-		"attributes": {
-			"type": "search"
-		}
-	},
-	"usesContext": [ "query" ],
 	"supports": {
-		"anchor": true,
 		"align": [ "wide", "full" ],
 		"html": false,
 		"color": {
@@ -60,22 +50,9 @@
 			"__experimentalTextTransform": true,
 			"__experimentalTextDecoration": true,
 			"__experimentalDefaultControls": {
-				"fontSize": true
-			}
-		},
-		"interactivity": {
-			"clientNavigation": true
-		},
-		"__experimentalBorder": {
-			"radius": true,
-			"color": true,
-			"width": true,
-			"style": true,
-			"__experimentalDefaultControls": {
-				"radius": true,
-				"color": true,
-				"width": true,
-				"style": true
+				"fontSize": true,
+				"fontAppearance": true,
+				"textTransform": true
 			}
 		}
 	},

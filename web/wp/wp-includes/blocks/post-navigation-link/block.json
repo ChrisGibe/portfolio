@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/post-navigation-link",
 	"title": "Post Navigation Link",
 	"category": "theme",
@@ -15,8 +15,7 @@
 			"default": "next"
 		},
 		"label": {
-			"type": "string",
-			"role": "content"
+			"type": "string"
 		},
 		"showTitle": {
 			"type": "boolean",
@@ -29,15 +28,9 @@
 		"arrow": {
 			"type": "string",
 			"default": "none"
-		},
-		"taxonomy": {
-			"type": "string",
-			"default": ""
 		}
 	},
-	"usesContext": [ "postType" ],
 	"supports": {
-		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"color": {
@@ -52,13 +45,9 @@
 			"__experimentalTextTransform": true,
 			"__experimentalTextDecoration": true,
 			"__experimentalLetterSpacing": true,
-			"__experimentalWritingMode": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
-		},
-		"interactivity": {
-			"clientNavigation": true
 		}
 	},
 	"style": "wp-block-post-navigation-link"

@@ -1,23 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/navigation",
 	"title": "Navigation",
 	"category": "theme",
-	"allowedBlocks": [
-		"core/navigation-link",
-		"core/search",
-		"core/social-links",
-		"core/page-list",
-		"core/spacer",
-		"core/home-link",
-		"core/icon",
-		"core/site-title",
-		"core/site-logo",
-		"core/navigation-submenu",
-		"core/loginout",
-		"core/buttons"
-	],
 	"description": "A collection of blocks that allow visitors to get around your site.",
 	"keywords": [ "menu", "navigation", "links" ],
 	"textdomain": "default",
@@ -47,17 +33,13 @@
 			"type": "boolean",
 			"default": true
 		},
-		"submenuVisibility": {
-			"type": "string",
-			"enum": [ "hover", "click", "always" ],
-			"default": "hover"
+		"openSubmenusOnClick": {
+			"type": "boolean",
+			"default": false
 		},
 		"overlayMenu": {
 			"type": "string",
 			"default": "mobile"
-		},
-		"overlay": {
-			"type": "string"
 		},
 		"icon": {
 			"type": "string",
@@ -103,16 +85,13 @@
 		"fontSize": "fontSize",
 		"customFontSize": "customFontSize",
 		"showSubmenuIcon": "showSubmenuIcon",
-		"submenuVisibility": "submenuVisibility",
 		"openSubmenusOnClick": "openSubmenusOnClick",
 		"style": "style",
+		"orientation": "orientation",
 		"maxNestingLevel": "maxNestingLevel"
 	},
 	"supports": {
-		"anchor": true,
 		"align": [ "wide", "full" ],
-		"ariaLabel": true,
-		"contentRole": true,
 		"html": false,
 		"inserter": true,
 		"typography": {
@@ -136,7 +115,7 @@
 				"blockGap": true
 			}
 		},
-		"layout": {
+		"__experimentalLayout": {
 			"allowSwitching": false,
 			"allowInheriting": false,
 			"allowVerticalAlignment": false,
@@ -145,9 +124,17 @@
 				"type": "flex"
 			}
 		},
-		"interactivity": true,
-		"renaming": false
+		"__experimentalStyle": {
+			"elements": {
+				"link": {
+					"color": {
+						"text": "inherit"
+					}
+				}
+			}
+		}
 	},
+	"viewScript": [ "file:./view.min.js", "file:./view-modal.min.js" ],
 	"editorStyle": "wp-block-navigation-editor",
 	"style": "wp-block-navigation"
 }

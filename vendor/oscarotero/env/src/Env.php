@@ -17,6 +17,8 @@ class Env
 
     /**
      * Returns an environment variable.
+     *
+     * @return mixed
      */
     public static function get(string $name)
     {
@@ -43,10 +45,10 @@ class Env
 
     /**
      * Converts the type of values like "true", "false", "null" or "123".
-     * 
+     *
      * @return mixed
      */
-    public static function convert(string $value, int $options = null)
+    public static function convert(string $value, ?int $options = null)
     {
         if ($options === null) {
             $options = self::$options;

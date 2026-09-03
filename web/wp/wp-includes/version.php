@@ -16,44 +16,32 @@
  *
  * @global string $wp_version
  */
-$wp_version = '7.0';
+$wp_version = '6.2.11';
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 61833;
+$wp_db_version = 53496;
 
 /**
  * Holds the TinyMCE version.
  *
  * @global string $tinymce_version
  */
-$tinymce_version = '49110-20250317';
+$tinymce_version = '49110-20201110';
 
 /**
- * Holds the minimum required PHP version.
+ * Holds the required PHP version.
  *
  * @global string $required_php_version
  */
-$required_php_version = '7.4';
+$required_php_version = '5.6.20';
 
 /**
- * Holds the names of required PHP extensions.
- *
- * @global string[] $required_php_extensions
- */
-$required_php_extensions = array(
-	'json',
-	'hash',
-);
-
-/**
- * Holds the minimum required MySQL version.
+ * Holds the required MySQL version.
  *
  * @global string $required_mysql_version
  */
-$required_mysql_version = '5.5.5';
-
-$wp_local_package = 'fr_FR';
+$required_mysql_version = '5.0';

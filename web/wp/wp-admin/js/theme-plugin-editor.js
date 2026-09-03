@@ -2,9 +2,7 @@
  * @output wp-admin/js/theme-plugin-editor.js
  */
 
-/* eslint-env es2020 */
-
-/* eslint no-magic-numbers: ["error", { "ignore": [-1, 0, 1, 9, 1000] }] */
+/* eslint no-magic-numbers: ["error", { "ignore": [-1, 0, 1] }] */
 
 if ( ! window.wp ) {
 	window.wp = {};
@@ -81,18 +79,6 @@ wp.themePluginEditor = (function( $ ) {
 				component.docsLookUpButton.prop( 'disabled', true );
 			} else {
 				component.docsLookUpButton.prop( 'disabled', false );
-			}
-		} );
-
-		// Initiate saving the file when not focused in CodeMirror or when the user has syntax highlighting turned off.
-		$( window ).on( 'keydown', function( event ) {
-			if (
-				( event.ctrlKey || event.metaKey ) &&
-				( 's' === event.key.toLowerCase() ) &&
-				( ! component.instance || ! component.instance.codemirror.hasFocus() )
-			) {
-				event.preventDefault();
-				component.form.trigger( 'submit' );
 			}
 		} );
 	};
@@ -205,11 +191,7 @@ wp.themePluginEditor = (function( $ ) {
 			return;
 		}
 
-		if ( component.instance && component.instance.updateErrorNotice ) {
-			component.instance.updateErrorNotice();
-		}
-
-		// Scroll to the line that has the error.
+		// Scroll ot the line that has the error.
 		if ( component.lintErrors.length ) {
 			component.instance.codemirror.setCursor( component.lintErrors[0].from.line );
 			return;
@@ -244,7 +226,7 @@ wp.themePluginEditor = (function( $ ) {
 			var notice = $.extend(
 				{
 					code: 'save_error',
-					message: __( 'An error occurred while saving your changes. Please try again. If the problem persists, you may need to manually update the file via FTP.' )
+					message: __( 'Something went wrong. Your change may not have been saved. Please try again. There is also a chance that you may need to manually fix and upload the file over FTP.' )
 				},
 				response,
 				{
@@ -416,16 +398,6 @@ wp.themePluginEditor = (function( $ ) {
 
 		editor = wp.codeEditor.initialize( $( '#newcontent' ), codeEditorSettings );
 		editor.codemirror.on( 'change', component.onChange );
-
-		function onSaveShortcut() {
-			component.form.trigger( 'submit' );
-		}
-
-		editor.codemirror.setOption( 'extraKeys', {
-			...( editor.codemirror.getOption( 'extraKeys' ) || {} ),
-			'Ctrl-S': onSaveShortcut,
-			'Cmd-S': onSaveShortcut,
-		} );
 
 		// Improve the editor accessibility.
 		$( editor.codemirror.display.lineDiv )

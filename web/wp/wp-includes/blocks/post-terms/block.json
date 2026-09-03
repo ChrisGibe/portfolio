@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/post-terms",
 	"title": "Post Terms",
 	"category": "theme",
@@ -10,27 +10,24 @@
 		"term": {
 			"type": "string"
 		},
+		"textAlign": {
+			"type": "string"
+		},
 		"separator": {
 			"type": "string",
 			"default": ", "
 		},
 		"prefix": {
 			"type": "string",
-			"default": "",
-			"role": "content"
+			"default": ""
 		},
 		"suffix": {
 			"type": "string",
-			"default": "",
-			"role": "content"
+			"default": ""
 		}
 	},
 	"usesContext": [ "postId", "postType" ],
-	"example": {
-		"viewportWidth": 350
-	},
 	"supports": {
-		"anchor": true,
 		"html": false,
 		"color": {
 			"gradients": true,
@@ -48,7 +45,6 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
-			"textAlign": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,
@@ -57,21 +53,6 @@
 			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
-			}
-		},
-		"interactivity": {
-			"clientNavigation": true
-		},
-		"__experimentalBorder": {
-			"radius": true,
-			"color": true,
-			"width": true,
-			"style": true,
-			"__experimentalDefaultControls": {
-				"radius": true,
-				"color": true,
-				"width": true,
-				"style": true
 			}
 		}
 	},

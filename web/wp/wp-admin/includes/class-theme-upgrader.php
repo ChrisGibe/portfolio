@@ -48,7 +48,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	public $new_theme_data = array();
 
 	/**
-	 * Initializes the upgrade strings.
+	 * Initialize the upgrade strings.
 	 *
 	 * @since 2.8.0
 	 */
@@ -56,7 +56,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->strings['up_to_date'] = __( 'The theme is at the latest version.' );
 		$this->strings['no_package'] = __( 'Update package not available.' );
 		/* translators: %s: Package URL. */
-		$this->strings['downloading_package'] = sprintf( __( 'Downloading update from %s&#8230;' ), '<span class="code pre">%s</span>' );
+		$this->strings['downloading_package'] = sprintf( __( 'Downloading update from %s&#8230;' ), '<span class="code">%s</span>' );
 		$this->strings['unpack_package']      = __( 'Unpacking the update&#8230;' );
 		$this->strings['remove_old']          = __( 'Removing the old version of the theme&#8230;' );
 		$this->strings['remove_old_failed']   = __( 'Could not remove the old theme.' );
@@ -65,14 +65,14 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Initializes the installation strings.
+	 * Initialize the installation strings.
 	 *
 	 * @since 2.8.0
 	 */
 	public function install_strings() {
 		$this->strings['no_package'] = __( 'Installation package not available.' );
 		/* translators: %s: Package URL. */
-		$this->strings['downloading_package'] = sprintf( __( 'Downloading installation package from %s&#8230;' ), '<span class="code pre">%s</span>' );
+		$this->strings['downloading_package'] = sprintf( __( 'Downloading installation package from %s&#8230;' ), '<span class="code">%s</span>' );
 		$this->strings['unpack_package']      = __( 'Unpacking the package&#8230;' );
 		$this->strings['installing_package']  = __( 'Installing the theme&#8230;' );
 		$this->strings['remove_old']          = __( 'Removing the old version of the theme&#8230;' );
@@ -110,7 +110,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Checks if a child theme is being installed and its parent also needs to be installed.
+	 * Check if a child theme is being installed and we need to install its parent.
 	 *
 	 * Hooked to the {@see 'upgrader_post_install'} filter by Theme_Upgrader::install().
 	 *
@@ -278,7 +278,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Upgrades a theme.
+	 * Upgrade a theme.
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
@@ -311,7 +311,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return false;
 		}
 
-		$upgrade_data = $current->response[ $theme ];
+		$r = $current->response[ $theme ];
 
 		add_filter( 'upgrader_pre_install', array( $this, 'current_before' ), 10, 2 );
 		add_filter( 'upgrader_post_install', array( $this, 'current_after' ), 10, 2 );
@@ -323,19 +323,14 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->run(
 			array(
-				'package'           => $upgrade_data['package'],
+				'package'           => $r['package'],
 				'destination'       => get_theme_root( $theme ),
 				'clear_destination' => true,
 				'clear_working'     => true,
 				'hook_extra'        => array(
-					'theme'       => $theme,
-					'type'        => 'theme',
-					'action'      => 'update',
-					'temp_backup' => array(
-						'slug' => $theme,
-						'src'  => get_theme_root( $theme ),
-						'dir'  => 'themes',
-					),
+					'theme'  => $theme,
+					'type'   => 'theme',
+					'action' => 'update',
 				),
 			)
 		);
@@ -351,10 +346,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
 
-		/*
-		 * Ensure any future auto-update failures trigger a failure email by removing
-		 * the last failure notification from the list when themes update successfully.
-		 */
+		// Ensure any future auto-update failures trigger a failure email by removing
+		// the last failure notification from the list when themes update successfully.
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
 		if ( isset( $past_failure_emails[ $theme ] ) ) {
@@ -366,7 +359,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Upgrades several themes at once.
+	 * Upgrade several themes at once.
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
@@ -381,7 +374,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @return array[]|false An array of results, or false if unable to connect to the filesystem.
 	 */
 	public function bulk_upgrade( $themes, $args = array() ) {
-		$wp_version  = wp_get_wp_version();
 		$defaults    = array(
 			'clear_update_cache' => true,
 		);
@@ -400,8 +392,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->skin->header();
 
 		// Connect to the filesystem first.
-		$connected = $this->fs_connect( array( WP_CONTENT_DIR ) );
-		if ( ! $connected ) {
+		$res = $this->fs_connect( array( WP_CONTENT_DIR ) );
+		if ( ! $res ) {
 			$this->skin->footer();
 			return false;
 		}
@@ -427,7 +419,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->update_count   = count( $themes );
 		$this->update_current = 0;
 		foreach ( $themes as $theme ) {
-			++$this->update_current;
+			$this->update_current++;
 
 			$this->skin->theme_info = $this->theme_info( $theme );
 
@@ -441,57 +433,20 @@ class Theme_Upgrader extends WP_Upgrader {
 			}
 
 			// Get the URL to the zip file.
-			$upgrade_data = $current->response[ $theme ];
+			$r = $current->response[ $theme ];
 
-			if ( isset( $upgrade_data['requires'] ) && ! is_wp_version_compatible( $upgrade_data['requires'] ) ) {
-				$result = new WP_Error(
-					'incompatible_wp_required_version',
-					sprintf(
-						/* translators: 1: Current WordPress version, 2: WordPress version required by the new theme version. */
-						__( 'Your WordPress version is %1$s, however the new theme version requires %2$s.' ),
-						$wp_version,
-						$upgrade_data['requires']
-					)
-				);
-
-				$this->skin->before( $result );
-				$this->skin->error( $result );
-				$this->skin->after();
-			} elseif ( isset( $upgrade_data['requires_php'] ) && ! is_php_version_compatible( $upgrade_data['requires_php'] ) ) {
-				$result = new WP_Error(
-					'incompatible_php_required_version',
-					sprintf(
-						/* translators: 1: Current PHP version, 2: PHP version required by the new theme version. */
-						__( 'The PHP version on your server is %1$s, however the new theme version requires %2$s.' ),
-						PHP_VERSION,
-						$upgrade_data['requires_php']
-					)
-				);
-
-				$this->skin->before( $result );
-				$this->skin->error( $result );
-				$this->skin->after();
-			} else {
-				add_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
-				$result = $this->run(
-					array(
-						'package'           => $upgrade_data['package'],
-						'destination'       => get_theme_root( $theme ),
-						'clear_destination' => true,
-						'clear_working'     => true,
-						'is_multi'          => true,
-						'hook_extra'        => array(
-							'theme'       => $theme,
-							'temp_backup' => array(
-								'slug' => $theme,
-								'src'  => get_theme_root( $theme ),
-								'dir'  => 'themes',
-							),
-						),
-					)
-				);
-				remove_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
-			}
+			$result = $this->run(
+				array(
+					'package'           => $r['package'],
+					'destination'       => get_theme_root( $theme ),
+					'clear_destination' => true,
+					'clear_working'     => true,
+					'is_multi'          => true,
+					'hook_extra'        => array(
+						'theme' => $theme,
+					),
+				)
+			);
 
 			$results[ $theme ] = $result;
 
@@ -522,15 +477,13 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->skin->footer();
 
-		// Cleanup our hooks, in case something else does an upgrade on this connection.
+		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter( 'upgrader_pre_install', array( $this, 'current_before' ) );
 		remove_filter( 'upgrader_post_install', array( $this, 'current_after' ) );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_theme' ) );
 
-		/*
-		 * Ensure any future auto-update failures trigger a failure email by removing
-		 * the last failure notification from the list when themes update successfully.
-		 */
+		// Ensure any future auto-update failures trigger a failure email by removing
+		// the last failure notification from the list when themes update successfully.
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
 		foreach ( $results as $theme => $result ) {
@@ -555,14 +508,14 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @since 3.3.0
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+	 * @global string             $wp_version    The WordPress version string.
 	 *
 	 * @param string $source The path to the downloaded package source.
 	 * @return string|WP_Error The source as passed, or a WP_Error object on failure.
 	 */
 	public function check_package( $source ) {
-		global $wp_filesystem;
+		global $wp_filesystem, $wp_version;
 
-		$wp_version           = wp_get_wp_version();
 		$this->new_theme_data = array();
 
 		if ( is_wp_error( $source ) ) {
@@ -571,7 +524,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Check that the folder contains a valid theme.
 		$working_directory = str_replace( $wp_filesystem->wp_content_dir(), trailingslashit( WP_CONTENT_DIR ), $source );
-		if ( ! is_dir( $working_directory ) ) { // Confidence check, if the above fails, let's not prevent installation.
+		if ( ! is_dir( $working_directory ) ) { // Sanity check, if the above fails, let's not prevent installation.
 			return $source;
 		}
 
@@ -589,7 +542,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		}
 
 		// All these headers are needed on Theme_Installer_Skin::do_overwrite().
-		$new_theme_data = get_file_data(
+		$info = get_file_data(
 			$working_directory . 'style.css',
 			array(
 				'Name'        => 'Theme Name',
@@ -601,7 +554,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			)
 		);
 
-		if ( empty( $new_theme_data['Name'] ) ) {
+		if ( empty( $info['Name'] ) ) {
 			return new WP_Error(
 				'incompatible_archive_theme_no_name',
 				$this->strings['incompatible_archive'],
@@ -619,7 +572,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		 * - block themes require /templates/index.html or block-templates/index.html (deprecated 5.9.0).
 		 */
 		if (
-			empty( $new_theme_data['Template'] ) &&
+			empty( $info['Template'] ) &&
 			! file_exists( $working_directory . 'index.php' ) &&
 			! file_exists( $working_directory . 'templates/index.html' ) &&
 			! file_exists( $working_directory . 'block-templates/index.html' )
@@ -639,8 +592,8 @@ class Theme_Upgrader extends WP_Upgrader {
 			);
 		}
 
-		$requires_php = $new_theme_data['RequiresPHP'] ?? null;
-		$requires_wp  = $new_theme_data['RequiresWP'] ?? null;
+		$requires_php = isset( $info['RequiresPHP'] ) ? $info['RequiresPHP'] : null;
+		$requires_wp  = isset( $info['RequiresWP'] ) ? $info['RequiresWP'] : null;
 
 		if ( ! is_php_version_compatible( $requires_php ) ) {
 			$error = sprintf(
@@ -663,13 +616,13 @@ class Theme_Upgrader extends WP_Upgrader {
 			return new WP_Error( 'incompatible_wp_required_version', $this->strings['incompatible_archive'], $error );
 		}
 
-		$this->new_theme_data = $new_theme_data;
+		$this->new_theme_data = $info;
 
 		return $source;
 	}
 
 	/**
-	 * Turns on maintenance mode before attempting to upgrade the active theme.
+	 * Turn on maintenance mode before attempting to upgrade the active theme.
 	 *
 	 * Hooked to the {@see 'upgrader_pre_install'} filter by Theme_Upgrader::upgrade() and
 	 * Theme_Upgrader::bulk_upgrade().
@@ -685,7 +638,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $response;
 		}
 
-		$theme = $theme['theme'] ?? '';
+		$theme = isset( $theme['theme'] ) ? $theme['theme'] : '';
 
 		// Only run if active theme.
 		if ( get_stylesheet() !== $theme ) {
@@ -701,7 +654,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Turns off maintenance mode after upgrading the active theme.
+	 * Turn off maintenance mode after upgrading the active theme.
 	 *
 	 * Hooked to the {@see 'upgrader_post_install'} filter by Theme_Upgrader::upgrade()
 	 * and Theme_Upgrader::bulk_upgrade().
@@ -717,7 +670,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $response;
 		}
 
-		$theme = $theme['theme'] ?? '';
+		$theme = isset( $theme['theme'] ) ? $theme['theme'] : '';
 
 		// Only run if active theme.
 		if ( get_stylesheet() !== $theme ) {
@@ -739,14 +692,14 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Deletes the old theme during an upgrade.
+	 * Delete the old theme during an upgrade.
 	 *
 	 * Hooked to the {@see 'upgrader_clear_destination'} filter by Theme_Upgrader::upgrade()
 	 * and Theme_Upgrader::bulk_upgrade().
 	 *
 	 * @since 2.8.0
 	 *
-	 * @global WP_Filesystem_Base $wp_filesystem Filesystem subclass.
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
 	 * @param bool   $removed
 	 * @param string $local_destination
@@ -777,7 +730,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Gets the WP_Theme object for a theme.
+	 * Get the WP_Theme object for a theme.
 	 *
 	 * @since 2.8.0
 	 * @since 3.0.0 The `$theme` argument was added.
@@ -801,4 +754,5 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		return $theme;
 	}
+
 }
