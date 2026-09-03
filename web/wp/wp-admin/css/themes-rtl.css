@@ -12,10 +12,6 @@
 	overflow-y: scroll;
 }
 
-.themes-php #adminmenuwrap {
-	z-index: 10001; /* above Theme Overlay */
-}
-
 body.js .theme-browser.search-loading {
 	display: none;
 }
@@ -24,23 +20,23 @@ body.js .theme-browser.search-loading {
 	clear: both;
 }
 
+.themes-php:not(.network-admin) .wrap h1 {
+	margin-bottom: 15px;
+}
+
 .themes-php .wrap h1 .button {
 	margin-right: 20px;
 }
 
 /* Search form */
 .themes-php .search-form {
-	display: inline-flex;
-	align-items: center;
-	position: relative;
-	top: 0;
-	gap: .5rem;
-	width: 100%;
-	justify-content: end;
+	display: inline;
 }
 
 .themes-php .wp-filter-search {
 	position: relative;
+	top: -2px;
+	right: 20px;
 	margin: 0;
 	width: 280px;
 }
@@ -65,11 +61,9 @@ body.js .theme-browser.search-loading {
 	margin: 0 0 4% 4%;
 	position: relative;
 	width: 30.6%;
-	background: #ffffff;
-	border: 1px solid rgb(0, 0, 0, 0.1);
-	border-radius: 8px;
+	border: 1px solid #dcdcde;
+	box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
-	overflow: hidden;
 }
 
 .theme-browser .theme:nth-child(3n) {
@@ -86,12 +80,13 @@ body.js .theme-browser.search-loading {
 	font-weight: 600;
 	height: 18px;
 	margin: 0;
-	padding: 16px 15px;
-	border-top: 1px solid rgb(0, 0, 0, 0.1);
+	padding: 15px;
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	background: #ffffff;
+	background: #fff;
+	background: rgba(255, 255, 255, 0.65);
 }
 
 /* Activate and Customize buttons, shown on hover and focus */
@@ -114,36 +109,9 @@ body.js .theme-browser.search-loading {
 	margin-left: 3px;
 }
 
-/* Use compact size for space-constrained theme cards */
-.theme-browser .theme .theme-actions .button.updated-message,
-.theme-browser .theme .theme-actions .button.updating-message,
 .theme-browser .theme .theme-actions .button {
 	float: none;
 	margin-right: 3px;
-	min-height: 32px;
-	line-height: 2.30769231; /* 30px for 32px min-height */
-	padding: 0 12px;
-}
-
-.theme-browser .theme .theme-actions .button.updated-message::before,
-.theme-browser .theme .theme-actions .button.updating-message::before {
-	line-height: 1;
-	vertical-align: text-bottom;
-	position: relative;
-	top: 2px;
-}
-
-/* Secondary buttons need white background for visibility on semi-transparent overlay */
-.theme-browser .theme .theme-actions .button:not(.button-primary) {
-	background: #fff;
-}
-
-.theme-browser .theme .theme-actions .button:not(.button-primary):hover {
-	background: #f0f0f0;
-}
-
-.theme-browser .theme .theme-actions .button:not(.button-primary):focus {
-	background: #fff;
 }
 
 /**
@@ -209,14 +177,12 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme .more-details:focus {
-	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
+	box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
 }
 
 .theme-browser .theme.focus {
-	border-color: var(--wp-admin-theme-color);
-	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
-	/* Only visible in Windows High Contrast mode */
-	outline: 2px solid transparent;
+	border-color: #4f94d4;
+	box-shadow: 0 0 2px rgba(79, 148, 212, 0.8);
 }
 
 .theme-browser .theme.focus .more-details {
@@ -240,7 +206,7 @@ body.js .theme-browser.search-loading {
 .theme-browser .theme.active .theme-name {
 	background: #1d2327;
 	color: #fff;
-	padding-left: 115px;
+	padding-left: 110px;
 	font-weight: 300;
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.5);
 }
@@ -254,13 +220,9 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme.active .theme-actions {
-	background: transparent;
+	background: rgba(44, 51, 56, 0.7);
 	border-right: none;
 	opacity: 1;
-}
-
-.theme-browser .theme.active .theme-actions .button-primary {
-	border-color: #fff;
 }
 
 .theme-id-container {
@@ -273,28 +235,12 @@ body.js .theme-browser.search-loading {
 	top: 50%;
 	transform: translateY(-50%);
 	left: 0;
-	padding: 9px 12px;
-}
-
-.theme-browser .theme:not(.active) .theme-actions {
+	padding: 9px 15px;
 	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .theme-browser .theme.active .theme-actions .button-primary {
 	margin-left: 0;
-}
-
-/* Active theme secondary buttons need white background for visibility on dark overlay */
-.theme-browser .theme.active .theme-actions .button:not(.button-primary) {
-	background: #fff;
-}
-
-.theme-browser .theme.active .theme-actions .button:not(.button-primary):hover {
-	background: #f0f0f0;
-}
-
-.theme-browser .theme.active .theme-actions .button:not(.button-primary):focus {
-	background: #fff;
 }
 
 .theme-browser .theme .theme-author {
@@ -320,9 +266,8 @@ body.js .theme-browser.search-loading {
  * Add new theme
  */
 .theme-browser .theme.add-new-theme {
-	background: transparent;
 	border: none;
-	overflow: visible;
+	box-shadow: none;
 }
 
 .theme-browser .theme.add-new-theme a {
@@ -355,7 +300,6 @@ body.js .theme-browser.search-loading {
 	border-radius: 50%;
 	display: inline-block;
 	content: "\f132";
-	content: "\f132" / '';
 	-webkit-font-smoothing: antialiased;
 	font: normal 74px/115px dashicons;
 	width: 100px;
@@ -398,8 +342,8 @@ body.js .theme-browser.search-loading {
 
 .theme-browser .theme.add-new-theme .theme-name {
 	background: none;
-	border: none;
 	text-align: center;
+	box-shadow: none;
 	font-weight: 400;
 	position: relative;
 	top: 0;
@@ -427,7 +371,6 @@ body.js .theme-browser.search-loading {
 	background: #f0f0f1;
 	background: rgba(240, 240, 241, 0.9);
 	z-index: 10000; /* Over WP Pointers. */
-	min-height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
 }
 
 .theme-overlay .theme-header {
@@ -460,7 +403,6 @@ body.js .theme-browser.search-loading {
 	color: #787c82;
 	display: inline-block;
 	content: "\f335";
-	content: "\f335" / '';
 	font-weight: 300;
 }
 
@@ -520,12 +462,10 @@ body.js .theme-browser.search-loading {
 
 .theme-overlay .theme-header .left:before {
 	content: "\f345";
-	content: "\f341" / '';
 }
 
 .theme-overlay .theme-header .right:before {
 	content: "\f341";
-	content: "\f345" / '';
 }
 
 .theme-overlay .theme-wrap {
@@ -567,12 +507,10 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	z-index: 30;
 	box-sizing: border-box;
 	border-top: 1px solid #f0f0f1;
-	display: flex;
-	justify-content: center;
-	gap: 5px;
 }
 
-.theme-overlay .theme-actions .button {
+.theme-overlay .theme-actions a {
+	margin-left: 5px;
 	margin-bottom: 5px;
 }
 
@@ -584,21 +522,26 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .broken-themes a.delete-theme,
 .theme-overlay .theme-actions .delete-theme {
-	color: #b32d2e;
+	color: #d63638;
 	text-decoration: none;
 	border-color: transparent;
 	box-shadow: none;
 	background: transparent;
 }
 
+.theme-overlay .theme-actions .delete-theme {
+	position: absolute;
+	left: 10px;
+	bottom: 5px;
+}
+
 .broken-themes a.delete-theme:hover,
 .broken-themes a.delete-theme:focus,
 .theme-overlay .theme-actions .delete-theme:hover,
 .theme-overlay .theme-actions .delete-theme:focus {
-	background: #b32d2e;
+	background: #d63638;
 	color: #fff;
-	border-color: #b32d2e;
-	box-shadow: 0 0 0 1px #b32d2e;
+	border-color: #d63638;
 }
 
 .theme-overlay .theme-actions .active-theme,
@@ -898,7 +841,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	}
 }
 
-@media only screen and (max-width: 782px) {
+@media only screen and (max-width: 780px) {
 	body.folded .theme-overlay .theme-wrap,
 	.theme-overlay .theme-wrap {
 		top: 0; /* The adminmenu isn't fixed on mobile, so this can use the full viewport height */
@@ -974,10 +917,6 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 		padding-right: 4%;
 		padding-left: 4%;
 	}
-
-	.theme-install-php .wp-filter .filter-count {
-		margin-top: 10px;
-	}
 }
 
 @media only screen and (max-width: 650px) {
@@ -998,7 +937,6 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	.theme-overlay .theme-screenshots {
 		width: 100%;
 		float: none;
-		margin: 0;
 	}
 
 	.theme-overlay .theme-info {
@@ -1015,12 +953,13 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	}
 
 	.themes-php .wp-filter-search {
+		float: none;
+		clear: both;
+		right: 0;
+		left: 0;
+		margin: -5px 0 20px;
 		width: 100%;
-	}
-
-	.theme-install-php .wp-filter p.search-box {
-		display: grid;
-		row-gap: .5rem;
+		max-width: 280px;
 	}
 
 	.theme-browser .theme.add-new-theme span:after {
@@ -1077,7 +1016,6 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 .theme-browser .theme .notice-success p:before {
 	color: #68de7c;
 	content: "\f147";
-	content: "\f147" / '';
 	display: inline-block;
 	font: normal 20px/1 'dashicons';
 	-webkit-font-smoothing: antialiased;
@@ -1091,13 +1029,6 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .theme-install-php .wp-filter {
 	padding-right: 20px;
-}
-
-/* Override column gap adjustment in media library. */
-@media only screen and (max-width: 1000px) {
-	.theme-install-php .wp-filter p.search-box {
-		column-gap: .5rem;
-	}
 }
 
 .theme-install-php a.upload,
@@ -1136,24 +1067,18 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .upload-theme .wp-upload-form,
 .upload-plugin .wp-upload-form {
-	position: relative;
-	margin: 30px;
+	background: #f6f7f7;
+	border: 1px solid #c3c4c7;
+	padding: 30px;
+	margin: 30px auto;
 	display: inline-flex;
 	justify-content: space-between;
 	align-items: center;
-	border: 1px solid #c3c4c7;
-	background: #f6f7f7;
 }
 
 .upload-theme .wp-upload-form input[type="file"],
 .upload-plugin .wp-upload-form input[type="file"] {
-	background: transparent;
-    margin: 0;
-    padding: 30px 30px 30px 0;
-}
-
-.wp-upload-form input[type="submit"].button {
-	margin-left: 30px;
+	margin-left: 10px;
 }
 
 .upload-theme .install-help,
@@ -1187,7 +1112,6 @@ p.no-themes-local {
 }
 
 @media only screen and (max-width: 1120px) {
-	.upload-plugin .wp-upload-form,
 	.upload-theme .wp-upload-form {
 		margin: 20px 0;
 		max-width: 100%;
@@ -1405,6 +1329,10 @@ div#custom-background-image img {
 	transform: rotate( -45deg );
 }
 
+.background-position-control .button-group .dashicons {
+	margin-top: 9px;
+}
+
 .background-position-control .button-group + .button-group {
 	margin-top: -1px;
 }
@@ -1520,7 +1448,7 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-header a.back {
-	margin-top: 3px; /* Vertically center 40px button in 45px header */
+	margin-top: 9px;
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-footer {
@@ -1576,7 +1504,6 @@ body.full-overlay-active {
 .theme-install-overlay .close-full-overlay:before {
 	font: normal 22px/1 dashicons;
 	content: "\f335";
-	content: "\f335" / '';
 	position: relative;
 	top: 7px;
 	right: 13px;
@@ -1585,7 +1512,6 @@ body.full-overlay-active {
 .theme-install-overlay .previous-theme:before {
 	font: normal 20px/1 dashicons;
 	content: "\f345";
-	content: "\f341" / '';
 	position: relative;
 	top: 6px;
 	right: 14px;
@@ -1594,7 +1520,6 @@ body.full-overlay-active {
 .theme-install-overlay .next-theme:before {
 	font: normal 20px/1 dashicons;
 	content: "\f341";
-	content: "\f345" / '';
 	position: relative;
 	top: 6px;
 	right: 13px;
@@ -1665,9 +1590,9 @@ body.full-overlay-active {
 
 .wp-full-overlay .collapse-sidebar:hover .collapse-sidebar-arrow,
 .wp-full-overlay .collapse-sidebar:focus .collapse-sidebar-arrow {
-	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #3858e9);
-	/* Only visible in Windows High Contrast mode */
-	outline: 2px solid transparent;
+	box-shadow:
+		0 0 0 1px #4f94d4,
+		0 0 2px 1px rgba(79, 148, 212, 0.8);
 }
 
 .wp-full-overlay .collapse-sidebar-label {
@@ -1681,9 +1606,9 @@ body.full-overlay-active {
 .wp-full-overlay .collapse-sidebar-arrow:before {
 	display: block;
 	content: "\f148";
-	content: "\f148" / '';
 	background: #f0f0f1;
 	font: normal 20px/1 dashicons;
+	speak: never;
 	padding: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1704,14 +1629,12 @@ body.full-overlay-active {
 }
 
 /* Animations */
-@media (prefers-reduced-motion: no-preference) {
-	.wp-full-overlay,
-	.wp-full-overlay-sidebar,
-	.wp-full-overlay .collapse-sidebar,
-	.wp-full-overlay-main {
-		transition-property: right, left, top, bottom, width, margin;
-		transition-duration: 0.2s;
-	}
+.wp-full-overlay,
+.wp-full-overlay-sidebar,
+.wp-full-overlay .collapse-sidebar,
+.wp-full-overlay-main {
+	transition-property: right, left, top, bottom, width, margin;
+	transition-duration: 0.2s;
 }
 
 /* Device/preview size toggles */
@@ -1803,17 +1726,14 @@ body.full-overlay-active {
 
 .wp-full-overlay-footer .devices .preview-desktop:before {
 	content: "\f472";
-	content: "\f472" / '';
 }
 
 .wp-full-overlay-footer .devices .preview-tablet:before {
 	content: "\f471";
-	content: "\f471" / '';
 }
 
 .wp-full-overlay-footer .devices .preview-mobile:before {
 	content: "\f470";
-	content: "\f470" / '';
 }
 
 @media screen and (max-width: 1024px) {
@@ -1968,7 +1888,7 @@ body.full-overlay-active {
 
 .theme-install-overlay .wp-full-overlay-header .button {
 	float: left;
-	margin: 7px 0 0 10px; /* Vertically center 32px button in 45px header */
+	margin: 8px 0 0 10px;
 }
 
 .theme-install-overlay .wp-full-overlay-sidebar {
@@ -2022,6 +1942,7 @@ body.full-overlay-active {
  * HiDPI Displays
  */
 @media print,
+  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 	.wp-full-overlay .collapse-sidebar-arrow {
 		background-image: url(../images/arrows-2x.png);
@@ -2054,6 +1975,8 @@ body.full-overlay-active {
 
 	.theme-install-overlay .wp-full-overlay-header .button {
 		font-size: 13px;
+		line-height: 2.15384615;
+		min-height: 30px;
 	}
 
 	.theme-browser .theme .theme-actions .button {
@@ -2066,15 +1989,17 @@ body.full-overlay-active {
 		padding-bottom: 4px;
 	}
 
-	.upload-plugin .wp-upload-form,
-	.upload-theme .wp-upload-form {
-		width: 100%;
-		box-sizing: border-box;
+	.upload-theme .wp-upload-form,
+	.upload-plugin .wp-upload-form {
+		display: block;
 	}
+}
 
-	.upload-plugin .wp-upload-form input[type=file],
-	.upload-theme .wp-upload-form input[type=file] {
-		padding: 30px 30px 30px 0;
-		width: 100%;
+@media aural {
+	.theme .notice:before,
+	.theme-info .updating-message:before,
+	.theme-info .updated-message:before,
+	.theme-install.updating-message:before {
+		speak: never;
 	}
 }

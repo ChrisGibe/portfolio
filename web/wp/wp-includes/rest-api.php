@@ -38,55 +38,26 @@ function register_rest_route( $route_namespace, $route, $args = array(), $overri
 		 * and namespace indexes. If you really need to register a
 		 * non-namespaced route, call `WP_REST_Server::register_route` directly.
 		 */
-		_doing_it_wrong(
-			__FUNCTION__,
-			sprintf(
-				/* translators: 1: string value of the namespace, 2: string value of the route. */
-				__( 'Routes must be namespaced with plugin or theme name and version. Instead there seems to be an empty namespace \'%1$s\' for route \'%2$s\'.' ),
-				'<code>' . $route_namespace . '</code>',
-				'<code>' . $route . '</code>'
-			),
-			'4.4.0'
-		);
+		_doing_it_wrong( 'register_rest_route', __( 'Routes must be namespaced with plugin or theme name and version.' ), '4.4.0' );
 		return false;
 	} elseif ( empty( $route ) ) {
-		_doing_it_wrong(
-			__FUNCTION__,
-			sprintf(
-				/* translators: 1: string value of the namespace, 2: string value of the route. */
-				__( 'Route must be specified. Instead within the namespace \'%1$s\', there seems to be an empty route \'%2$s\'.' ),
-				'<code>' . $route_namespace . '</code>',
-				'<code>' . $route . '</code>'
-			),
-			'4.4.0'
-		);
+		_doing_it_wrong( 'register_rest_route', __( 'Route must be specified.' ), '4.4.0' );
 		return false;
 	}
 
 	$clean_namespace = trim( $route_namespace, '/' );
 
 	if ( $clean_namespace !== $route_namespace ) {
-		_doing_it_wrong(
-			__FUNCTION__,
-			sprintf(
-				/* translators: 1: string value of the namespace, 2: string value of the route. */
-				__( 'Namespace must not start or end with a slash. Instead namespace \'%1$s\' for route \'%2$s\' seems to contain a slash.' ),
-				'<code>' . $route_namespace . '</code>',
-				'<code>' . $route . '</code>'
-			),
-			'5.4.2'
-		);
+		_doing_it_wrong( __FUNCTION__, __( 'Namespace must not start or end with a slash.' ), '5.4.2' );
 	}
 
 	if ( ! did_action( 'rest_api_init' ) ) {
 		_doing_it_wrong(
-			__FUNCTION__,
+			'register_rest_route',
 			sprintf(
-				/* translators: 1: rest_api_init, 2: string value of the route, 3: string value of the namespace. */
-				__( 'REST API routes must be registered on the %1$s action. Instead route \'%2$s\' with namespace \'%3$s\' was not registered on this action.' ),
-				'<code>rest_api_init</code>',
-				'<code>' . $route . '</code>',
-				'<code>' . $route_namespace . '</code>'
+				/* translators: %s: rest_api_init */
+				__( 'REST API routes must be registered on the %s action.' ),
+				'<code>rest_api_init</code>'
 			),
 			'5.1.0'
 		);
@@ -238,7 +209,7 @@ function rest_api_register_rewrites() {
  * @since 4.4.0
  */
 function rest_api_default_filters() {
-	if ( wp_is_serving_rest_request() ) {
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 		// Deprecated reporting.
 		add_action( 'deprecated_function_run', 'rest_handle_deprecated_function', 10, 3 );
 		add_filter( 'deprecated_function_trigger_error', '__return_false' );
@@ -270,22 +241,16 @@ function create_initial_rest_routes() {
 			continue;
 		}
 
-		if ( ! $post_type->late_route_registration ) {
-			$controller->register_routes();
-		}
+		$controller->register_routes();
 
-		$revisions_controller = $post_type->get_revisions_rest_controller();
-		if ( $revisions_controller ) {
+		if ( post_type_supports( $post_type->name, 'revisions' ) ) {
+			$revisions_controller = new WP_REST_Revisions_Controller( $post_type->name );
 			$revisions_controller->register_routes();
 		}
 
-		$autosaves_controller = $post_type->get_autosave_rest_controller();
-		if ( $autosaves_controller ) {
+		if ( 'attachment' !== $post_type->name ) {
+			$autosaves_controller = new WP_REST_Autosaves_Controller( $post_type->name );
 			$autosaves_controller->register_routes();
-		}
-
-		if ( $post_type->late_route_registration ) {
-			$controller->register_routes();
 		}
 	}
 
@@ -352,6 +317,10 @@ function create_initial_rest_routes() {
 	$controller = new WP_REST_Block_Types_Controller();
 	$controller->register_routes();
 
+	// Global Styles.
+	$controller = new WP_REST_Global_Styles_Controller();
+	$controller->register_routes();
+
 	// Settings.
 	$controller = new WP_REST_Settings_Controller();
 	$controller->register_routes();
@@ -408,26 +377,6 @@ function create_initial_rest_routes() {
 	// Site Editor Export.
 	$controller = new WP_REST_Edit_Site_Export_Controller();
 	$controller->register_routes();
-
-	// Navigation Fallback.
-	$controller = new WP_REST_Navigation_Fallback_Controller();
-	$controller->register_routes();
-
-	// Font Collections.
-	$font_collections_controller = new WP_REST_Font_Collections_Controller();
-	$font_collections_controller->register_routes();
-
-	// Abilities.
-	$abilities_categories_controller = new WP_REST_Abilities_V1_Categories_Controller();
-	$abilities_categories_controller->register_routes();
-	$abilities_run_controller = new WP_REST_Abilities_V1_Run_Controller();
-	$abilities_run_controller->register_routes();
-	$abilities_list_controller = new WP_REST_Abilities_V1_List_Controller();
-	$abilities_list_controller->register_routes();
-
-	// Icons.
-	$icons_controller = new WP_REST_Icons_Controller();
-	$icons_controller->register_routes();
 }
 
 /**
@@ -440,16 +389,6 @@ function create_initial_rest_routes() {
 function rest_api_loaded() {
 	if ( empty( $GLOBALS['wp']->query_vars['rest_route'] ) ) {
 		return;
-	}
-
-	// Return an error message if query_var is not a string.
-	if ( ! is_string( $GLOBALS['wp']->query_vars['rest_route'] ) ) {
-		$rest_type_error = new WP_Error(
-			'rest_path_invalid_type',
-			__( 'The REST route parameter must be a string.' ),
-			array( 'status' => 400 )
-		);
-		wp_die( $rest_type_error );
 	}
 
 	/**
@@ -526,11 +465,9 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 		$url .= $path;
 	} else {
 		$url = trailingslashit( get_home_url( $blog_id, '', $scheme ) );
-		/*
-		 * nginx only allows HTTP/1.0 methods when redirecting from / to /index.php.
-		 * To work around this, we manually add index.php to the URL, avoiding the redirect.
-		 */
-		if ( ! str_ends_with( $url, 'index.php' ) ) {
+		// nginx only allows HTTP/1.0 methods when redirecting from / to /index.php.
+		// To work around this, we manually add index.php to the URL, avoiding the redirect.
+		if ( 'index.php' !== substr( $url, 9 ) ) {
 			$url .= 'index.php';
 		}
 
@@ -687,10 +624,8 @@ function rest_ensure_response( $response ) {
 		return $response;
 	}
 
-	/*
-	 * While WP_HTTP_Response is the base class of WP_REST_Response, it doesn't provide
-	 * all the required methods used in WP_REST_Server::dispatch().
-	 */
+	// While WP_HTTP_Response is the base class of WP_REST_Response, it doesn't provide
+	// all the required methods used in WP_REST_Server::dispatch().
 	if ( $response instanceof WP_HTTP_Response ) {
 		return new WP_REST_Response(
 			$response->get_data(),
@@ -840,6 +775,9 @@ function rest_handle_options_request( $response, $handler, $request ) {
 		}
 
 		foreach ( $endpoints as $endpoint ) {
+			// Remove the redundant preg_match() argument.
+			unset( $args[0] );
+
 			$request->set_url_params( $args );
 			$request->set_attributes( $endpoint );
 		}
@@ -920,7 +858,7 @@ function _rest_array_intersect_key_recursive( $array1, $array2 ) {
 }
 
 /**
- * Filters the REST API response to include only an allow-listed set of response object fields.
+ * Filters the REST API response to include only a white-listed set of response object fields.
  *
  * @since 4.8.0
  *
@@ -956,7 +894,7 @@ function rest_filter_response_fields( $response, $server, $request ) {
 				// Skip any sub-properties if their parent prop is already marked for inclusion.
 				break 2;
 			}
-			$ref[ $next ] = $ref[ $next ] ?? array();
+			$ref[ $next ] = isset( $ref[ $next ] ) ? $ref[ $next ] : array();
 			$ref          = &$ref[ $next ];
 		}
 		$last         = array_shift( $parts );
@@ -999,18 +937,14 @@ function rest_is_field_included( $field, $fields ) {
 	}
 
 	foreach ( $fields as $accepted_field ) {
-		/*
-		 * Check to see if $field is the parent of any item in $fields.
-		 * A field "parent" should be accepted if "parent.child" is accepted.
-		 */
-		if ( str_starts_with( $accepted_field, "$field." ) ) {
+		// Check to see if $field is the parent of any item in $fields.
+		// A field "parent" should be accepted if "parent.child" is accepted.
+		if ( strpos( $accepted_field, "$field." ) === 0 ) {
 			return true;
 		}
-		/*
-		 * Conversely, if "parent" is accepted, all "parent.child" fields
-		 * should also be accepted.
-		 */
-		if ( str_starts_with( $field, "$accepted_field." ) ) {
+		// Conversely, if "parent" is accepted, all "parent.child" fields
+		// should also be accepted.
+		if ( strpos( $field, "$accepted_field." ) === 0 ) {
 			return true;
 		}
 	}
@@ -1055,11 +989,7 @@ function rest_output_link_wp_head() {
 	$resource = rest_get_queried_resource_route();
 
 	if ( $resource ) {
-		printf(
-			'<link rel="alternate" title="%1$s" type="application/json" href="%2$s" />',
-			_x( 'JSON', 'REST API resource link name' ),
-			esc_url( rest_url( $resource ) )
-		);
+		printf( '<link rel="alternate" type="application/json" href="%s" />', esc_url( rest_url( $resource ) ) );
 	}
 }
 
@@ -1084,14 +1014,7 @@ function rest_output_link_header() {
 	$resource = rest_get_queried_resource_route();
 
 	if ( $resource ) {
-		header(
-			sprintf(
-				'Link: <%1$s>; rel="alternate"; title="%2$s"; type="application/json"',
-				sanitize_url( rest_url( $resource ) ),
-				_x( 'JSON', 'REST API resource link name' )
-			),
-			false
-		);
+		header( sprintf( 'Link: <%s>; rel="alternate"; type="application/json"', sanitize_url( rest_url( $resource ) ) ), false );
 	}
 }
 
@@ -1277,13 +1200,13 @@ function rest_add_application_passwords_to_index( $response ) {
 }
 
 /**
- * Retrieves the avatar URLs in various sizes.
+ * Retrieves the avatar urls in various sizes.
  *
  * @since 4.7.0
  *
  * @see get_avatar_url()
  *
- * @param mixed $id_or_email The avatar to retrieve a URL for. Accepts a user ID, Gravatar MD5 hash,
+ * @param mixed $id_or_email The Gravatar to retrieve a URL for. Accepts a user_id, gravatar md5 hash,
  *                           user email, WP_User object, WP_Post object, or WP_Comment object.
  * @return (string|false)[] Avatar URLs keyed by size. Each value can be a URL string or boolean false.
  */
@@ -1323,15 +1246,12 @@ function rest_get_avatar_sizes() {
 /**
  * Parses an RFC3339 time into a Unix timestamp.
  *
- * Explicitly check for `false` to detect failure, as zero is a valid return
- * value on success.
- *
  * @since 4.4.0
  *
  * @param string $date      RFC3339 timestamp.
  * @param bool   $force_utc Optional. Whether to force UTC timezone instead of using
  *                          the timestamp's timezone. Default false.
- * @return int|false Unix timestamp on success, false on failure.
+ * @return int Unix timestamp.
  */
 function rest_parse_date( $date, $force_utc = false ) {
 	if ( $force_utc ) {
@@ -1353,7 +1273,7 @@ function rest_parse_date( $date, $force_utc = false ) {
  * @since 5.4.0
  *
  * @param string $color 3 or 6 digit hex color (with #).
- * @return string|false Color value on success, false on failure.
+ * @return string|false
  */
 function rest_parse_hex_color( $color ) {
 	$regex = '|^#([A-Fa-f0-9]{3}){1,2}$|';
@@ -1391,7 +1311,7 @@ function rest_get_date_with_gmt( $date, $is_utc = false ) {
 
 	$date = rest_parse_date( $date );
 
-	if ( false === $date ) {
+	if ( empty( $date ) ) {
 		return null;
 	}
 
@@ -1682,10 +1602,8 @@ function rest_get_best_type_for_value( $value, $types ) {
 		'null'    => 'is_null',
 	);
 
-	/*
-	 * Both arrays and objects allow empty strings to be converted to their types.
-	 * But the best answer for this type is a string.
-	 */
+	// Both arrays and objects allow empty strings to be converted to their types.
+	// But the best answer for this type is a string.
 	if ( '' === $value && in_array( 'string', $types, true ) ) {
 		return 'string';
 	}
@@ -2266,10 +2184,8 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 	}
 
-	/*
-	 * The "format" keyword should only be applied to strings. However, for backward compatibility,
-	 * we allow the "format" keyword if the type keyword was not specified, or was set to an invalid value.
-	 */
+	// The "format" keyword should only be applied to strings. However, for backward compatibility,
+	// we allow the "format" keyword if the type keyword was not specified, or was set to an invalid value.
 	if ( isset( $args['format'] )
 		&& ( ! isset( $args['type'] ) || 'string' === $args['type'] || ! in_array( $args['type'], $allowed_types, true ) )
 	) {
@@ -2281,7 +2197,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				break;
 
 			case 'date-time':
-				if ( false === rest_parse_date( $value ) ) {
+				if ( ! rest_parse_date( $value ) ) {
 					return new WP_Error( 'rest_invalid_date', __( 'Invalid date.' ) );
 				}
 				break;
@@ -2935,10 +2851,8 @@ function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
  * @return array Modified reduce accumulator.
  */
 function rest_preload_api_request( $memo, $path ) {
-	/*
-	 * array_reduce() doesn't support passing an array in PHP 5.2,
-	 * so we need to make sure we start with one.
-	 */
+	// array_reduce() doesn't support passing an array in PHP 5.2,
+	// so we need to make sure we start with one.
 	if ( ! is_array( $memo ) ) {
 		$memo = array();
 	}
@@ -2957,7 +2871,6 @@ function rest_preload_api_request( $memo, $path ) {
 		}
 	}
 
-	// Remove trailing slashes at the end of the REST API path (query part).
 	$path = untrailingslashit( $path );
 	if ( empty( $path ) ) {
 		$path = '/';
@@ -2966,14 +2879,6 @@ function rest_preload_api_request( $memo, $path ) {
 	$path_parts = parse_url( $path );
 	if ( false === $path_parts ) {
 		return $memo;
-	}
-
-	if ( isset( $path_parts['path'] ) && '/' !== $path_parts['path'] ) {
-		// Remove trailing slashes from the "path" part of the REST API path.
-		$path_parts['path'] = untrailingslashit( $path_parts['path'] );
-		$path               = str_contains( $path, '?' ) ?
-			$path_parts['path'] . '?' . ( $path_parts['query'] ?? '' ) :
-			$path_parts['path'];
 	}
 
 	$request = new WP_REST_Request( $method, $path_parts['path'] );
@@ -3092,7 +2997,7 @@ function rest_filter_response_by_context( $response_data, $schema, $context ) {
 		$check = array();
 
 		if ( $is_array_type ) {
-			$check = $schema['items'] ?? array();
+			$check = isset( $schema['items'] ) ? $schema['items'] : array();
 		} elseif ( $is_object_type ) {
 			if ( isset( $schema['properties'][ $key ] ) ) {
 				$check = $schema['properties'][ $key ];
@@ -3420,15 +3325,8 @@ function rest_get_endpoint_args_for_schema( $schema, $method = WP_REST_Server::C
 function rest_convert_error_to_response( $error ) {
 	$status = array_reduce(
 		$error->get_all_error_data(),
-		/**
-		 * @param int   $status     Status.
-		 * @param mixed $error_data Error data.
-		 */
-		static function ( int $status, $error_data ): int {
-			if ( is_array( $error_data ) && isset( $error_data['status'] ) && is_numeric( $error_data['status'] ) ) {
-				$status = (int) $error_data['status'];
-			}
-			return $status;
+		static function ( $status, $error_data ) {
+			return is_array( $error_data ) && isset( $error_data['status'] ) ? $error_data['status'] : $status;
 		},
 		500
 	);
@@ -3462,39 +3360,4 @@ function rest_convert_error_to_response( $error ) {
 	}
 
 	return new WP_REST_Response( $data, $status );
-}
-
-/**
- * Checks whether a REST API endpoint request is currently being handled.
- *
- * This may be a standalone REST API request, or an internal request dispatched from within a regular page load.
- *
- * @since 6.5.0
- *
- * @global WP_REST_Server $wp_rest_server REST server instance.
- *
- * @return bool True if a REST endpoint request is currently being handled, false otherwise.
- */
-function wp_is_rest_endpoint() {
-	/* @var WP_REST_Server $wp_rest_server */
-	global $wp_rest_server;
-
-	// Check whether this is a standalone REST request.
-	$is_rest_endpoint = wp_is_serving_rest_request();
-	if ( ! $is_rest_endpoint ) {
-		// Otherwise, check whether an internal REST request is currently being handled.
-		$is_rest_endpoint = isset( $wp_rest_server )
-			&& $wp_rest_server->is_dispatching();
-	}
-
-	/**
-	 * Filters whether a REST endpoint request is currently being handled.
-	 *
-	 * This may be a standalone REST API request, or an internal request dispatched from within a regular page load.
-	 *
-	 * @since 6.5.0
-	 *
-	 * @param bool $is_request_endpoint Whether a REST endpoint request is currently being handled.
-	 */
-	return (bool) apply_filters( 'wp_is_rest_endpoint', $is_rest_endpoint );
 }

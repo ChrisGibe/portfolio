@@ -89,7 +89,7 @@ function get_hidden_columns( $screen ) {
  *
  * @since 2.7.0
  *
- * @global array $wp_meta_boxes Global meta box state.
+ * @global array $wp_meta_boxes
  *
  * @param WP_Screen $screen
  */
@@ -224,7 +224,7 @@ function add_screen_option( $option, $args = array() ) {
 function get_current_screen() {
 	global $current_screen;
 
-	if ( ! $current_screen instanceof WP_Screen ) {
+	if ( ! isset( $current_screen ) ) {
 		return null;
 	}
 

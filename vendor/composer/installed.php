@@ -1,282 +1,280 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-develop',
-    'version' => 'dev-develop',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'name' => 'roots/bedrock',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => '2cd5543dff0d5f8815946afcda313abf5874c83d',
+        'type' => 'project',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
     ),
-    'reference' => '555a3a9c3dad8435d92ce20f86567b2f2193790e',
-    'name' => 'roots/bedrock',
-  ),
-  'versions' => 
-  array (
-    'composer/installers' => 
-    array (
-      'pretty_version' => 'v2.2.0',
-      'version' => '2.2.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'c29dc4b93137acb82734f672c37e029dfbd95b35',
+    'versions' => array(
+        'composer/installers' => array(
+            'pretty_version' => 'v2.3.0',
+            'version' => '2.3.0.0',
+            'reference' => '12fb2dfe5e16183de69e784a7b84046c43d97e8e',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/./installers',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'graham-campbell/result-type' => array(
+            'pretty_version' => 'v1.2.0',
+            'version' => '1.2.0.0',
+            'reference' => 'adccca3324eece92ca35463648c12b9e6293c05b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../graham-campbell/result-type',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'johnpbloch/wordpress-core-installer' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+        'oscarotero/env' => array(
+            'pretty_version' => 'v2.1.1',
+            'version' => '2.1.1.0',
+            'reference' => '9f7d85cc6890f06a65bad4fe0077c070d596e4a4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../oscarotero/env',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'phpoption/phpoption' => array(
+            'pretty_version' => '1.10.0',
+            'version' => '1.10.0.0',
+            'reference' => '67b192b6a42ec03944b972d6e633ddec78ad2c6d',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpoption/phpoption',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roave/security-advisories' => array(
+            'pretty_version' => 'dev-latest',
+            'version' => 'dev-latest',
+            'reference' => '52e7bbf74e5fd05322eacacde4392730efd6a8ee',
+            'type' => 'metapackage',
+            'install_path' => NULL,
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'dev_requirement' => true,
+        ),
+        'roots/bedrock' => array(
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => '2cd5543dff0d5f8815946afcda313abf5874c83d',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roots/bedrock-autoloader' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => '4cf086073bcb44b72f9e8da922043e86d09da9ce',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../roots/bedrock-autoloader',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roots/bedrock-disallow-indexing' => array(
+            'pretty_version' => '2.0.0',
+            'version' => '2.0.0.0',
+            'reference' => '6c28192e17cb9e02a5c0c99691a18552b85e1615',
+            'type' => 'wordpress-muplugin',
+            'install_path' => __DIR__ . '/../../web/app/mu-plugins/bedrock-disallow-indexing',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roots/wordpress' => array(
+            'pretty_version' => '6.2.11',
+            'version' => '6.2.11.0',
+            'reference' => 'eb3d108f216618a858dcaed691e00e68f0ccff9f',
+            'type' => 'metapackage',
+            'install_path' => NULL,
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roots/wordpress-core-installer' => array(
+            'pretty_version' => 'v4.0.0',
+            'version' => '4.0.0.0',
+            'reference' => '85d3589252eb93eee836facf33b54ce30c565bea',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../roots/wordpress-core-installer',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roots/wordpress-no-content' => array(
+            'pretty_version' => '6.2.11',
+            'version' => '6.2.11.0',
+            'reference' => '6.2.11',
+            'type' => 'wordpress-core',
+            'install_path' => __DIR__ . '/../../web/wp',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roots/wp-config' => array(
+            'pretty_version' => '1.0.0',
+            'version' => '1.0.0.0',
+            'reference' => '37c38230796119fb487fa03346ab0706ce6d4962',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../roots/wp-config',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roots/wp-password-bcrypt' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => '15f0d8919fb3731f79a0cf2fb47e1baecb86cb26',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../roots/wp-password-bcrypt',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'squizlabs/php_codesniffer' => array(
+            'pretty_version' => '3.13.6',
+            'version' => '3.13.6.0',
+            'reference' => '4c378e1a528ea066890fc2397cbdd2f94eb2fc91',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../squizlabs/php_codesniffer',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'symfony/polyfill-ctype' => array(
+            'pretty_version' => 'v1.37.0',
+            'version' => '1.37.0.0',
+            'reference' => '141046a8f9477948ff284fa65be2095baafb94f2',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-ctype',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-mbstring' => array(
+            'pretty_version' => 'v1.38.2',
+            'version' => '1.38.2.0',
+            'reference' => 'd3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-php80' => array(
+            'pretty_version' => 'v1.37.0',
+            'version' => '1.37.0.0',
+            'reference' => 'dfb55726c3a76ea3b6459fcfda1ec2d80a682411',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-php80',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'vlucas/phpdotenv' => array(
+            'pretty_version' => 'v5.7.0',
+            'version' => '5.7.0.0',
+            'reference' => '301c07936b16d88628b126b01d082ba153cf4c40',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../vlucas/phpdotenv',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wordpress/core-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '6.2.11',
+            ),
+        ),
+        'wpackagist-plugin/custom-post-type-ui' => array(
+            'pretty_version' => '1.19.3',
+            'version' => '1.19.3.0',
+            'reference' => 'tags/1.19.3',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/custom-post-type-ui',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/disable-comments' => array(
+            'pretty_version' => '2.9.0',
+            'version' => '2.9.0.0',
+            'reference' => 'tags/2.9.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/disable-comments',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/duplicate-post' => array(
+            'pretty_version' => '4.7',
+            'version' => '4.7.0.0',
+            'reference' => 'tags/4.7',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/duplicate-post',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/post-type-switcher' => array(
+            'pretty_version' => '3.3.0',
+            'version' => '3.3.0.0',
+            'reference' => 'tags/3.3.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/post-type-switcher',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/redirection' => array(
+            'pretty_version' => '5.10.0',
+            'version' => '5.10.0.0',
+            'reference' => 'tags/5.10.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/redirection',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/safe-svg' => array(
+            'pretty_version' => '2.4.0',
+            'version' => '2.4.0.0',
+            'reference' => 'tags/2.4.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/safe-svg',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/simple-custom-post-order' => array(
+            'pretty_version' => '2.8.8',
+            'version' => '2.8.8.0',
+            'reference' => 'tags/2.8.8',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/simple-custom-post-order',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/wordpress-seo' => array(
+            'pretty_version' => '20.13',
+            'version' => '20.13.0.0',
+            'reference' => 'tags/20.13',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/wordpress-seo',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/wp-change-email-sender' => array(
+            'pretty_version' => '1.0',
+            'version' => '1.0.0.0',
+            'reference' => 'tags/1.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/wp-change-email-sender',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackagist-plugin/wp-crontrol' => array(
+            'pretty_version' => '1.21.2',
+            'version' => '1.21.2.0',
+            'reference' => 'tags/1.21.2',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../web/app/plugins/wp-crontrol',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
     ),
-    'graham-campbell/result-type' => 
-    array (
-      'pretty_version' => 'v1.1.1',
-      'version' => '1.1.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '672eff8cf1d6fe1ef09ca0f89c4b287d6a3eb831',
-    ),
-    'johnpbloch/wordpress-core-installer' => 
-    array (
-      'replaced' => 
-      array (
-        0 => '*',
-      ),
-    ),
-    'oscarotero/env' => 
-    array (
-      'pretty_version' => 'v2.1.0',
-      'version' => '2.1.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '0da22cadc6924155fa9bbea2cdda2e84ab7cbdd3',
-    ),
-    'phpoption/phpoption' => 
-    array (
-      'pretty_version' => '1.9.1',
-      'version' => '1.9.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'dd3a383e599f49777d8b628dadbb90cae435b87e',
-    ),
-    'roave/security-advisories' => 
-    array (
-      'pretty_version' => 'dev-latest',
-      'version' => 'dev-latest',
-      'aliases' => 
-      array (
-        0 => '9999999-dev',
-      ),
-      'reference' => 'e47f876d3b2df4a1354964c32820b4d7c10b8675',
-    ),
-    'roots/bedrock' => 
-    array (
-      'pretty_version' => 'dev-develop',
-      'version' => 'dev-develop',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '555a3a9c3dad8435d92ce20f86567b2f2193790e',
-    ),
-    'roots/bedrock-autoloader' => 
-    array (
-      'pretty_version' => '1.0.4',
-      'version' => '1.0.4.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'f508348a3365ab5ce7e045f5fd4ee9f0a30dd70f',
-    ),
-    'roots/bedrock-disallow-indexing' => 
-    array (
-      'pretty_version' => '2.0.0',
-      'version' => '2.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '6c28192e17cb9e02a5c0c99691a18552b85e1615',
-    ),
-    'roots/wordpress' => 
-    array (
-      'pretty_version' => '6.2.2',
-      'version' => '6.2.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '41ff6e23ccbc3a1691406d69fe8c211a225514e2',
-    ),
-    'roots/wordpress-core-installer' => 
-    array (
-      'pretty_version' => '1.100.0',
-      'version' => '1.100.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '73f8488e5178c5d54234b919f823a9095e2b1847',
-    ),
-    'roots/wordpress-no-content' => 
-    array (
-      'pretty_version' => '6.2.2',
-      'version' => '6.2.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '6.2.2',
-    ),
-    'roots/wp-config' => 
-    array (
-      'pretty_version' => '1.0.0',
-      'version' => '1.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '37c38230796119fb487fa03346ab0706ce6d4962',
-    ),
-    'roots/wp-password-bcrypt' => 
-    array (
-      'pretty_version' => '1.1.0',
-      'version' => '1.1.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '15f0d8919fb3731f79a0cf2fb47e1baecb86cb26',
-    ),
-    'squizlabs/php_codesniffer' => 
-    array (
-      'pretty_version' => '3.7.2',
-      'version' => '3.7.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'ed8e00df0a83aa96acf703f8c2979ff33341f879',
-    ),
-    'symfony/polyfill-ctype' => 
-    array (
-      'pretty_version' => 'v1.27.0',
-      'version' => '1.27.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '5bbc823adecdae860bb64756d639ecfec17b050a',
-    ),
-    'symfony/polyfill-mbstring' => 
-    array (
-      'pretty_version' => 'v1.27.0',
-      'version' => '1.27.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '8ad114f6b39e2c98a8b0e3bd907732c207c2b534',
-    ),
-    'symfony/polyfill-php80' => 
-    array (
-      'pretty_version' => 'v1.27.0',
-      'version' => '1.27.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '7a6ff3f1959bb01aefccb463a0f2cd3d3d2fd936',
-    ),
-    'vlucas/phpdotenv' => 
-    array (
-      'pretty_version' => 'v5.5.0',
-      'version' => '5.5.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '1a7ea2afc49c3ee6d87061f5a233e3a035d0eae7',
-    ),
-    'wordpress/core-implementation' => 
-    array (
-      'provided' => 
-      array (
-        0 => '6.2.2',
-      ),
-    ),
-    'wpackagist-plugin/custom-post-type-ui' => 
-    array (
-      'pretty_version' => '1.13.6',
-      'version' => '1.13.6.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'tags/1.13.6',
-    ),
-    'wpackagist-plugin/disable-comments' => 
-    array (
-      'pretty_version' => '2.4.4',
-      'version' => '2.4.4.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'tags/2.4.4',
-    ),
-    'wpackagist-plugin/duplicate-post' => 
-    array (
-      'pretty_version' => '4.5',
-      'version' => '4.5.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'tags/4.5',
-    ),
-    'wpackagist-plugin/post-type-switcher' => 
-    array (
-      'pretty_version' => '3.2.1',
-      'version' => '3.2.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'trunk',
-    ),
-    'wpackagist-plugin/redirection' => 
-    array (
-      'pretty_version' => '5.3.10',
-      'version' => '5.3.10.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'tags/5.3.10',
-    ),
-    'wpackagist-plugin/safe-svg' => 
-    array (
-      'pretty_version' => '2.1.1',
-      'version' => '2.1.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'tags/2.1.1',
-    ),
-    'wpackagist-plugin/simple-custom-post-order' => 
-    array (
-      'pretty_version' => '2.5.6',
-      'version' => '2.5.6.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'tags/2.5.6',
-    ),
-    'wpackagist-plugin/wordpress-seo' => 
-    array (
-      'pretty_version' => '20.9',
-      'version' => '20.9.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'tags/20.9',
-    ),
-    'wpackagist-plugin/wp-change-email-sender' => 
-    array (
-      'pretty_version' => '1.0',
-      'version' => '1.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'trunk',
-    ),
-    'wpackagist-plugin/wp-crontrol' => 
-    array (
-      'pretty_version' => '1.15.2',
-      'version' => '1.15.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'tags/1.15.2',
-    ),
-  ),
 );

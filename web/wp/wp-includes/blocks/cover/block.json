@@ -1,15 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/cover",
 	"title": "Cover",
 	"category": "media",
-	"description": "Add an image or video with a text overlay.",
+	"description": "Add an image or video with a text overlay — great for headers.",
 	"textdomain": "default",
 	"attributes": {
 		"url": {
-			"type": "string",
-			"role": "content"
+			"type": "string"
 		},
 		"useFeaturedImage": {
 			"type": "boolean",
@@ -20,6 +19,9 @@
 		},
 		"alt": {
 			"type": "string",
+			"source": "attribute",
+			"selector": "img",
+			"attribute": "alt",
 			"default": ""
 		},
 		"hasParallax": {
@@ -39,9 +41,6 @@
 		},
 		"customOverlayColor": {
 			"type": "string"
-		},
-		"isUserOverlayColor": {
-			"type": "boolean"
 		},
 		"backgroundType": {
 			"type": "string",
@@ -69,6 +68,9 @@
 			"type": "boolean",
 			"default": true
 		},
+		"allowedBlocks": {
+			"type": "array"
+		},
 		"templateLock": {
 			"type": [ "string", "boolean" ],
 			"enum": [ "all", "insert", "contentOnly", false ]
@@ -76,15 +78,6 @@
 		"tagName": {
 			"type": "string",
 			"default": "div"
-		},
-		"sizeSlug": {
-			"type": "string"
-		},
-		"poster": {
-			"type": "string",
-			"source": "attribute",
-			"selector": "video",
-			"attribute": "poster"
 		}
 	},
 	"usesContext": [ "postId", "postType" ],
@@ -92,37 +85,17 @@
 		"anchor": true,
 		"align": true,
 		"html": false,
-		"shadow": true,
 		"spacing": {
 			"padding": true,
 			"margin": [ "top", "bottom" ],
-			"blockGap": true,
 			"__experimentalDefaultControls": {
-				"padding": true,
-				"blockGap": true
-			}
-		},
-		"__experimentalBorder": {
-			"color": true,
-			"radius": true,
-			"style": true,
-			"width": true,
-			"__experimentalDefaultControls": {
-				"color": true,
-				"radius": true,
-				"style": true,
-				"width": true
+				"padding": true
 			}
 		},
 		"color": {
-			"heading": true,
-			"text": true,
-			"background": false,
-			"__experimentalSkipSerialization": [ "gradients" ],
-			"enableContrastChecker": false
-		},
-		"dimensions": {
-			"aspectRatio": true
+			"__experimentalDuotone": "> .wp-block-cover__image-background, > .wp-block-cover__video-background",
+			"text": false,
+			"background": false
 		},
 		"typography": {
 			"fontSize": true,
@@ -136,21 +109,6 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
-		},
-		"layout": {
-			"allowJustification": false
-		},
-		"interactivity": {
-			"clientNavigation": true
-		},
-		"filter": {
-			"duotone": true
-		},
-		"allowedBlocks": true
-	},
-	"selectors": {
-		"filter": {
-			"duotone": ".wp-block-cover > .wp-block-cover__image-background, .wp-block-cover > .wp-block-cover__video-background"
 		}
 	},
 	"editorStyle": "wp-block-cover-editor",

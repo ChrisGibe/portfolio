@@ -16,9 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $opml;
 
 /**
- * Starts a new XML tag.
- *
- * Callback function for xml_set_element_handler().
+ * XML callback function for the start of a new XML tag.
  *
  * @since 0.71
  * @access private
@@ -55,16 +53,14 @@ function startElement( $parser, $tag_name, $attrs ) { // phpcs:ignore WordPress.
 		// Save the data away.
 		$names[]        = $name;
 		$urls[]         = $url;
-		$targets[]      = $attrs['TARGET'] ?? '';
-		$feeds[]        = $attrs['XMLURL'] ?? '';
-		$descriptions[] = $attrs['DESCRIPTION'] ?? '';
+		$targets[]      = isset( $attrs['TARGET'] ) ? $attrs['TARGET'] : '';
+		$feeds[]        = isset( $attrs['XMLURL'] ) ? $attrs['XMLURL'] : '';
+		$descriptions[] = isset( $attrs['DESCRIPTION'] ) ? $attrs['DESCRIPTION'] : '';
 	} // End if outline.
 }
 
 /**
- * Ends a new XML tag.
- *
- * Callback function for xml_set_element_handler().
+ * XML callback function that is called at the end of a XML tag.
  *
  * @since 0.71
  * @access private
@@ -78,7 +74,7 @@ function endElement( $parser, $tag_name ) { // phpcs:ignore WordPress.NamingConv
 
 // Create an XML parser.
 if ( ! function_exists( 'xml_parser_create' ) ) {
-	wp_trigger_error( '', __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
+	trigger_error( __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
 	wp_die( __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
 }
 
@@ -96,9 +92,6 @@ if ( ! xml_parse( $xml_parser, $opml, true ) ) {
 	);
 }
 
-if ( PHP_VERSION_ID < 80000 ) { // xml_parser_free() has no effect as of PHP 8.0.
-	// Free up memory used by the XML parser.
-	xml_parser_free( $xml_parser );
-}
-
+// Free up memory used by the XML parser.
+xml_parser_free( $xml_parser );
 unset( $xml_parser );

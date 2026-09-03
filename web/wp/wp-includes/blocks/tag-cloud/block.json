@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/tag-cloud",
 	"title": "Tag Cloud",
 	"category": "widgets",
-	"description": "A cloud of popular keywords, each sized by how often it appears.",
+	"description": "A cloud of your most used tags.",
 	"textdomain": "default",
 	"attributes": {
 		"numberOfTags": {
@@ -35,7 +35,6 @@
 		{ "name": "outline", "label": "Outline" }
 	],
 	"supports": {
-		"anchor": true,
 		"html": false,
 		"align": true,
 		"spacing": {
@@ -49,21 +48,7 @@
 			"__experimentalFontStyle": true,
 			"__experimentalTextTransform": true,
 			"__experimentalLetterSpacing": true
-		},
-		"interactivity": {
-			"clientNavigation": true
-		},
-		"__experimentalBorder": {
-			"radius": true,
-			"color": true,
-			"width": true,
-			"style": true,
-			"__experimentalDefaultControls": {
-				"radius": true,
-				"color": true,
-				"width": true,
-				"style": true
-			}
 		}
-	}
+	},
+	"editorStyle": "wp-block-tag-cloud-editor"
 }

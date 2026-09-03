@@ -28,13 +28,13 @@ final class FilteredIterator extends ArrayIterator {
 	/**
 	 * Create a new iterator
 	 *
-	 * @param array    $data     The array to be iterated on.
+	 * @param array $data
 	 * @param callable $callback Callback to be called on each value
 	 *
 	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not iterable.
 	 */
 	public function __construct($data, $callback) {
-		if (is_object($data) === true || InputValidator::is_iterable($data) === false) {
+		if (InputValidator::is_iterable($data) === false) {
 			throw InvalidArgument::create(1, '$data', 'iterable', gettype($data));
 		}
 
@@ -46,25 +46,14 @@ final class FilteredIterator extends ArrayIterator {
 	}
 
 	/**
-	 * Prevent unserialization of the object for security reasons.
+	 * @inheritdoc
 	 *
 	 * @phpcs:disable PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__unserializeFound
-	 *
-	 * @param array $data Restored array of data originally serialized.
-	 *
-	 * @return void
 	 */
 	#[ReturnTypeWillChange]
 	public function __unserialize($data) {}
 	// phpcs:enable
 
-	/**
-	 * Perform reinitialization tasks.
-	 *
-	 * Prevents a callback from being injected during unserialization of an object.
-	 *
-	 * @return void
-	 */
 	public function __wakeup() {
 		unset($this->callback);
 	}
@@ -86,11 +75,7 @@ final class FilteredIterator extends ArrayIterator {
 	}
 
 	/**
-	 * Prevent creating a PHP value from a stored representation of the object for security reasons.
-	 *
-	 * @param string $data The serialized string.
-	 *
-	 * @return void
+	 * @inheritdoc
 	 */
 	#[ReturnTypeWillChange]
 	public function unserialize($data) {}

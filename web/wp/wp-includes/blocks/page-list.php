@@ -6,35 +6,8 @@
  */
 
 /**
- * Returns the submenu visibility value with backward compatibility
- * for the deprecated openSubmenusOnClick attribute.
- *
- * @since 6.9.0
- *
- * @param array $context Block context from parent Navigation block.
- * @return string The visibility mode: 'hover', 'click', or 'always'.
- */
-function block_core_page_list_get_submenu_visibility( $context ) {
-	$deprecated_open_submenus_on_click = $context['openSubmenusOnClick'] ?? null;
-
-	// For backward compatibility, prioritize the legacy attribute if present. If it has been loaded and saved in the editor, then
-	// the deprecated attribute will be replaced by submenuVisibility.
-	if ( null !== $deprecated_open_submenus_on_click ) {
-		// Convert boolean to string: true -> 'click', false -> 'hover'.
-		return ! empty( $deprecated_open_submenus_on_click ) ? 'click' : 'hover';
-	}
-
-	$submenu_visibility = $context['submenuVisibility'] ?? null;
-
-	// Use submenuVisibility for migrated/new blocks.
-	return $submenu_visibility ?? 'hover';
-}
-
-/**
  * Build an array with CSS classes and inline styles defining the colors
  * which will be applied to the pages markup in the front-end when it is a descendant of navigation.
- *
- * @since 5.8.0
  *
  * @param  array $attributes Block attributes.
  * @param  array $context    Navigation block context.
@@ -128,8 +101,6 @@ function block_core_page_list_build_css_colors( $attributes, $context ) {
  * Build an array with CSS classes and inline styles defining the font sizes
  * which will be applied to the pages markup in the front-end when it is a descendant of navigation.
  *
- * @since 5.8.0
- *
  * @param  array $context Navigation block context.
  * @return array Font size CSS classes and inline styles.
  */
@@ -164,8 +135,6 @@ function block_core_page_list_build_css_font_sizes( $context ) {
 /**
  * Outputs Page list markup from an array of pages with nested children.
  *
- * @since 5.8.0
- *
  * @param boolean $open_submenus_on_click Whether to open submenus on click instead of hover.
  * @param boolean $show_submenu_icons Whether to show submenu indicator icons.
  * @param boolean $is_navigation_child If block is a child of Navigation block.
@@ -177,18 +146,11 @@ function block_core_page_list_build_css_font_sizes( $context ) {
  *
  * @return string List markup.
  */
-function block_core_page_list_render_nested_page_list( $submenu_visibility, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids = array(), $colors = array(), $depth = 0 ) {
+function block_core_page_list_render_nested_page_list( $open_submenus_on_click, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids = array(), $colors = array(), $depth = 0 ) {
 	if ( empty( $nested_pages ) ) {
 		return;
 	}
-	$front_page_id = (int) get_option( 'page_on_front' );
-	$markup        = '';
-
-	// Compute visibility mode flags once
-	$open_on_click = 'click' === $submenu_visibility;
-	$open_on_hover = 'hover' === $submenu_visibility;
-	$open_always   = 'always' === $submenu_visibility;
-
+	$markup = '';
 	foreach ( (array) $nested_pages as $page ) {
 		$css_class       = $page['is_active'] ? ' current-menu-item' : '';
 		$aria_current    = $page['is_active'] ? ' aria-current="page"' : '';
@@ -202,14 +164,10 @@ function block_core_page_list_render_nested_page_list( $submenu_visibility, $sho
 		if ( $is_navigation_child ) {
 			$css_class .= ' wp-block-navigation-item';
 
-			// Class assignment logic matches JS editor rendering in page-list-item/edit.js
-			// Note: elseif ensures open-on-hover-click is mutually exclusive with open-on-click
-			if ( $open_on_click ) {
+			if ( $open_submenus_on_click ) {
 				$css_class .= ' open-on-click';
-			} elseif ( $open_on_hover && $show_submenu_icons ) {
+			} elseif ( $show_submenu_icons ) {
 				$css_class .= ' open-on-hover-click';
-			} elseif ( $open_always ) {
-				$css_class .= ' open-always';
 			}
 		}
 
@@ -223,12 +181,12 @@ function block_core_page_list_render_nested_page_list( $submenu_visibility, $sho
 			}
 		}
 
+		$front_page_id = (int) get_option( 'page_on_front' );
 		if ( (int) $page['page_id'] === $front_page_id ) {
 			$css_class .= ' menu-item-home';
 		}
 
-		$title = $page['title'] ? $page['title'] : __( '(no title)' );
-
+		$title      = wp_kses_post( $page['title'] );
 		$aria_label = sprintf(
 			/* translators: Accessibility text. %s: Parent page title. */
 			__( '%s submenu' ),
@@ -237,21 +195,21 @@ function block_core_page_list_render_nested_page_list( $submenu_visibility, $sho
 
 		$markup .= '<li class="wp-block-pages-list__item' . esc_attr( $css_class ) . '"' . $style_attribute . '>';
 
-		if ( isset( $page['children'] ) && $is_navigation_child && $open_on_click ) {
-			$markup .= '<button aria-label="' . esc_attr( $aria_label ) . '" class="' . esc_attr( $navigation_child_content_class ) . ' wp-block-navigation-submenu__toggle" aria-expanded="false">' . wp_kses_post( $title ) .
+		if ( isset( $page['children'] ) && $is_navigation_child && $open_submenus_on_click ) {
+			$markup .= '<button aria-label="' . esc_attr( $aria_label ) . '" class="' . esc_attr( $navigation_child_content_class ) . ' wp-block-navigation-submenu__toggle" aria-expanded="false">' . esc_html( $title ) .
 			'</button><span class="wp-block-page-list__submenu-icon wp-block-navigation__submenu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></span>';
 		} else {
-			$markup .= '<a class="wp-block-pages-list__item__link' . esc_attr( $navigation_child_content_class ) . '" href="' . esc_url( $page['link'] ) . '"' . $aria_current . '>' . wp_kses_post( $title ) . '</a>';
+			$markup .= '<a class="wp-block-pages-list__item__link' . esc_attr( $navigation_child_content_class ) . '" href="' . esc_url( $page['link'] ) . '"' . $aria_current . '>' . $title . '</a>';
 		}
 
 		if ( isset( $page['children'] ) ) {
-			if ( $is_navigation_child && $show_submenu_icons && ! $open_on_click ) {
+			if ( $is_navigation_child && $show_submenu_icons && ! $open_submenus_on_click ) {
 				$markup .= '<button aria-label="' . esc_attr( $aria_label ) . '" class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" aria-expanded="false">';
 				$markup .= '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg>';
 				$markup .= '</button>';
 			}
 			$markup .= '<ul class="wp-block-navigation__submenu-container">';
-			$markup .= block_core_page_list_render_nested_page_list( $submenu_visibility, $show_submenu_icons, $is_navigation_child, $page['children'], $is_nested, $active_page_ancestor_ids, $colors, $depth + 1 );
+			$markup .= block_core_page_list_render_nested_page_list( $open_submenus_on_click, $show_submenu_icons, $is_navigation_child, $page['children'], $is_nested, $active_page_ancestor_ids, $colors, $depth + 1 );
 			$markup .= '</ul>';
 		}
 		$markup .= '</li>';
@@ -261,8 +219,6 @@ function block_core_page_list_render_nested_page_list( $submenu_visibility, $sho
 
 /**
  * Outputs nested array of pages
- *
- * @since 5.8.0
  *
  * @param array $current_level The level being iterated through.
  * @param array $children The children grouped by parent post ID.
@@ -283,8 +239,6 @@ function block_core_page_list_nest_pages( $current_level, $children ) {
 
 /**
  * Renders the `core/page-list` block on server.
- *
- * @since 5.8.0
  *
  * @param array    $attributes The block attributes.
  * @param string   $content    The saved content.
@@ -328,14 +282,14 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 			$pages_with_children[ $page->post_parent ][ $page->ID ] = array(
 				'page_id'   => $page->ID,
 				'title'     => $page->post_title,
-				'link'      => get_permalink( $page ),
+				'link'      => get_permalink( $page->ID ),
 				'is_active' => $is_active,
 			);
 		} else {
 			$top_level_pages[ $page->ID ] = array(
 				'page_id'   => $page->ID,
 				'title'     => $page->post_title,
-				'link'      => get_permalink( $page ),
+				'link'      => get_permalink( $page->ID ),
 				'is_active' => $is_active,
 			);
 
@@ -367,14 +321,13 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 
 	$is_navigation_child = array_key_exists( 'showSubmenuIcon', $block->context );
 
-	// Get submenu visibility with backward compatibility for openSubmenusOnClick.
-	$submenu_visibility = $is_navigation_child ? block_core_page_list_get_submenu_visibility( $block->context ) : 'hover';
+	$open_submenus_on_click = array_key_exists( 'openSubmenusOnClick', $block->context ) ? $block->context['openSubmenusOnClick'] : false;
 
 	$show_submenu_icons = array_key_exists( 'showSubmenuIcon', $block->context ) ? $block->context['showSubmenuIcon'] : false;
 
 	$wrapper_markup = $is_nested ? '%2$s' : '<ul %1$s>%2$s</ul>';
 
-	$items_markup = block_core_page_list_render_nested_page_list( $submenu_visibility, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids, $colors );
+	$items_markup = block_core_page_list_render_nested_page_list( $open_submenus_on_click, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids, $colors );
 
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
@@ -392,8 +345,6 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 
 /**
  * Registers the `core/pages` block on server.
- *
- * @since 5.8.0
  */
 function register_block_core_page_list() {
 	register_block_type_from_metadata(

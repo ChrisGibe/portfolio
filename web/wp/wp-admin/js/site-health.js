@@ -26,6 +26,8 @@ jQuery( function( $ ) {
 
 		// Clear the selection and move focus back to the trigger.
 		e.clearSelection();
+		// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
+		triggerElement.trigger( 'focus' );
 
 		// Show success visual feedback.
 		clearTimeout( successTimeout );
@@ -44,30 +46,12 @@ jQuery( function( $ ) {
 	$( '.health-check-accordion' ).on( 'click', '.health-check-accordion-trigger', function() {
 		var isExpanded = ( 'true' === $( this ).attr( 'aria-expanded' ) );
 
-		if ( $( this ).prop( 'id' ) ) {
-			window.location.hash = $( this ).prop( 'id' );
-		}
-
 		if ( isExpanded ) {
 			$( this ).attr( 'aria-expanded', 'false' );
 			$( '#' + $( this ).attr( 'aria-controls' ) ).attr( 'hidden', true );
 		} else {
 			$( this ).attr( 'aria-expanded', 'true' );
 			$( '#' + $( this ).attr( 'aria-controls' ) ).attr( 'hidden', false );
-		}
-	} );
-
-	/* global setTimeout */
-	wp.domReady( function() {
-		// Get hash from query string and open the related accordion.
-		var hash = window.location.hash;
-
-		if ( hash ) {
-			var requestedPanel = $( hash );
-
-			if ( requestedPanel.is( '.health-check-accordion-trigger' ) ) {
-				requestedPanel.trigger( 'click' );
-			}
 		}
 	} );
 
@@ -241,12 +225,12 @@ jQuery( function( $ ) {
 			$wrapper.addClass( 'green' ).removeClass( 'orange' );
 
 			$progressLabel.text( __( 'Good' ) );
-			announceTestsProgression( 'good' );
+			wp.a11y.speak( __( 'All site health tests have finished running. Your site is looking good, and the results are now available on the page.' ) );
 		} else {
 			$wrapper.addClass( 'orange' ).removeClass( 'green' );
 
 			$progressLabel.text( __( 'Should be improved' ) );
-			announceTestsProgression( 'improvable' );
+			wp.a11y.speak( __( 'All site health tests have finished running. There are items that should be addressed, and the results are now available on the page.' ) );
 		}
 
 		if ( isStatusTab ) {
@@ -395,7 +379,7 @@ jQuery( function( $ ) {
 
 		// After 3 seconds announce that we're still waiting for directory sizes.
 		var timeout = window.setTimeout( function() {
-			announceTestsProgression( 'waiting-for-directory-sizes' );
+			wp.a11y.speak( __( 'Please wait...' ) );
 		}, 3000 );
 
 		wp.apiRequest( {
@@ -406,6 +390,7 @@ jQuery( function( $ ) {
 			var delay = ( new Date().getTime() ) - timestamp;
 
 			$( '.health-check-wp-paths-sizes.spinner' ).css( 'visibility', 'hidden' );
+			recalculateProgression();
 
 			if ( delay > 3000 ) {
 				/*
@@ -420,7 +405,7 @@ jQuery( function( $ ) {
 				}
 
 				window.setTimeout( function() {
-					recalculateProgression();
+					wp.a11y.speak( __( 'All site health tests have finished running.' ) );
 				}, delay );
 			} else {
 				// Cancel the announcement.
@@ -467,34 +452,4 @@ jQuery( function( $ ) {
 	$( '.health-check-offscreen-nav-wrapper' ).on( 'click', function() {
 		$( this ).toggleClass( 'visible' );
 	} );
-
-	/**
-	 * Announces to assistive technologies the tests progression status.
-	 *
-	 * @since 6.4.0
-	 *
-	 * @param {string} type The type of message to be announced.
-	 *
-	 * @return {void}
-	 */
-	function announceTestsProgression( type ) {
-		// Only announce the messages in the Site Health pages.
-		if ( 'site-health' !== SiteHealth.screen ) {
-			return;
-		}
-
-		switch ( type ) {
-			case 'good':
-				wp.a11y.speak( __( 'All site health tests have finished running. Your site is looking good.' ) );
-				break;
-			case 'improvable':
-				wp.a11y.speak( __( 'All site health tests have finished running. There are items that should be addressed.' ) );
-				break;
-			case 'waiting-for-directory-sizes':
-				wp.a11y.speak( __( 'Running additional tests... please wait.' ) );
-				break;
-			default:
-				return;
-		}
-	}
 } );
