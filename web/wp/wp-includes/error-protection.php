@@ -46,11 +46,11 @@ function wp_paused_themes() {
  */
 function wp_get_extension_error_description( $error ) {
 	$constants   = get_defined_constants( true );
-	$constants   = $constants['Core'] ?? $constants['internal'];
+	$constants   = isset( $constants['Core'] ) ? $constants['Core'] : $constants['internal'];
 	$core_errors = array();
 
 	foreach ( $constants as $constant => $value ) {
-		if ( str_starts_with( $constant, 'E_' ) ) {
+		if ( 0 === strpos( $constant, 'E_' ) ) {
 			$core_errors[ $value ] = $constant;
 		}
 	}

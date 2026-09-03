@@ -51,11 +51,6 @@ final class Fsockopen implements Transport {
 	 */
 	private $max_bytes = false;
 
-	/**
-	 * Cache for received connection errors.
-	 *
-	 * @var string
-	 */
 	private $connect_error = '';
 
 	/**
@@ -144,17 +139,7 @@ final class Fsockopen implements Transport {
 				$verifyname                          = false;
 			}
 
-			// Handle the PHP 8.4 deprecation (PHP 9.0 removal) of the function signature we use for stream_context_set_option().
-			// Ref: https://wiki.php.net/rfc/deprecate_functions_with_overloaded_signatures#stream_context_set_option
-			if (function_exists('stream_context_set_options')) {
-				// PHP 8.3+.
-				// phpcs:ignore PHPCompatibility.FunctionUse.NewFunctions.stream_context_set_optionsFound
-				stream_context_set_options($context, ['ssl' => $context_options]);
-			} else {
-				// PHP < 8.3.
-				// phpcs:ignore PHPCompatibility.FunctionUse.OptionalToRequiredFunctionParameters
-				stream_context_set_option($context, ['ssl' => $context_options]);
-			}
+			stream_context_set_option($context, ['ssl' => $context_options]);
 		} else {
 			$remote_socket = 'tcp://' . $host;
 		}
@@ -420,7 +405,7 @@ final class Fsockopen implements Transport {
 	/**
 	 * Format a URL given GET data
 	 *
-	 * @param array        $url_parts Array of URL parts as received from {@link https://www.php.net/parse_url}
+	 * @param array $url_parts
 	 * @param array|object $data Data to build query using, see {@link https://www.php.net/http_build_query}
 	 * @return string URL with data
 	 */

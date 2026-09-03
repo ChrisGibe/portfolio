@@ -33,11 +33,10 @@ function options_discussion_add_js() {
  */
 function options_general_add_js() {
 	?>
-<script>
+<script type="text/javascript">
 	jQuery( function($) {
 		var $siteName = $( '#wp-admin-bar-site-name' ).children( 'a' ).first(),
-			$siteIconPreview = $('#site-icon-preview-site-title'),
-			homeURL = ( <?php echo wp_json_encode( get_home_url(), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?> || '' ).replace( /^(https?:\/\/)?(www\.)?/, '' );
+			homeURL = ( <?php echo wp_json_encode( get_home_url() ); ?> || '' ).replace( /^(https?:\/\/)?(www\.)?/, '' );
 
 		$( '#blogname' ).on( 'input', function() {
 			var title = $.trim( $( this ).val() ) || homeURL;
@@ -48,7 +47,6 @@ function options_general_add_js() {
 			}
 
 			$siteName.text( title );
-			$siteIconPreview.text( title );
 		});
 
 		$( 'input[name="date_format"]' ).on( 'click', function() {
@@ -92,10 +90,8 @@ function options_general_add_js() {
 
 		var languageSelect = $( '#WPLANG' );
 		$( 'form' ).on( 'submit', function() {
-			/*
-			 * Don't show a spinner for English and installed languages,
-			 * as there is nothing to download.
-			 */
+			// Don't show a spinner for English and installed languages,
+			// as there is nothing to download.
 			if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
 				$( '#submit', this ).after( '<span class="spinner language-install-spinner is-active" />' );
 			}
@@ -112,7 +108,7 @@ function options_general_add_js() {
  */
 function options_reading_add_js() {
 	?>
-<script>
+<script type="text/javascript">
 	jQuery( function($) {
 		var section = $('#front-static-pages'),
 			staticPage = section.find('input:radio[value="page"]'),

@@ -210,8 +210,7 @@ function add_permastruct( $name, $struct, $args = array() ) {
 	if ( ! is_array( $args ) ) {
 		$args = array( 'with_front' => $args );
 	}
-
-	if ( func_num_args() === 4 ) {
+	if ( func_num_args() == 4 ) {
 		$args['ep_mask'] = func_get_arg( 3 );
 	}
 
@@ -244,7 +243,7 @@ function remove_permastruct( $name ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param string   $feedname Feed name. Should not start with '_'.
+ * @param string   $feedname Feed name.
  * @param callable $callback Callback to run on feed display.
  * @return string Feed action name.
  */
@@ -412,7 +411,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 
 	// This is the potentially clashing slug.
 	$value = '';
-	if ( array_key_exists( $compare, $query_vars ) ) {
+	if ( $compare && array_key_exists( $compare, $query_vars ) ) {
 		$value = $query_vars[ $compare ];
 	}
 
@@ -460,7 +459,9 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 	}
 
 	// If we've gotten to this point, we have a slug/date clash. First, adjust for nextpage.
-	$query_vars['page'] = $maybe_page;
+	if ( '' !== $maybe_page ) {
+		$query_vars['page'] = (int) $maybe_page;
+	}
 
 	// Next, unset autodetected date-related query vars.
 	unset( $query_vars['year'] );
@@ -541,12 +542,12 @@ function url_to_postid( $url ) {
 	$url    = set_url_scheme( $url, $scheme );
 
 	// Add 'www.' if it is absent and should be there.
-	if ( str_contains( home_url(), '://www.' ) && ! str_contains( $url, '://www.' ) ) {
+	if ( false !== strpos( home_url(), '://www.' ) && false === strpos( $url, '://www.' ) ) {
 		$url = str_replace( '://', '://www.', $url );
 	}
 
 	// Strip 'www.' if it is present and shouldn't be.
-	if ( ! str_contains( home_url(), '://www.' ) ) {
+	if ( false === strpos( home_url(), '://www.' ) ) {
 		$url = str_replace( '://www.', '://', $url );
 	}
 
@@ -571,13 +572,13 @@ function url_to_postid( $url ) {
 		$url = str_replace( $wp_rewrite->index . '/', '', $url );
 	}
 
-	if ( str_contains( trailingslashit( $url ), home_url( '/' ) ) ) {
+	if ( false !== strpos( trailingslashit( $url ), home_url( '/' ) ) ) {
 		// Chop off http://domain.com/[path].
 		$url = str_replace( home_url(), '', $url );
 	} else {
 		// Chop off /path/to/blog.
 		$home_path = parse_url( home_url( '/' ) );
-		$home_path = $home_path['path'] ?? '';
+		$home_path = isset( $home_path['path'] ) ? $home_path['path'] : '';
 		$url       = preg_replace( sprintf( '#^%s#', preg_quote( $home_path ) ), '', trailingslashit( $url ) );
 	}
 
@@ -597,11 +598,9 @@ function url_to_postid( $url ) {
 	$request_match = $request;
 	foreach ( (array) $rewrite as $match => $query ) {
 
-		/*
-		 * If the requesting file is the anchor of the match,
-		 * prepend it to the path info.
-		 */
-		if ( ! empty( $url ) && ( $url !== $request ) && str_starts_with( $match, $url ) ) {
+		// If the requesting file is the anchor of the match,
+		// prepend it to the path info.
+		if ( ! empty( $url ) && ( $url != $request ) && ( strpos( $match, $url ) === 0 ) ) {
 			$request_match = $url . '/' . $request;
 		}
 
@@ -621,10 +620,8 @@ function url_to_postid( $url ) {
 				}
 			}
 
-			/*
-			 * Got a match.
-			 * Trim the query of everything up to the '?'.
-			 */
+			// Got a match.
+			// Trim the query of everything up to the '?'.
 			$query = preg_replace( '!^.+\?!', '', $query );
 
 			// Substitute the substring matches into the query.

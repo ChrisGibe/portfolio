@@ -35,7 +35,7 @@ global $hook_suffix;
 		$text = sprintf(
 			/* translators: %s: https://wordpress.org/ */
 			__( 'Thank you for creating with <a href="%s">WordPress</a>.' ),
-			esc_url( __( 'https://wordpress.org/' ) )
+			__( 'https://wordpress.org/' )
 		);
 
 		/**
@@ -114,6 +114,6 @@ if ( function_exists( 'get_site_option' )
 ?>
 
 <div class="clear"></div></div><!-- wpwrap -->
-<script>if(typeof wpOnload==='function')wpOnload();</script>
+<script type="text/javascript">if(typeof wpOnload==='function')wpOnload();</script>
 </body>
 </html>

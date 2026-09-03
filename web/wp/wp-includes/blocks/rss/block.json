@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/rss",
 	"title": "RSS",
 	"category": "widgets",
@@ -18,8 +18,7 @@
 		},
 		"feedURL": {
 			"type": "string",
-			"default": "",
-			"role": "content"
+			"default": ""
 		},
 		"itemsToShow": {
 			"type": "number",
@@ -40,42 +39,11 @@
 		"excerptLength": {
 			"type": "number",
 			"default": 55
-		},
-		"openInNewTab": {
-			"type": "boolean",
-			"default": false
-		},
-		"rel": {
-			"type": "string"
 		}
 	},
 	"supports": {
-		"anchor": true,
 		"align": true,
-		"html": false,
-		"interactivity": {
-			"clientNavigation": true
-		},
-		"__experimentalBorder": {
-			"radius": true,
-			"color": true,
-			"width": true,
-			"style": true
-		},
-		"spacing": {
-			"margin": true,
-			"padding": true,
-			"__experimentalDefaultControls": {
-				"padding": false,
-				"margin": false
-			}
-		},
-		"color": {
-			"background": true,
-			"text": true,
-			"gradients": true,
-			"link": true
-		}
+		"html": false
 	},
 	"editorStyle": "wp-block-rss-editor",
 	"style": "wp-block-rss"

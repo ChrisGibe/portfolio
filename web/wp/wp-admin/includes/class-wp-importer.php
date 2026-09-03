@@ -1,12 +1,7 @@
 <?php
 /**
  * WP_Importer base class
- *
- * @package WordPress
- * @subpackage Importer
- * @since 3.0.0
  */
-
 #[AllowDynamicProperties]
 class WP_Importer {
 	/**
@@ -34,14 +29,8 @@ class WP_Importer {
 		// Grab all posts in chunks.
 		do {
 			$meta_key = $importer_name . '_' . $blog_id . '_permalink';
-			$results  = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = %s LIMIT %d,%d",
-					$meta_key,
-					$offset,
-					$limit
-				)
-			);
+			$sql      = $wpdb->prepare( "SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = %s LIMIT %d,%d", $meta_key, $offset, $limit );
+			$results  = $wpdb->get_results( $sql );
 
 			// Increment offset.
 			$offset = ( $limit + $offset );
@@ -52,7 +41,7 @@ class WP_Importer {
 					$hashtable[ $r->meta_value ] = (int) $r->post_id;
 				}
 			}
-		} while ( count( $results ) === $limit );
+		} while ( count( $results ) == $limit );
 
 		return $hashtable;
 	}
@@ -73,12 +62,9 @@ class WP_Importer {
 
 		// Get count of permalinks.
 		$meta_key = $importer_name . '_' . $blog_id . '_permalink';
-		$result   = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT COUNT( post_id ) AS cnt FROM $wpdb->postmeta WHERE meta_key = %s",
-				$meta_key
-			)
-		);
+		$sql      = $wpdb->prepare( "SELECT COUNT( post_id ) AS cnt FROM $wpdb->postmeta WHERE meta_key = %s", $meta_key );
+
+		$result = $wpdb->get_results( $sql );
 
 		if ( ! empty( $result ) ) {
 			$count = (int) $result[0]->cnt;
@@ -105,13 +91,8 @@ class WP_Importer {
 
 		// Grab all comments in chunks.
 		do {
-			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT comment_ID, comment_agent FROM $wpdb->comments LIMIT %d,%d",
-					$offset,
-					$limit
-				)
-			);
+			$sql     = $wpdb->prepare( "SELECT comment_ID, comment_agent FROM $wpdb->comments LIMIT %d,%d", $offset, $limit );
+			$results = $wpdb->get_results( $sql );
 
 			// Increment offset.
 			$offset = ( $limit + $offset );
@@ -124,12 +105,12 @@ class WP_Importer {
 					$source_comment_id = (int) $source_comment_id;
 
 					// Check if this comment came from this blog.
-					if ( (int) $blog_id === (int) $comment_agent_blog_id ) {
+					if ( $blog_id == $comment_agent_blog_id ) {
 						$hashtable[ $source_comment_id ] = (int) $r->comment_ID;
 					}
 				}
 			}
-		} while ( count( $results ) === $limit );
+		} while ( count( $results ) == $limit );
 
 		return $hashtable;
 	}
@@ -206,7 +187,7 @@ class WP_Importer {
 	}
 
 	/**
-	 * Gets URL.
+	 * GET URL
 	 *
 	 * @param string $url
 	 * @param string $username
@@ -214,13 +195,7 @@ class WP_Importer {
 	 * @param bool   $head
 	 * @return array
 	 */
-	public function get_page(
-		$url,
-		$username = '',
-		#[\SensitiveParameter]
-		$password = '',
-		$head = false
-	) {
+	public function get_page( $url, $username = '', $password = '', $head = false ) {
 		// Increase the timeout.
 		add_filter( 'http_request_timeout', array( $this, 'bump_request_timeout' ) );
 
@@ -279,7 +254,7 @@ class WP_Importer {
 	 * @since 3.0.0
 	 *
 	 * @global wpdb  $wpdb       WordPress database abstraction object.
-	 * @global int[] $wp_actions Stores the number of times each action was triggered.
+	 * @global int[] $wp_actions
 	 */
 	public function stop_the_insanity() {
 		global $wpdb, $wp_actions;
@@ -294,10 +269,9 @@ class WP_Importer {
  * Returns value of command line params.
  * Exits when a required param is not set.
  *
- * @param string $param    The parameter name to retrieve.
- * @param bool   $required Optional. Whether the parameter is required. Default false.
- * @return string|true|null|never The parameter value or true if found, null otherwise.
- *                                The function exits when a required parameter is missing.
+ * @param string $param
+ * @param bool   $required
+ * @return mixed
  */
 function get_cli_args( $param, $required = false ) {
 	$args = $_SERVER['argv'];
@@ -317,7 +291,11 @@ function get_cli_args( $param, $required = false ) {
 			$parts = explode( '=', $match[1] );
 			$key   = preg_replace( '/[^a-z0-9]+/', '', $parts[0] );
 
-			$out[ $key ] = $parts[1] ?? true;
+			if ( isset( $parts[1] ) ) {
+				$out[ $key ] = $parts[1];
+			} else {
+				$out[ $key ] = true;
+			}
 
 			$last_arg = $key;
 		} elseif ( (bool) preg_match( '/^-([a-zA-Z0-9]+)/', $args[ $i ], $match ) ) {

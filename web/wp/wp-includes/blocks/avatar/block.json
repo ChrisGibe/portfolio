@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "core/avatar",
 	"title": "Avatar",
 	"category": "theme",
@@ -25,17 +25,12 @@
 	},
 	"usesContext": [ "postType", "postId", "commentId" ],
 	"supports": {
-		"anchor": true,
 		"html": false,
 		"align": true,
 		"alignWide": false,
 		"spacing": {
 			"margin": true,
-			"padding": true,
-			"__experimentalDefaultControls": {
-				"margin": false,
-				"padding": false
-			}
+			"padding": true
 		},
 		"__experimentalBorder": {
 			"__experimentalSkipSerialization": true,
@@ -49,21 +44,10 @@
 		},
 		"color": {
 			"text": false,
-			"background": false
-		},
-		"filter": {
-			"duotone": true
-		},
-		"interactivity": {
-			"clientNavigation": true
+			"background": false,
+			"__experimentalDuotone": "img"
 		}
 	},
-	"selectors": {
-		"border": ".wp-block-avatar img",
-		"filter": {
-			"duotone": ".wp-block-avatar img"
-		}
-	},
-	"editorStyle": "wp-block-avatar-editor",
+	"editorStyle": "wp-block-avatar",
 	"style": "wp-block-avatar"
 }
