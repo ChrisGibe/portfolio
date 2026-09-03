@@ -33,3 +33,7 @@ wp-cli.local.yml
 /web/app/advanced-cache.php
 /web/app/languages/
 
+
+# macOS
+.DS_Store
+**/.DS_Store
