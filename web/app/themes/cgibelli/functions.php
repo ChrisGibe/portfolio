@@ -23,11 +23,3 @@ add_filter('wp_resource_hints', function ($urls, $relation_type) {
     }
     return $urls;
 }, 10, 2);
-
-// Corriger l'URL de connexion sous Bedrock pour éviter les 404
-add_filter('site_url', function ($url, $path, $scheme) {
-    if ($path === 'wp-login.php' && $scheme === 'login') {
-        return 'https://gibellichristophe.com/wp-login.php';
-    }
-    return $url;
-}, 10, 3);
