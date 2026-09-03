@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ce9f4b777219734d1a97fb41c7aea52",
+    "content-hash": "3b466a36023fabb47dbe08016839bd44",
     "packages": [
         {
             "name": "composer/installers",
@@ -481,7 +481,7 @@
         },
         {
             "name": "roots/wordpress",
-            "version": "6.2.11",
+            "version": "7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roots/wordpress.git",
@@ -512,7 +512,7 @@
             ],
             "support": {
                 "issues": "https://github.com/roots/wordpress/issues",
-                "source": "https://github.com/roots/wordpress/tree/7.0.4"
+                "source": "https://github.com/roots/wordpress/tree/7.1"
             },
             "funding": [
                 {
@@ -591,23 +591,23 @@
         },
         {
             "name": "roots/wordpress-no-content",
-            "version": "6.2.11",
+            "version": "7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress.git",
-                "reference": "6.2.11"
+                "reference": "7.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.w.org/release/wordpress-6.2.11-no-content.zip",
-                "reference": "6.2.11",
-                "shasum": "2eb345b89dc998795d2937b3e03927bd3213808e"
+                "url": "https://downloads.wordpress.org/release/wordpress-7.1-no-content.zip",
+                "reference": "7.1",
+                "shasum": "7b28e5af89345d79a30b44a16cbe3244379d1765"
             },
             "require": {
-                "php": ">= 5.6.20"
+                "php": ">= 7.4"
             },
             "provide": {
-                "wordpress/core-implementation": "6.2.11"
+                "wordpress/core-implementation": "7.1"
             },
             "suggest": {
                 "ext-curl": "Performs remote request operations.",
@@ -658,7 +658,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-08-12T18:51:07+00:00"
+            "time": "2026-08-19T20:16:40+00:00"
         },
         {
             "name": "roots/wp-config",
@@ -2542,6 +2542,6 @@
         "ext-intl": "*",
         "ext-curl": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }
