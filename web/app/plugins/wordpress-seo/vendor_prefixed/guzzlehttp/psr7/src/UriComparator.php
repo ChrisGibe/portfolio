@@ -1,5 +1,6 @@
 <?php
 
+declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
@@ -13,12 +14,10 @@ final class UriComparator
     /**
      * Determines if a modified URL should be considered cross-origin with
      * respect to an original URL.
-     *
-     * @return bool
      */
-    public static function isCrossOrigin(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $original, \YoastSEO_Vendor\Psr\Http\Message\UriInterface $modified)
+    public static function isCrossOrigin(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $original, \YoastSEO_Vendor\Psr\Http\Message\UriInterface $modified) : bool
     {
-        if (\strcasecmp($original->getHost(), $modified->getHost()) !== 0) {
+        if (!\YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::caselessEquals($original->getHost(), $modified->getHost())) {
             return \true;
         }
         if ($original->getScheme() !== $modified->getScheme()) {
@@ -29,16 +28,19 @@ final class UriComparator
         }
         return \false;
     }
-    /**
-     * @return int
-     */
-    private static function computePort(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri)
+    private static function computePort(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri) : ?int
     {
         $port = $uri->getPort();
         if (null !== $port) {
             return $port;
         }
-        return 'https' === $uri->getScheme() ? 443 : 80;
+        if ('http' === $uri->getScheme()) {
+            return 80;
+        }
+        if ('https' === $uri->getScheme()) {
+            return 443;
+        }
+        return null;
     }
     private function __construct()
     {
