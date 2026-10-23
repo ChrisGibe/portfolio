@@ -42,18 +42,18 @@
     "roots/wp-password-bcrypt": "1.1.0",
     "wpackagist-plugin/disable-comments": "^2.4",
     "wpackagist-plugin/duplicate-post": "^4.5",
-    "wpackagist-plugin/post-type-switcher": "^3.2",
+    "wpackagist-plugin/post-type-switcher": "^4.1",
     "wpackagist-plugin/safe-svg": "^2.0",
-    "wpackagist-plugin/wordpress-seo": "^20.9",
+    "wpackagist-plugin/wordpress-seo": "^28.7",
     "wpackagist-plugin/custom-post-type-ui": "^1.13",
     "wpackagist-plugin/redirection": "^5.3",
-    "wpackagist-plugin/wp-crontrol": "^1.15",
+    "wpackagist-plugin/wp-crontrol": "^2.0",
     "wpackagist-plugin/simple-custom-post-order": "^2.5",
     "ext-simplexml": "*",
     "ext-json": "*",
     "ext-intl": "*",
     "ext-curl": "*",
-    "wpackagist-plugin/wp-change-email-sender": "^1.0"
+    "wpackagist-plugin/wp-change-email-sender": "^3.3"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.7.1",

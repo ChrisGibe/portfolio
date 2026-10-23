@@ -16,11 +16,10 @@
  * License:           GNU General Public License v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       post-type-switcher
- * Domain Path:       /assets/lang/
- * Requires at least: 5.0
- * Requires PHP:      7.0
- * Tested up to:      6.5
- * Version:           3.3.1
+ * Requires at least: 6.6
+ * Requires PHP:      8.0
+ * Tested up to:      7.1
+ * Version:           4.1.1
  */
 
 // Exit if accessed directly
@@ -40,7 +39,7 @@ final class Post_Type_Switcher {
 	 *
 	 * @var string
 	 */
-	private $asset_version = '202302290001';
+	private $asset_version = '202507200015';
 
 	/**
 	 * Hook in the basic early actions
@@ -48,21 +47,23 @@ final class Post_Type_Switcher {
 	 * @since 1.1.0
 	 */
 	public function __construct() {
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-		add_action( 'admin_init',     array( $this, 'admin_init'      ) );
+		add_action( 'init', array( $this, 'init' ) );
 	}
 
 	/**
-	 * Load the plugin text domain for translation strings
+	 * Initialization
 	 *
-	 * @since 1.6.0
+	 * @since 4.0.0
 	 */
-	public function load_textdomain() {
-		load_plugin_textdomain( 'post-type-switcher' );
+	public function init() {
+
+		// Initialize admin
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_init', array( $this, 'admin_done' ) );
 	}
 
 	/**
-	 * Setup admin actions
+	 * Admin initialization
 	 *
 	 * @since 1.7.0
 	 *
@@ -100,24 +101,43 @@ final class Post_Type_Switcher {
 		add_filter( 'default_hidden_columns', array( $this, 'default_hidden_columns' ) );
 
 		// Add UI to "Publish" metabox
-		add_action( 'admin_head',                  array( $this, 'admin_head'          ) );
-		add_action( 'post_submitbox_misc_actions', array( $this, 'metabox'             ) );
-		add_action( 'quick_edit_custom_box',       array( $this, 'quick_edit'          ) );
-		add_action( 'bulk_edit_custom_box',        array( $this, 'quick_edit_bulk'     ) );
-		add_action( 'admin_enqueue_scripts',       array( $this, 'quick_edit_script'   ) );
+		add_action( 'admin_head',                  array( $this, 'admin_head'        ) );
+		add_action( 'post_submitbox_misc_actions', array( $this, 'metabox'           ) );
+		add_action( 'quick_edit_custom_box',       array( $this, 'quick_edit'        ) );
+		add_action( 'bulk_edit_custom_box',        array( $this, 'quick_edit_bulk'   ) );
+		add_action( 'admin_enqueue_scripts',       array( $this, 'quick_edit_script' ) );
 
 		// Add UI to the block editor
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
 
-		// Override
+		// AJAX handler
 		add_action( 'wp_ajax_post_type_switcher', array( $this, 'handle_ajax' ) );
-		add_filter( 'wp_insert_attachment_data',  array( $this, 'override_type' ), 10, 2 );
-		add_filter( 'wp_insert_post_data',        array( $this, 'override_type' ), 10, 2 );
+
+		// Maybe override type on admin-area inserts, when requested
+		add_filter( 'wp_insert_attachment_data', array( $this, 'override_type' ), 10, 2 );
+		add_filter( 'wp_insert_post_data',       array( $this, 'override_type' ), 10, 2 );
 
 		// Compatibility
-		add_action( 'post_type_after_switch',	  array( $this, 'wpml_sync_type' ), 10, 3 );
+		add_action( 'post_type_after_switch', array( $this, 'wpml_sync_type' ), 10, 3 );
+	}
 
-		// Pass object into an action
+	/**
+	 * Admin initialized
+	 *
+	 * @since 4.0.0
+	 */
+	public function admin_done() {
+
+		/**
+		 * Admin initialization complete
+		 *
+		 * Use this action to unhook parts of this plugin if necessary
+		 *
+		 * @since 2.0.0
+		 * @since 4.0.0 Now fires on all admin requests (not just allowed pages)
+		 *
+		 * @param Post_Type_Switcher $this Self
+		 */
 		do_action( 'post_type_switcher', $this );
 	}
 
@@ -367,12 +387,16 @@ final class Post_Type_Switcher {
 			admin_url( 'admin-ajax.php' )
 		);
 
+		// Load the dependencies and version generated with the block editor asset.
+		$asset = require plugin_dir_path( __FILE__ ) . 'assets/js/block.asset.php';
+
 		// Enqueue the block editor script
 		wp_enqueue_script(
 			'pts_blockeditor',
 			plugin_dir_url( __FILE__ ) . 'assets/js/block.js',
-			array( 'wp-components', 'wp-edit-post', 'wp-element', 'wp-i18n', 'wp-plugins' ),
-			$this->asset_version
+			$asset['dependencies'],
+			$asset['version'],
+			false
 		);
 
 		// Localize the block editor script variables
@@ -398,10 +422,6 @@ final class Post_Type_Switcher {
 		// Get post type specific data
 		$post_types = $this->get_post_types();
 		$post_type  = get_post_type();
-		$selected   = '';
-
-		// Start an output buffer
-		ob_start();
 
 		// Output
 		?><select name="pts_post_type" id="pts_post_type"><?php
@@ -419,20 +439,12 @@ final class Post_Type_Switcher {
 					continue;
 				endif;
 
-				// Only select if not bulk
-				if ( false === $bulk ) :
-					$selected = selected( $post_type, $_post_type, false );
-				endif;
-
 				// Output option
-				?><option value="<?php echo esc_attr( $pt->name ); ?>" <?php echo $selected; // Do not escape ?>><?php echo esc_html( $pt->labels->singular_name ); ?></option><?php
+				?><option value="<?php echo esc_attr( $pt->name ); ?>" <?php selected( false === $bulk ? $post_type : '', $_post_type ); ?>><?php echo esc_html( $pt->labels->singular_name ); ?></option><?php
 
 			endforeach;
 
 		?></select><?php
-
-		// Output the current buffer
-		echo ob_get_clean();
 	}
 
 	/**
@@ -457,23 +469,32 @@ final class Post_Type_Switcher {
 		// Post type information
 		$post_id          = absint( $_GET['post_id'] );
 		$post_type        = sanitize_key( $_GET['pts_post_type'] );
+		$nonce            = sanitize_text_field( wp_unslash( $_GET['pts-nonce-select'] ) );
 		$post_type_object = get_post_type_object( $post_type );
 
-		// Bail if user isn't capable or nonce fails
-		if ( ! current_user_can( $post_type_object->cap->publish_posts )
-			|| ! wp_verify_nonce( $_GET['pts-nonce-select'], 'post-type-selector' ) ) {
-			return wp_die( esc_html__( 'Sorry, you cannot do this.', 'post-type-switcher' ) );
+		// Bail if nonce is invalid, or user cannot edit or publish
+		if (
+			! wp_verify_nonce( $nonce, 'post-type-selector' )
+			||
+			! current_user_can( 'edit_post', $post_id )
+			||
+			! current_user_can( $post_type_object->cap->publish_posts )
+		) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to edit this post.', 'post-type-switcher' ) );
+			return;
 		}
 
 		// Retrieve the original post type for later use
 		$original_post_type = get_post_type( $post_id );
 
 		// Update the post type
-		set_post_type( $post_id, $post_type );
+		$this->set_post_type( $post_id, $post_type );
 
 		/**
 		 * Allow actions after post type switch
-		 * 
+		 *
+		 * @since 1.0.0
+		 *
 		 * @param $updated_post_type string The new post type
 		 * @param $post_type The old post type
 		 * @param $post_id The post ID
@@ -521,6 +542,7 @@ final class Post_Type_Switcher {
 		// Post type information
 		$post_id          = absint( $postarr['post_ID'] );
 		$post_type        = sanitize_key( $_REQUEST['pts_post_type'] );
+		$nonce            = sanitize_text_field( wp_unslash( $_REQUEST['pts-nonce-select'] ) );
 		$post_type_object = get_post_type_object( $post_type );
 
 		// Bail if empty post type
@@ -551,7 +573,7 @@ final class Post_Type_Switcher {
 		}
 
 		// Bail if nonce is invalid
-		if ( ! wp_verify_nonce( $_REQUEST['pts-nonce-select'], 'post-type-selector' ) ) {
+		if ( ! wp_verify_nonce( $nonce, 'post-type-selector' ) ) {
 			return $data;
 		}
 
@@ -575,7 +597,9 @@ final class Post_Type_Switcher {
 
 		/**
 		 * Allow actions after post type switch
-		 * 
+		 *
+		 * @since 3.0.0
+		 *
 		 * @param $updated_post_type string The new post type
 		 * @param $post_type The old post type
 		 * @param $post_id The post ID
@@ -588,19 +612,24 @@ final class Post_Type_Switcher {
 
 	/**
 	 * Switch post translations via WPML
-	 * 
+	 *
 	 * @param $post_type string The new post type
 	 * @param $original_post_type The old post type
 	 * @param $post_id The post ID
-	 * 
+	 *
 	 * @return void
 	 */
 	public function wpml_sync_type( $post_type, $original_post_type, $post_id ) {
 		global $wpdb, $sitepress;
 
 		if ( is_a( $sitepress, '\SitePress' ) ) {
+
+			// Sanitize the post type
+			$post_type = sanitize_key( $post_type );
+
 			// Retrieve the translation grouping ID
 			// Used to select and update sibling translations
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- WPML provides no public API for these translation relationships.
 			$trid = $wpdb->get_var( $wpdb->prepare( "
 				SELECT 	trid
 				FROM 	{$wpdb->prefix}icl_translations
@@ -608,22 +637,29 @@ final class Post_Type_Switcher {
 			", $post_id ) );
 
 			// Update translation grouping element types
-			$wpdb->update( 
-				$wpdb->prefix . 'icl_translations', 
-				array( 'element_type' => 'post_' . sanitize_key( $post_type ) ),
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- WPML provides no public API for these translation relationships.
+			$wpdb->update(
+				$wpdb->prefix . 'icl_translations',
+				array( 'element_type' => 'post_' . $post_type ),
 				array( 'trid'		  => $trid )
 			);
 
 			// Retrieve other posts that are sibling translations
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- WPML provides no public API for these translation relationships.
 			$translation_items = $wpdb->get_col( $wpdb->prepare( "
 				SELECT 	element_id
 				FROM 	{$wpdb->prefix}icl_translations
 				WHERE 	trid = %d
 			", $trid ) );
 
+			// Bail if no translation items
+			if ( empty( $translation_items ) || ! is_array( $translation_items ) ) {
+				return;
+			}
+
 			// Update post type of sibling translations
 			foreach ( $translation_items as $_post_id ) {
-				set_post_type( $_post_id, sanitize_key( $post_type ) );
+				$this->set_post_type( $_post_id, $post_type );
 			}
 		}
 	}
@@ -697,8 +733,14 @@ final class Post_Type_Switcher {
 				width: 10%;
 			}
 			.edit-post-post-type {
-				align-items: flex-start;
-				justify-content: flex-start;
+				display: flex;
+				-webkit-box-align: center;
+				align-items: center;
+				flex-direction: row;
+				gap: calc(8px);
+				-webkit-box-pack: justify;
+				justify-content: space-between;
+				margin-top: -8px;
 				width: 100%;
 			}
 			.edit-post-post-type span {
@@ -753,6 +795,13 @@ final class Post_Type_Switcher {
 	 * @return bool True if it should load, false if not
 	 */
 	private static function is_allowed_page() {
+		$action = '';
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This value only routes the request; the selected handler verifies its nonce.
+		if ( isset( $_REQUEST['action'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This value only routes the request; the selected handler verifies its nonce.
+			$action = sanitize_key( wp_unslash( $_REQUEST['action'] ) );
+		}
 
 		if (
 			// Only for admin area
@@ -763,24 +812,34 @@ final class Post_Type_Switcher {
 
 			// AJAX with correct action value
 			(
-				defined( 'DOING_AJAX' ) && DOING_AJAX
+				wp_doing_ajax()
 				&&
 				(
-					! empty( $_REQUEST['action'] )
+					! empty( $action )
 					&&
 					(
-						in_array( $_REQUEST['action'], array( 'inline-save', 'post_type_switcher' ), true )
+						in_array( $action, array( 'inline-save', 'post_type_switcher' ), true )
 					)
 				)
 			)
 		) {
 
-			// Allowed admin pages
-			$pages = apply_filters( 'pts_allowed_pages', array(
-				'post.php',
-				'edit.php',
-				'admin-ajax.php' // Block Editor
-			) );
+			/**
+			 * Allowed admin page file names.
+			 *
+			 * @since 1.0.0
+			 * @param array Array of page file names
+			 */
+			// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Retain the public hook name for backward compatibility.
+			$pages = apply_filters(
+				'pts_allowed_pages',
+				array(
+					'post.php',
+					'edit.php',
+					'admin-ajax.php' // Block Editor
+				)
+			);
+			// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 			// Only show switcher when editing
 			return (bool) in_array( $GLOBALS['pagenow'], $pages, true );
@@ -791,11 +850,62 @@ final class Post_Type_Switcher {
 	}
 
 	/**
+	 * Set the `post_type` for a given ID.
+	 *
+	 * Also stashes the most-previous type in meta.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param int    $post_id   ID of post.
+	 * @param string $post_type Type for post.
+	 *
+	 * @return int Number of updated rows (1, or 0)
+	 */
+	private function set_post_type( $post_id = 0, $post_type = '' ) {
+
+		// Get the current/previous post_type
+		$current  = get_post_type( $post_id );
+
+		// Try to get original & previous
+		$original = get_post_meta( $post_id, 'pts_original_type', true );
+		$previous = get_post_meta( $post_id, 'pts_previous_type', true );
+
+		// Try to set the post type
+		$retval   = set_post_type( $post_id, $post_type );
+
+		// Maybe stash the current/previous in meta
+		if ( ! empty( $retval ) ) {
+
+			// Only add the original type once
+			if ( empty( $original ) ) {
+				add_post_meta( $post_id, 'pts_original_type', $current );
+
+			// Only delete original meta after revert
+			} elseif ( $post_type === $original ) {
+				delete_post_meta( $post_id, 'pts_original_type' );
+			}
+
+			// Update the previous meta key
+			if ( $post_type !== $previous ) {
+				update_post_meta( $post_id, 'pts_previous_type', $current );
+
+			// Only delete previous meta after revert
+			} else {
+				delete_post_meta( $post_id, 'pts_previous_type' );
+			}
+		}
+
+		// Return (number of updated rows, 1 or 0)
+		return $retval;
+	}
+
+	/**
 	 * Get switchable post type objects, based on post-type arguments.
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param string $output objects|names
+	 * @param string $output Optional. The type of output to return. Accepts
+	 *                       post type 'names' or 'objects'. Default 'objects'.
 	 * @return array
 	 */
 	private function get_post_types( $output = 'objects' ) {
@@ -808,8 +918,17 @@ final class Post_Type_Switcher {
 			unset( $types['attachment'] );
 		}
 
-		// Return switchable types
-		return $types;
+		/**
+		 * Filter the post types (usually objects).
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param  array  $types Array of post types (usually objects)
+		 * @param  string $output The type of output that $types is
+		 * @return array
+		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Retain the public hook name for backward compatibility.
+		return (array) apply_filters( 'pts_get_post_types_filter', $types, $output );
 	}
 
 	/**
@@ -821,10 +940,23 @@ final class Post_Type_Switcher {
 	 * @return array
 	 */
 	private function get_post_type_args() {
-		return (array) apply_filters( 'pts_post_type_filter', array(
+
+		// Default arguments
+		$args = array(
 			'public'  => true,
 			'show_ui' => true
-		) );
+		);
+
+		/**
+		 * Filter the arguments that get passed into `get_post_types()`.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param  array $args Array of arguments
+		 * @return array
+		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Retain the public hook name for backward compatibility.
+		return (array) apply_filters( 'pts_post_type_filter', $args );
 	}
 
 	/**
@@ -836,16 +968,8 @@ final class Post_Type_Switcher {
 	 */
 	public function filter_plugin_action_links( $actions = array() ) {
 
-		// Sponsor text
-		$text = esc_html_x( 'Sponsor', 'verb', 'post-type-switcher' );
-
-		// Sponsor URL
-		$url  = 'https://buy.stripe.com/7sI3cd2tK1Cy2lydQR';
-
-		// Merge links & return
-		return array_merge( $actions, array(
-			'sponsor' => '<a href="' . esc_url( $url ) . '">' . esc_html( $text ) . '</a>'
-		) );
+		// Nothing here anymore. Reserved for later.
+		return $actions;
 	}
 }
 new Post_Type_Switcher();
